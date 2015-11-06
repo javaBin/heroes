@@ -4,7 +4,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -29,7 +28,7 @@ public class WebServer {
     protected void start() throws Exception {
         //Locale.setDefault(new Locale(Configuration.getLocale()));
 
-        server = new Server(8086);
+        server = new Server(Configuration.serverPort());
         server.setHandler(getHandler());
         server.start();
 
@@ -53,6 +52,7 @@ public class WebServer {
         }
 
 
+        webAppContext.addServlet(new ServletHolder(new DataServlet()), "/data/*");
         return webAppContext;
     }
 
