@@ -1,6 +1,7 @@
 package no.javabin.heroes;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 
@@ -51,6 +52,7 @@ public class WebServer {
         }
 
 
+        webAppContext.addServlet(new ServletHolder(new DataServlet()), "/data/*");
         return webAppContext;
     }
 
