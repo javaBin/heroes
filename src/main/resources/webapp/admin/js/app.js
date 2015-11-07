@@ -11,6 +11,7 @@ var Input = ReactBootstrap.Input;
 var Grid = ReactBootstrap.Grid;
 var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
+var Table = ReactBootstrap.Table;
 
 var NewHeroForm = React.createClass({
   render: function () {
@@ -46,46 +47,41 @@ var NewHeroForm = React.createClass({
   }
 });
 
-var Hero = React.createClass({
-  render: function () {
-    var heroComponents = this.props.data.map(function (hero) {
-      return (
-        <Grid>
-          <Row>
-            <Col md={2}>
-              <img height="25" src="images/hero.png"/>
-            </Col>
-            <Col md={5}>
-              {hero.navn}
-            </Col>
-            <Col md={5}>
-              {hero.bidrag}
-            </Col>
-          </Row>
-        </Grid>
-      );
-    });
-    return (
-      <div className="heroes">
-        {heroComponents}
-      </div>
-    );
-  }
-});
 
 var HeroesList = React.createClass({
   render: function () {
+
+    var heroComponents = this.props.data.map(function (hero) {
+      return (
+
+        <tr>
+          <td>
+            <img height="25" src="images/hero.png"/>
+          </td>
+          <td>
+            {hero.navn}
+          </td>
+          <td>
+            {hero.bidrag}
+          </td>
+        </tr>
+      );
+    });
     return (
       <div className="heroes-list">
         <h2>Helter</h2>
-        <Grid>
-          <Row className="heroes-list-header">
-            <Col md={2}></Col>
-            <Col md={5}>Navn</Col>
-            <Col md={5}>Heltetype</Col>
-          </Row>
-          <Hero data={this.props.data}/>
-        </Grid>
+        <Table striped bordered condensed hover>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Navn</th>
+              <th>Heltetype</th>
+            </tr>
+          </thead>
+          <tbody>
+            {heroComponents}
+          </tbody>
+        </Table>
       </div>
     );
   }
