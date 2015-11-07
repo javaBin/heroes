@@ -1,5 +1,7 @@
 package no.javabin.heroes;
 
+import no.javabin.heroes.person.PersonDao;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.Map;
 
 public class ServiceLocator implements AutoCloseable {
     private Connection connection;
+    private PersonService personService;
 
     private ServiceLocator() {
 
@@ -38,6 +41,13 @@ public class ServiceLocator implements AutoCloseable {
     public ServiceLocator setConnection(Connection connection) {
         this.connection = connection;
         return this;
+    }
+
+    public PersonService personService() {
+        if (personService == null) {
+            personService = new PersonService(new PersonDao());
+        }
+        return personService;
     }
 
     @Override
