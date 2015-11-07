@@ -2,4 +2,8 @@
     font-weight: bold;
 }
 
+#heroesadmin .heroes-list table td:first-child {
+    width: 100px;
+}
+
 
