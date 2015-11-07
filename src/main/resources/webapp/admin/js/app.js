@@ -53,7 +53,6 @@ var HeroesList = React.createClass({
 
     var heroComponents = this.props.data.map(function (hero) {
       return (
-
         <tr>
           <td>
             <img height="25" src="images/hero.png"/>
