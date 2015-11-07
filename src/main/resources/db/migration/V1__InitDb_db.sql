@@ -1,4 +1,4 @@
 CREATE TABLE person (
     id VARCHAR(50) PRIMARY KEY,
-    navn VARCHAR(100),
+    data varchar(1000),
 );
