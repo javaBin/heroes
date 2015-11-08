@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 
 public class InsertInitialDataTest extends InMemoryDbTest {
   @Test
-  @Ignore
   public void testPersonsInserted() throws Exception {
     try (Statement statement = ServiceLocator.instance().connection().createStatement()) {
       ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM person");
@@ -25,13 +24,5 @@ public class InsertInitialDataTest extends InMemoryDbTest {
 
   }
 
-  @Test
-  @Ignore
-  public void insertedPersonShouldHaveId() throws Exception {
-    PersonDao dao = new PersonDao();
-    JsonObject person = dao.insertPerson(TestDataUtil.buildPerson("New P. Erson", "p@mail.com", "1234", Optional.empty()));
-    assertTrue(person.stringValue("id").isPresent());
-
-  }
 
 }

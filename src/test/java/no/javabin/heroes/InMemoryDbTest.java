@@ -8,16 +8,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class InMemoryDbTest {
-  private static InMemoryDb inMemoryDb;
+  private InMemoryDb inMemoryDb;
   private ServiceLocator serviceLocator;
 
-  @BeforeClass
-  public static void createDb() throws SQLException {
-    inMemoryDb = new InMemoryDb();
-  }
 
   @Before
   public void startTransaction() throws Exception {
+    inMemoryDb = new InMemoryDb();
     Connection connection = inMemoryDb.connection();
     serviceLocator = ServiceLocator.startThreadContext();
     serviceLocator.setConnection(connection);
@@ -25,8 +22,9 @@ public class InMemoryDbTest {
 
   @After
   public void rollbackAndClose() throws Exception {
-    serviceLocator.connection().rollback();
     serviceLocator.close();
+
+
   }
 
 }

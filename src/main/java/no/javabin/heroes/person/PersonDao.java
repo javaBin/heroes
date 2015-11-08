@@ -23,10 +23,10 @@ public class PersonDao {
 
   public JsonObject insertPerson(JsonObject person) {
     ServiceLocator locator = ServiceLocator.instance();
-    try (Connection connection = locator.connection()) {
-      String id = UUID.randomUUID().toString();
-      person.put("id", id);
-      PreparedStatement statement = connection.prepareStatement("INSERT INTO person(id, data) VALUES (?,?)");
+    Connection connection = locator.connection();
+    String id = UUID.randomUUID().toString();
+    person.put("id", id);
+    try (PreparedStatement statement = connection.prepareStatement("INSERT INTO person(id, data) VALUES (?,?)")) {
       statement.setString(1, id);
       statement.setString(2, person.toJson());
       statement.executeUpdate();

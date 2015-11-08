@@ -12,7 +12,6 @@ import static org.junit.Assert.assertTrue;
 public class PersonDaoTest extends InMemoryDbTest {
 
   @Test
-  @Ignore
   public void insertedPersonShouldHaveId() throws Exception {
     PersonDao dao = new PersonDao();
     JsonObject person = dao.insertPerson(TestDataUtil.buildPerson("New P. Erson", "p@mail.com", "1234", Optional.empty()));

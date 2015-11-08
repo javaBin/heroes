@@ -37,6 +37,7 @@ public class InMemoryDb {
   private void migrateDb(DataSource dataSource) {
     Flyway flyway = new Flyway();
     flyway.setDataSource(dataSource);
+    flyway.clean();
     flyway.migrate();
   }
 
