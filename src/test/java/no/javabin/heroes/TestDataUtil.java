@@ -10,6 +10,12 @@ public class TestDataUtil {
     return TestDataUtil.buildPerson("Name", "Email", "Phone", Optional.of("City"));
   }
 
+  public static JsonObject buildDefaultPersonWithId(String id) {
+    JsonObject hero = TestDataUtil.buildPerson("Name", "Email", "Phone", Optional.of("City"));
+    hero.put("id", id);
+    return hero;
+  }
+
   public static JsonObject buildPerson(String name, String email, String phone, Optional<String> city) {
     JsonObject p = new JsonObject();
     p.put("name", name);

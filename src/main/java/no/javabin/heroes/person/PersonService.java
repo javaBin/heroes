@@ -19,8 +19,17 @@ public class PersonService {
     return person.orElseThrow(() -> new NotFoundException("Did not find person with id " + id));
   }
 
+  public JsonArray getPersonByEmail(String email) {
+    List<JsonObject> allPersons = dao.getPersonsByEmail(email);
+    if (allPersons.isEmpty()) {
+      throw new NotFoundException("No heroes found with email " + email);
+    }
+    return JsonArray.fromNodeList(allPersons);
+  }
+
   public JsonArray getAllPersons() {
-    return new JsonArray();
+    List<JsonObject> allPersons = dao.getAllPersons();
+    return JsonArray.fromNodeList(allPersons);
   }
 
   public JsonObject insertPerson(JsonObject person) {
