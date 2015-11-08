@@ -50,6 +50,11 @@ public class ServiceLocator implements AutoCloseable {
         return personService;
     }
 
+    public ServiceLocator setPersonService(PersonService personService) {
+        this.personService = personService;
+        return this;
+    }
+
     @Override
     public void close() {
         ServiceLocator remove = instances.remove(Thread.currentThread().getId());

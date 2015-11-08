@@ -5,6 +5,9 @@ public class PathComputation {
         if (pathInfo == null) {
             return ServletOperation.UNKNOWN;
         }
+        if (pathInfo.equals("/person")) {
+            return ServletOperation.ALL_PERSONS;
+        }
         if (pathInfo.startsWith("/person/")) {
             return ServletOperation.READ_SINGLE_PERSON;
         }
