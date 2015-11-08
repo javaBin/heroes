@@ -25,7 +25,7 @@ public class DataServlet extends HttpServlet {
                 Optional.ofNullable(personById).orElse(JsonFactory.jsonObject()).toJson(resp.getWriter());
                 break;
             case ALL_PERSONS:
-                JsonArray allPersons = personService.getAllPersons();
+                JsonArray allPersons = Optional.ofNullable(personService.getAllPersons()).orElse(JsonFactory.jsonArray());
                 allPersons.toJson(resp.getWriter());
                 break;
             case UNKNOWN:
