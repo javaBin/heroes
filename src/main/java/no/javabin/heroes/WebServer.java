@@ -4,7 +4,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.flywaydb.core.Flyway;
 
+import javax.sql.DataSource;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -27,13 +29,20 @@ public class WebServer {
 
     protected void start() throws Exception {
         //Locale.setDefault(new Locale(Configuration.getLocale()));
-
+        migrateDb();
         server = new Server(Configuration.serverPort());
         server.setHandler(getHandler());
         server.start();
 
         System.out.println(server.getURI() + " at " + LocalDateTime.now());
         System.out.println("Path=" + new File(".").getAbsolutePath());
+    }
+
+    protected void migrateDb() {
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(Postgres.datasource());
+        flyway.migrate();
+
     }
 
 
