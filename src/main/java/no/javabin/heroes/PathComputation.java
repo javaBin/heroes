@@ -13,4 +13,14 @@ public class PathComputation {
         }
         return ServletOperation.UNKNOWN;
     }
+
+    public ServletOperation computePost(String pathInfo) {
+        if (pathInfo == null) {
+            return ServletOperation.UNKNOWN;
+        }
+        if (pathInfo.equals("/person")) {
+            return ServletOperation.ADD_PERSON;
+        }
+        return ServletOperation.UNKNOWN;
+    }
 }

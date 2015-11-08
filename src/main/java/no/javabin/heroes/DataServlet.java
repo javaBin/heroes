@@ -2,7 +2,9 @@ package no.javabin.heroes;
 
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonFactory;
+import org.jsonbuddy.JsonNode;
 import org.jsonbuddy.JsonObject;
+import org.jsonbuddy.parse.JsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +29,21 @@ public class DataServlet extends HttpServlet {
             case ALL_PERSONS:
                 JsonArray allPersons = Optional.ofNullable(personService.getAllPersons()).orElse(JsonFactory.jsonArray());
                 allPersons.toJson(resp.getWriter());
+                break;
+            case UNKNOWN:
+            default:
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PersonService personService = ServiceLocator.instance().personService();
+        switch (Optional.ofNullable(pathComputation.computePost(req.getPathInfo())).orElse(ServletOperation.UNKNOWN)) {
+            case ADD_PERSON:
+                JsonObject jsonObject = JsonParser.parseToObject(req.getInputStream());
+                JsonObject result = Optional.ofNullable(personService.addPerson(jsonObject)).orElse(JsonFactory.jsonObject());
+                result.toJson(resp.getWriter());
                 break;
             case UNKNOWN:
             default:

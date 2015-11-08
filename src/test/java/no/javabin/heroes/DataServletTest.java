@@ -1,15 +1,18 @@
 package no.javabin.heroes;
 
+import org.jsonbuddy.JsonFactory;
+import org.jsonbuddy.JsonObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -50,6 +53,48 @@ public class DataServletTest {
         dataServlet.doGet(req, resp);
 
         verify(personService).getAllPersons();
+    }
+
+    @Test
+    public void shouldAddPerson() throws Exception {
+        when(req.getPathInfo()).thenReturn("/person");
+
+        JsonObject jsonObject = JsonFactory.jsonObject().put("name", "Pete");
+        ServletInputStream servletInput = makeMock(jsonObject.toJson());
+        when(req.getInputStream()).thenReturn(servletInput);
+
+        dataServlet.doPost(req,resp);
+
+        verify(personService).addPerson(jsonObject);
+
+    }
+
+    private ServletInputStream makeMock(String s) {
+        final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(s.getBytes());
+        return new ServletInputStream() {
+            private boolean isFinished = false;
+            @Override
+            public boolean isFinished() {
+               return isFinished;
+            }
+
+            @Override
+            public boolean isReady() {
+                return true;
+            }
+
+            @Override
+            public void setReadListener(ReadListener readListener) {
+
+            }
+
+            @Override
+            public int read() throws IOException {
+                int read = byteArrayInputStream.read();
+                isFinished = (read == -1);
+                return read;
+            }
+        };
     }
 
     @After
