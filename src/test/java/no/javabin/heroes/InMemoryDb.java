@@ -7,11 +7,12 @@ import org.hsqldb.jdbc.JDBCDataSource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class InMemoryDb {
   private final JDBCDataSource jdbcDataSource;
 
-  public InMemoryDb() {
+  public InMemoryDb() throws SQLException {
     jdbcDataSource = new JDBCDataSource();
     jdbcDataSource.setUrl("jdbc:hsqldb:mem:test;MODE=PostgreSQL");
     jdbcDataSource.setUser("SA");
@@ -20,8 +21,18 @@ public class InMemoryDb {
     addTestData();
   }
 
-  private void addTestData() {
+  private void addTestData() throws SQLException {
+    ServiceLocator serviceLocator = ServiceLocator.startThreadContext();
+    serviceLocator.setConnection(jdbcDataSource.getConnection());
+    insertPersonData();
+    serviceLocator.close();
   }
+
+  private static void insertPersonData() {
+    PersonDao dao = new PersonDao();
+    dao.insertPerson(TestDataUtil.buildPerson("Test Person", "email@mail.com", "+47 12345678", Optional.of("Bergen")));
+  }
+
 
   private void migrateDb(DataSource dataSource) {
     Flyway flyway = new Flyway();
