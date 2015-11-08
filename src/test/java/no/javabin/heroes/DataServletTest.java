@@ -65,7 +65,7 @@ public class DataServletTest {
 
         dataServlet.doPost(req,resp);
 
-        verify(personService).addPerson(jsonObject);
+        verify(personService).insertPerson(jsonObject);
 
     }
 
