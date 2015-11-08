@@ -1,6 +1,7 @@
 package no.javabin.heroes.person;
 
 import no.javabin.heroes.ServiceLocator;
+import no.javabin.heroes.exception.DatabaseException;
 import org.jsonbuddy.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,19 +22,20 @@ public class PersonDao {
   }
 
 
-  public JsonObject insertPerson(JsonObject person) {
+  public JsonObject insertPerson(final JsonObject aPerson) {
     ServiceLocator locator = ServiceLocator.instance();
     Connection connection = locator.connection();
+    JsonObject newPerson = aPerson.deepClone();
     String id = UUID.randomUUID().toString();
-    person.put("id", id);
+    newPerson.put("id", id);
     try (PreparedStatement statement = connection.prepareStatement("INSERT INTO person(id, data) VALUES (?,?)")) {
       statement.setString(1, id);
-      statement.setString(2, person.toJson());
+      statement.setString(2, newPerson.toJson());
       statement.executeUpdate();
     } catch (SQLException e) {
-      LOGGER.error("Error inserting person {} into database.", person, e);
+      LOGGER.error("Error inserting person {} into database.", newPerson, e);
       throw new DatabaseException("Error inserting person into database");
     }
-    return person;
+    return newPerson;
   }
 }

@@ -1,11 +1,11 @@
 package no.javabin.heroes;
 
+import no.javabin.heroes.person.PersonService;
 import org.jsonbuddy.JsonFactory;
 import org.jsonbuddy.JsonObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
