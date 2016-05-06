@@ -46,12 +46,16 @@ public class DataServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PersonService personService = ServiceLocator.instance().personService();
         switch (Optional.ofNullable(pathComputation.computePost(req.getPathInfo())).orElse(ServletOperation.UNKNOWN)) {
             case ADD_PERSON:
                 JsonObject jsonObject = JsonParser.parseToObject(req.getInputStream());
-                JsonObject result = Optional.ofNullable(personService.insertPerson(jsonObject)).orElse(JsonFactory.jsonObject());
+                JsonObject result = Optional.ofNullable(ServiceLocator.instance().personService().insertPerson(jsonObject)).orElse(JsonFactory.jsonObject());
                 result.toJson(resp.getWriter());
+                break;
+            case ADD_ACHIEVEMENT:
+                JsonObject achObj = JsonParser.parseToObject(req.getInputStream());
+                JsonObject achres = Optional.ofNullable(ServiceLocator.instance().achievementService().insertAchievement(achObj)).orElse(JsonFactory.jsonObject());
+                achres.toJson(resp.getWriter());
                 break;
             case UNKNOWN:
             default:

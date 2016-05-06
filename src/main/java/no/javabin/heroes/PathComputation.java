@@ -27,6 +27,9 @@ public class PathComputation {
         if (pathInfo.equals("/person")) {
             return ServletOperation.ADD_PERSON;
         }
+        if (pathInfo.equals("/achievement")) {
+            return ServletOperation.ADD_ACHIEVEMENT;
+        }
         return ServletOperation.UNKNOWN;
     }
 }
