@@ -19,7 +19,7 @@ public class AchievementService {
     return person.orElseThrow(() -> new NotFoundException("Did not find person with id " + id));
   }
 
-  public JsonArray getAllAvhievements() {
+  public JsonArray getAllAchievements() {
     List<JsonObject> allPersons = dao.getAllAchievements();
     return JsonArray.fromNodeList(allPersons);
   }

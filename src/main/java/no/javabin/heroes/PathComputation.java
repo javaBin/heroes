@@ -11,6 +11,12 @@ public class PathComputation {
         if (pathInfo.startsWith("/person/")) {
             return ServletOperation.READ_SINGLE_PERSON;
         }
+        if (pathInfo.equals("/achievement")) {
+            return ServletOperation.ALL_ACHIEVEMENTS;
+        }
+        if (pathInfo.startsWith("/achievements/")) {
+            return ServletOperation.READ_SINGLE_ACHIVEMENT;
+        }
         return ServletOperation.UNKNOWN;
     }
 
