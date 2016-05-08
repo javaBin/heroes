@@ -44,7 +44,7 @@ public class AchievementDao {
     List<JsonObject> heroes = new ArrayList<>();
     ServiceLocator locator = ServiceLocator.instance();
     Connection connection = locator.connection();
-    try (PreparedStatement statement = connection.prepareStatement("SELECT data FROM person")) {
+    try (PreparedStatement statement = connection.prepareStatement("SELECT data FROM achievement")) {
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
         heroes.add(JsonParser.parseToObject(resultSet.getString(1)));
