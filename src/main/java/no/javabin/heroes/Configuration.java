@@ -18,7 +18,7 @@ public class Configuration {
     }
 
     public static String dbUser() {
-        return readEnviromentVariable("DB_USERNAME","postgres");
+        return readEnviromentVariable("DB_USERNAME","javabin");
     }
 
     public static String dbPassword() {

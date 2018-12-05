@@ -15,4 +15,11 @@ hs_err_pid*
 *.iml
 target
 
+.classpath
+.project
+.settings/
+
 settings.xml
+
+node_modules
+.cache

@@ -1,6 +1,6 @@
 import React from "react";
 import { HeroService } from "../services";
-import { Hero } from "../services/heroService";
+import { Hero, Userinfo } from "../services/heroService";
 import { AdminScreen } from "./admin";
 
 import { Table } from "react-bootstrap";
@@ -11,7 +11,7 @@ import heroPng from "../images/hero.png";
 export function HeroList({heroes}: {heroes: Hero[]}) {
     const heroComponents = heroes.map((hero) => {
         return (
-          <tr>
+          <tr key={hero.email}>
             <td>
               <img height="25" src={heroPng} />
             </td>
@@ -62,10 +62,11 @@ export class HeroListComponent extends React.Component<{heroService: HeroService
     }
 }
 
-export class App extends React.Component<{heroService: HeroService}, {hash: string}> {
+export class App extends React.Component<{heroService: HeroService}, {hash: string, userinfo: Userinfo}> {
 
     state = {
         hash: window.location!.hash,
+        userinfo: { authenticated: false, username: "", admin: false },
     };
 
     handleHashchange = () => {
@@ -75,6 +76,8 @@ export class App extends React.Component<{heroService: HeroService}, {hash: stri
 
     async componentDidMount() {
         window.addEventListener("hashchange", this.handleHashchange);
+        const userinfo = await this.props.heroService.fetchUserinfo();
+        this.setState({userinfo});
     }
 
     componentWillUnmount() {
@@ -100,12 +103,14 @@ export class App extends React.Component<{heroService: HeroService}, {hash: stri
     }
 
     render() {
+        const {userinfo} = this.state;
         return <>
             <nav>
                 <ul>
                     <li><a href="#">View heroes</a></li>
-                    <li><a href="#admin">Admin</a></li>
-                    <li><a href="#profile">View my profile</a></li>
+                    {userinfo.authenticated || <li><a href="/api/login">Log in</a></li>}
+                    {userinfo.admin && <li><a href="#admin">Admin</a></li>}
+                    {userinfo.authenticated && <li><a href="#profile">{userinfo.username}</a></li>}
                 </ul>
             </nav>
             {this.renderContent()}
