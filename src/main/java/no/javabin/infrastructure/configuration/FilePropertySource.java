@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.infrastructure.configuration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
+
+import no.javabin.infrastructure.ExceptionUtil;
 
 
 public class FilePropertySource implements PropertySource {

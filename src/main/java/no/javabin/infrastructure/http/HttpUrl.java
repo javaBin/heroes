@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.infrastructure.http;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import no.javabin.infrastructure.ExceptionUtil;
 
 public class HttpUrl {
 

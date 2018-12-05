@@ -2,10 +2,12 @@ package no.javabin.heroes;
 
 import java.io.IOException;
 
+import no.javabin.infrastructure.configuration.ApplicationProperties;
+import no.javabin.infrastructure.http.HttpUrl;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
 
-public class HeroesContext implements Oauth2Configuration {
+public class HeroesContext implements ProfileContext {
 
     private final ApplicationProperties property;
 

@@ -1,10 +1,10 @@
-package no.javabin.heroes;
+package no.javabin.infrastructure.http.server;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RequestParam {
+public @interface Get {
 
     String value();
 

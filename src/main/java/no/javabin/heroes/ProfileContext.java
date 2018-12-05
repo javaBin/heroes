@@ -2,9 +2,10 @@ package no.javabin.heroes;
 
 import java.io.IOException;
 
+import no.javabin.infrastructure.http.HttpUrl;
 import org.jsonbuddy.JsonObject;
 
-public interface Oauth2Configuration {
+public interface ProfileContext {
 
     HttpUrl createAuthorizationUrl(String state);
 

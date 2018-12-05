@@ -3,6 +3,8 @@ package no.javabin.heroes;
 import javax.servlet.ServletException;
 import javax.sql.DataSource;
 
+import no.javabin.infrastructure.http.server.ApiServlet;
+
 public class HeroesApiServlet extends ApiServlet {
 
     private final DataSource datasource;

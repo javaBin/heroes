@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.infrastructure.configuration;
 
 import java.io.File;
 import java.util.ArrayList;

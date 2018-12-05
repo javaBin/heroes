@@ -13,6 +13,8 @@ import java.util.Locale;
 
 import javax.sql.DataSource;
 
+import no.javabin.infrastructure.configuration.ApplicationProperties;
+
 public class WebServer {
     private static Server server;
 

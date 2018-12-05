@@ -8,13 +8,17 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import no.javabin.infrastructure.http.server.Get;
+import no.javabin.infrastructure.http.server.PathParam;
+import no.javabin.infrastructure.http.server.RequestParam;
+import no.javabin.infrastructure.http.server.SessionParameter;
 import org.jsonbuddy.JsonObject;
 
 public class ProfileController {
 
-    private final Oauth2Configuration oauth2Configuration;
+    private final ProfileContext oauth2Configuration;
 
-    public ProfileController(Oauth2Configuration oauth2Configuration) {
+    public ProfileController(ProfileContext oauth2Configuration) {
         this.oauth2Configuration = oauth2Configuration;
     }
 

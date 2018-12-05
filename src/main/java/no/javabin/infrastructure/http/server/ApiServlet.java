@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.infrastructure.http.server;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import no.javabin.heroes.HttpRequestException;
 import org.jsonbuddy.JsonNode;
 
 public class ApiServlet extends HttpServlet {

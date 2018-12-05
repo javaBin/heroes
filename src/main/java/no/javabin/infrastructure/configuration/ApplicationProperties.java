@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.infrastructure.configuration;
 
 public class ApplicationProperties {
 
