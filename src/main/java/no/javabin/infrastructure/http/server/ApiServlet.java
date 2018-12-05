@@ -97,7 +97,7 @@ public class ApiServlet extends HttpServlet {
             for (Method method : controller.getClass().getMethods()) {
                 pathParameters.clear();
                 Get annotation = method.getAnnotation(Get.class);
-                if (pathMatches(annotation.value(), req.getPathInfo(), pathParameters)) {
+                if (annotation != null && pathMatches(annotation.value(), req.getPathInfo(), pathParameters)) {
                     return new ApiRoute(controller,  method);
                 }
             }
@@ -125,38 +125,37 @@ public class ApiServlet extends HttpServlet {
     public Object[] createArguments(Method method, HttpServletRequest req, Map<String, String> pathParameters) {
         Object[] arguments = new Object[method.getParameterCount()];
         for (int i = 0; i < arguments.length; i++) {
-            Parameter parameter = method.getParameters()[i];
-            if (parameter.getType() == HttpSession.class) {
-                arguments[i] = req.getSession();
-                continue;
-            }
-            if (parameter.getType() == HttpServletRequest.class) {
-                arguments[i] = req;
-                continue;
-            }
+            arguments[i] = createArgument(method, i, req, pathParameters);
+        }
+        return arguments;
+    }
 
+    public Object createArgument(Method method, int i, HttpServletRequest req, Map<String, String> pathParameters) {
+        Parameter parameter = method.getParameters()[i];
+        if (parameter.getType() == HttpSession.class) {
+            return req.getSession();
+        } else if (parameter.getType() == HttpServletRequest.class) {
+            return req;
+        } else {
             PathParam pathParam;
             RequestParam reqParam;
             SessionParameter sessionParam;
             if ((pathParam = parameter.getAnnotation(PathParam.class)) != null) {
-                arguments[i] = pathParameters.get(pathParam.value());
+                return pathParameters.get(pathParam.value());
             } else if ((sessionParam = parameter.getAnnotation(SessionParameter.class)) != null) {
-                arguments[i] = req.getSession().getAttribute(sessionParam.value());
+                return req.getSession().getAttribute(sessionParam.value());
             } else if ((reqParam = parameter.getAnnotation(RequestParam.class)) != null) {
-                arguments[i] = req.getParameter(reqParam.value());
+                return req.getParameter(reqParam.value());
             } else {
                 throw new IllegalArgumentException("Don't know how to get "
                         + method.getDeclaringClass().getSimpleName() + "#" + method.getName()
                         + " parameter " + i + ": of type " + parameter.getType().getSimpleName() + " " + Arrays.asList(parameter.getAnnotations()));
             }
         }
-        return arguments;
     }
-
 
     protected void registerController(Object controller) {
         this.controllers.add(controller);
     }
-
 
 }
