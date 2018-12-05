@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`app renders admin page 1`] = `
+Array [
+  <nav>
+    <ul>
+      <li>
+        <a
+          href="#"
+        >
+          View heroes
+        </a>
+      </li>
+      <li>
+        <a
+          href="#admin"
+        >
+          Admin
+        </a>
+      </li>
+      <li>
+        <a
+          href="#profile"
+        >
+          View my profile
+        </a>
+      </li>
+    </ul>
+  </nav>,
+  <div
+    className="heroes-admin-container"
+  >
+    <h1>
+      javaBin Heroes
+    </h1>
+    <div
+      className="heroes-admin-add"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <label>
+          Hero name
+          <input
+            onChange={[Function]}
+            value=""
+          />
+        </label>
+        <label>
+          Hero email
+          <input
+            onChange={[Function]}
+            type="email"
+            value=""
+          />
+        </label>
+        <label>
+          Hero type
+          <select>
+            <option
+              value="styremedlem"
+            >
+              Styremedlem
+            </option>
+            <option
+              value="foredragsholder-jz"
+            >
+              Foredragsholder på JavaZone
+            </option>
+            <option
+              value="foredragsholder"
+            >
+               Foredragsholder på javaBin
+            </option>
+            <option
+              value="regionsleder"
+            >
+              Regionsleder
+            </option>
+            <option
+              value="aktiv"
+            >
+              Aktiv
+            </option>
+          </select>
+        </label>
+        <label>
+          Dato
+          <input
+            type="date"
+          />
+        </label>
+        <button>
+          Legg til
+        </button>
+      </form>
+    </div>
+  </div>,
+]
+`;
+
+exports[`app renders hero list 1`] = `
+Array [
+  <nav>
+    <ul>
+      <li>
+        <a
+          href="#"
+        >
+          View heroes
+        </a>
+      </li>
+      <li>
+        <a
+          href="#admin"
+        >
+          Admin
+        </a>
+      </li>
+      <li>
+        <a
+          href="#profile"
+        >
+          View my profile
+        </a>
+      </li>
+    </ul>
+  </nav>,
+  <div>
+    <h1>
+      
+    </h1>
+    <div
+      className="heroes-list"
+    >
+      <h2>
+        Helter
+      </h2>
+      <table
+        className="table table-striped table-bordered table-condensed table-hover"
+      >
+        <thead>
+          <tr>
+            <th />
+            <th>
+              Navn
+            </th>
+            <th>
+              Heltetype
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img
+                height="25"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </td>
+            <td>
+              Alice
+            </td>
+            <td />
+          </tr>
+          <tr>
+            <td>
+              <img
+                height="25"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </td>
+            <td>
+              Bob
+            </td>
+            <td />
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>,
+]
+`;
