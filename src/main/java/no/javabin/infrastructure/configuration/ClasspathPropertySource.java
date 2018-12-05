@@ -11,7 +11,7 @@ import no.javabin.infrastructure.ExceptionUtil;
 public class ClasspathPropertySource implements PropertySource {
 
     private String name;
-    private Properties properties;
+    private Properties properties = new Properties();
 
     public ClasspathPropertySource(String name) {
         URL url = getClass().getResource(name);

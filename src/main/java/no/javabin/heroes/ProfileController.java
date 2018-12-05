@@ -13,8 +13,12 @@ import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
 import org.jsonbuddy.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProfileController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
     private final ProfileContext oauth2Configuration;
 
@@ -53,6 +57,10 @@ public class ProfileController {
         }
 
         JsonObject token = oauth2Configuration.exchangeCodeForToken(code);
+        if (token.containsKey("error")) {
+            logger.error("Token request failed: {}", token);
+            throw new HttpRequestException(500, "Failed to authenticate client");
+        }
 
         request.getSession().invalidate();
         request.getSession(true).setAttribute("profile", token.requiredObject("user"));
