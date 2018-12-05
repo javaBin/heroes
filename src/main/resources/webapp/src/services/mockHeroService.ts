@@ -15,6 +15,14 @@ export class MockHeroService implements HeroService {
     async consentToPublish() {
         this.heroes.find(h => h.email === this.currentUser!.email)!.published = true;
     }
+
+    async fetchUserinfo() {
+        return {
+            authenticated: !!this.currentUser,
+            username: this.currentUser && this.currentUser.email,
+        };
+    }
+
     async fetchMe() {
         return this.heroes.find(h => h.email === this.currentUser!.email)!;
     }

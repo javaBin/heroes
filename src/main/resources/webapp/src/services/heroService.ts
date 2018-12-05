@@ -6,7 +6,14 @@ export interface Hero {
     published: boolean;
 }
 
+export interface Userinfo {
+    authenticated?: boolean;
+    admin?: boolean;
+    username?: string;
+}
+
 export interface HeroService {
+    fetchUserinfo(): Promise<Userinfo>;
     fetchMe(): Promise<Hero>;
     fetchHeroes(): Promise<Hero[]>;
     addHero(hero: Hero): Promise<void>;
@@ -14,10 +21,14 @@ export interface HeroService {
 }
 
 export class HeroServiceHttp implements HeroService {
+    async fetchUserinfo(): Promise<Userinfo> {
+        const response = await fetch("/api/userinfo");
+        return await response.json();
+    }
     consentToPublish(): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    fetchMe(): Promise<Hero> {
+    async fetchMe(): Promise<Hero> {
         throw new Error("Method not implemented.");
     }
     addHero(hero: Hero): Promise<void> {

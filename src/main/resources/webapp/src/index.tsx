@@ -2,6 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { App } from "./app";
 
-import { MockHeroService } from "./services/mockHeroService";
+import { HeroServiceHttp } from "./services/heroService";
 
-ReactDOM.render(<App heroService={new MockHeroService()} />, document.getElementById("app"));
+ReactDOM.render(<App heroService={new HeroServiceHttp()} />, document.getElementById("app"));

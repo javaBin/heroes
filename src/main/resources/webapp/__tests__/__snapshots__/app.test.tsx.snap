@@ -13,16 +13,9 @@ Array [
       </li>
       <li>
         <a
-          href="#admin"
-        >
-          Admin
-        </a>
-      </li>
-      <li>
-        <a
           href="#profile"
         >
-          View my profile
+          johannes@brodwall.com
         </a>
       </li>
     </ul>
@@ -112,16 +105,9 @@ Array [
       </li>
       <li>
         <a
-          href="#admin"
-        >
-          Admin
-        </a>
-      </li>
-      <li>
-        <a
           href="#profile"
         >
-          View my profile
+          johannes@brodwall.com
         </a>
       </li>
     </ul>
