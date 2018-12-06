@@ -1,21 +1,24 @@
 package no.javabin.heroes;
 
+import java.io.File;
+import java.util.Locale;
+
+import javax.sql.DataSource;
+
+import no.javabin.infrastructure.configuration.ApplicationProperties;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGPoolingDataSource;
-
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.Locale;
-
-import javax.sql.DataSource;
-
-import no.javabin.infrastructure.configuration.ApplicationProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebServer {
+
+    private static final Logger logger = LoggerFactory.getLogger(WebServer.class);
+
     private static Server server;
 
     public static void main(String[] argv) throws Exception {
@@ -39,8 +42,7 @@ public class WebServer {
         server.setHandler(getHandler(datasource));
         server.start();
 
-        System.out.println(server.getURI() + " at " + LocalDateTime.now());
-        System.out.println("Path=" + new File(".").getAbsolutePath());
+        logger.warn("Started on {}", server.getURI());
     }
 
     protected void migrateDb() {
@@ -71,7 +73,7 @@ public class WebServer {
 
 
         webAppContext.addServlet(new ServletHolder(new DataServlet()), "/data/*");
-        HeroesContext heroesContext = new HeroesContext(new ApplicationProperties(System.getenv("PROFILES")));
+        HeroesContextSlack heroesContext = new HeroesContextSlack(new ApplicationProperties(System.getenv("PROFILES")));
         webAppContext.addServlet(new ServletHolder(new HeroesApiServlet(datasource, heroesContext)), "/api/*");
         return webAppContext;
     }

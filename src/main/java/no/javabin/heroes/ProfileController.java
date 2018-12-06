@@ -13,12 +13,9 @@ import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
 import org.jsonbuddy.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ProfileController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
     private final ProfileContext oauth2Configuration;
 
@@ -27,12 +24,14 @@ public class ProfileController {
     }
 
     @Get("/userinfo")
-    public JsonObject getUserinfo(@SessionParameter("profile") JsonObject profile) {
+    public JsonObject getUserinfo(@SessionParameter("profile") Profile profile) {
+        if (profile == null) {
+            return new JsonObject().put("authenticated", false);
+        }
         return new JsonObject()
-                .put("profile", profile)
-                .put("admin", true)
-                .put("username", profile != null ? profile.requiredString("name") : null)
-                .put("authenticated", profile != null);
+                .put("admin", profile.isAdmin())
+                .put("username", profile.getUsername())
+                .put("authenticated", true);
     }
 
     @Get("/login")
@@ -56,14 +55,10 @@ public class ProfileController {
             throw new HttpRequestException(400, "Invalidate state");
         }
 
-        JsonObject token = oauth2Configuration.exchangeCodeForToken(code);
-        if (token.containsKey("error")) {
-            logger.error("Token request failed: {}", token);
-            throw new HttpRequestException(500, "Failed to authenticate client");
-        }
+        Profile profile = oauth2Configuration.exchangeCodeForProfile(code);
 
         request.getSession().invalidate();
-        request.getSession(true).setAttribute("profile", token.requiredObject("user"));
+        request.getSession(true).setAttribute("profile", profile);
 
         return new URL("http://localhost:9093/");
     }
