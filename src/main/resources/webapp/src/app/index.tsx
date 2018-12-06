@@ -19,7 +19,7 @@ export function HeroList({heroes}: {heroes: Hero[]}) {
               {hero.name}
             </td>
             <td>
-              {hero.contribution}
+              {hero.achievement}
             </td>
           </tr>
         );

@@ -1,8 +1,11 @@
 
-export interface Hero {
+export interface Person {
     name: string;
     email: string;
-    contribution?: string;
+}
+
+export interface Hero extends Person {
+    achievement?: string;
     published: boolean;
 }
 
@@ -12,7 +15,18 @@ export interface Userinfo {
     username?: string;
 }
 
+export interface Achievement {
+    value: string;
+    label: string;
+}
+
+export interface CreateHeroData {
+    people: Person[];
+    achievements: Achievement[];
+}
+
 export interface HeroService {
+    fetchCreateHeroData(): Promise<CreateHeroData>;
     fetchUserinfo(): Promise<Userinfo>;
     fetchMe(): Promise<Hero>;
     fetchHeroes(): Promise<Hero[]>;
@@ -21,6 +35,10 @@ export interface HeroService {
 }
 
 export class HeroServiceHttp implements HeroService {
+    async fetchCreateHeroData(): Promise<CreateHeroData> {
+        const response = await fetch("/api/admin/heroes/create");
+        return await response.json();
+    }
     async fetchUserinfo(): Promise<Userinfo> {
         const response = await fetch("/api/userinfo");
         return await response.json();

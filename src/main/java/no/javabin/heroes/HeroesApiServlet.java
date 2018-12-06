@@ -8,9 +8,9 @@ import no.javabin.infrastructure.http.server.ApiServlet;
 public class HeroesApiServlet extends ApiServlet {
 
     private final DataSource datasource;
-    private final HeroesContext heroesContext;
+    private final HeroesContextSlack heroesContext;
 
-    public HeroesApiServlet(DataSource datasource, HeroesContext heroesContext) {
+    public HeroesApiServlet(DataSource datasource, HeroesContextSlack heroesContext) {
         this.datasource = datasource;
         this.heroesContext = heroesContext;
     }
@@ -18,6 +18,7 @@ public class HeroesApiServlet extends ApiServlet {
     @Override
     public void init() throws ServletException {
         registerController(new ProfileController(heroesContext));
+        registerController(new AdminController());
     }
 
 

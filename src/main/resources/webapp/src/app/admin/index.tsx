@@ -1,19 +1,46 @@
 import React from "react";
 import { HeroService } from "../../services";
-import { Hero } from "../../services/heroService";
+import { CreateHeroData, Hero } from "../../services/heroService";
 
-export function AdminScreen({heroService}: {heroService: HeroService}) {
-    async function handleNewHero(hero: Hero) {
-      await heroService.addHero(hero);
-      window.location.hash = "";
+interface AdminProps {
+  heroService: HeroService;
+}
+
+interface AdminState {
+  createHeroData?: CreateHeroData;
+}
+
+export class AdminScreen extends React.Component<AdminProps, AdminState> {
+  state: AdminState;
+
+  constructor(props: AdminProps) {
+    super(props);
+    this.state = {};
+  }
+
+  async componentDidMount() {
+    const createHeroData = await this.props.heroService.fetchCreateHeroData();
+    this.setState({ createHeroData });
+  }
+
+  handleNewHero = async (hero: Hero) => {
+    await this.props.heroService.addHero(hero);
+    window.location.hash = "";
+  }
+
+  render() {
+    const {createHeroData} = this.state;
+    if (!createHeroData) {
+      return <div>Loading...</div>;
     }
-
     return <>
       <div className="heroes-admin-container">
         <h1>javaBin Heroes</h1>
-        <NewHeroForm onNewHero={handleNewHero} />
+        <NewHeroForm onNewHero={this.handleNewHero} createHeroData={createHeroData} />
       </div>
     </>;
+
+  }
 }
 
 function FormControl({label, type, value, onChange}:
@@ -34,47 +61,52 @@ function DateControl({label}: {label: string}) {
 
 interface SelectOption { value: string; label: string; }
 
-function SelectControl({label, options}: {label: string, options: SelectOption[]}) {
+function SelectControl({label, options, value, onChange}:
+  {label: string, options: SelectOption[], value: string, onChange: (s: string) => void},
+  ) {
   return <label>
     {label}
-    <select>
+    <select value={value} onChange={event => onChange(event.target.value)}>
       {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
     </select>
   </label>;
 }
 
-class NewHeroForm extends React.Component<{onNewHero: (h: Hero) => void}> {
+class NewHeroForm extends React.Component<{onNewHero: (h: Hero) => void, createHeroData: CreateHeroData}> {
     state = {
+      achievement: "",
       email: "",
       name: "",
     };
 
     handleSubmit = () => {
-      const {email, name} = this.state;
+      const {email, name, achievement} = this.state;
       const newHero = {
-        email, name,
+        achievement, email, name,
         published: false,
       };
       this.props.onNewHero(newHero);
     }
 
     render = () => {
-      const heroTypes = [
-        { value: "styremedlem", label: "Styremedlem" },
-        { value: "foredragsholder-jz", label: "Foredragsholder på JavaZone" },
-        { value: "foredragsholder", label: " Foredragsholder på javaBin" },
-        { value: "regionsleder", label: "Regionsleder" },
-        { value: "aktiv", label: "Aktiv" },
-      ];
 
-      const {name, email} = this.state;
+      const {name, email, achievement} = this.state;
+
+      const people = this.props.createHeroData.people.map(p => ({label: p.name, value: p.email}));
+      const achievements = this.props.createHeroData.achievements;
 
       return (
         <div className="heroes-admin-add">
           <form onSubmit={this.handleSubmit}>
+            <SelectControl label="Person" options={people} value={email} onChange={(email) => this.setState({email})} />
             <FormControl label="Hero name" value={name} onChange={(name) => this.setState({name})} />
             <FormControl label="Hero email" type="email" value={email} onChange={(email) => this.setState({email})} />
-            <SelectControl label="Hero type" options={heroTypes} />
+            <SelectControl
+              label="Hero type"
+              options={achievements}
+              value={achievement}
+              onChange={(achievement) => this.setState({achievement})}
+            />
             <DateControl label="Dato" />
             <button>Legg til</button>
           </form>

@@ -1,4 +1,4 @@
-import React, { ReactInstance } from "react";
+import React from "react";
 import renderer, { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 import { App, HeroList } from "../src/app";
 import { AdminScreen } from "../src/app/admin";

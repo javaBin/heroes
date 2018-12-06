@@ -33,6 +33,13 @@ Array [
         onSubmit={[Function]}
       >
         <label>
+          Person
+          <select
+            onChange={[Function]}
+            value=""
+          />
+        </label>
+        <label>
           Hero name
           <input
             onChange={[Function]}
@@ -49,33 +56,10 @@ Array [
         </label>
         <label>
           Hero type
-          <select>
-            <option
-              value="styremedlem"
-            >
-              Styremedlem
-            </option>
-            <option
-              value="foredragsholder-jz"
-            >
-              Foredragsholder på JavaZone
-            </option>
-            <option
-              value="foredragsholder"
-            >
-               Foredragsholder på javaBin
-            </option>
-            <option
-              value="regionsleder"
-            >
-              Regionsleder
-            </option>
-            <option
-              value="aktiv"
-            >
-              Aktiv
-            </option>
-          </select>
+          <select
+            onChange={[Function]}
+            value=""
+          />
         </label>
         <label>
           Dato

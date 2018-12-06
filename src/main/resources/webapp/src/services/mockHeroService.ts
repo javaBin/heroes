@@ -1,4 +1,4 @@
-import { Hero, HeroService } from "./heroService";
+import { CreateHeroData, Hero, HeroService } from "./heroService";
 
 interface User {
     admin: boolean;
@@ -12,6 +12,13 @@ export class MockHeroService implements HeroService {
     };
 
     private heroes: Hero[] = [];
+
+    async fetchCreateHeroData() {
+        return {
+            achievements: [],
+            people: [],
+        };
+    }
     async consentToPublish() {
         this.heroes.find(h => h.email === this.currentUser!.email)!.published = true;
     }
