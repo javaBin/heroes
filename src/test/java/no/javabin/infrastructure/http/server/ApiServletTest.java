@@ -4,11 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import no.javabin.heroes.HttpRequestException;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -28,6 +32,7 @@ public class ApiServletTest {
     private HttpServletRequest requestMock = Mockito.mock(HttpServletRequest.class);
     private HttpServletResponse responseMock = Mockito.mock(HttpServletResponse.class);
     private StringWriter responseBody = new StringWriter();
+    public JsonObject postedBody;
 
     private class ExampleController {
 
@@ -51,6 +56,11 @@ public class ApiServletTest {
         ) throws MalformedURLException {
             return new URL("https://messages.example.com/?user=" + userId + "&message=" + messageId);
         }
+
+        @Post("/postMethod")
+        public void postAction(@Body JsonObject o) {
+            postedBody = o;
+        }
     }
 
     @Test
@@ -63,6 +73,7 @@ public class ApiServletTest {
 
         assertThat(JsonParser.parseToObject(responseBody.toString()).requiredString("name"))
             .isEqualTo(name);
+        verify(responseMock).getWriter();
         verify(responseMock).setContentType("application/json");
     }
 
@@ -88,10 +99,29 @@ public class ApiServletTest {
         verify(responseMock).sendRedirect("https://messages.example.com/?user=3341&message=abc");
     }
 
+    @Test
+    public void shouldPostJson() throws ServletException, IOException {
+        when(requestMock.getPathInfo()).thenReturn("/postMethod");
+
+        JsonObject requestObject = new JsonObject()
+                .put("foo", "bar")
+                .put("list", Arrays.asList("a", "b", "c"));
+        when(requestMock.getReader())
+            .thenReturn(new BufferedReader(new StringReader(requestObject.toIndentedJson(" "))));
+        servlet.doPost(requestMock, responseMock);
+
+        assertThat(postedBody).isEqualTo(requestObject);
+    }
+
     @Before
     public void setupRequest() throws IOException {
         servlet.registerController(new ExampleController());
 
         when(responseMock.getWriter()).thenReturn(new PrintWriter(responseBody));
+    }
+
+    @After
+    public void verifyNoMoreInteractions() {
+        Mockito.verifyNoMoreInteractions(responseMock);
     }
 }

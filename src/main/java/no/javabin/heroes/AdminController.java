@@ -1,7 +1,10 @@
 package no.javabin.heroes;
 
 import java.io.IOException;
+
+import no.javabin.infrastructure.http.server.Body;
 import no.javabin.infrastructure.http.server.Get;
+import no.javabin.infrastructure.http.server.Post;
 import no.javabin.infrastructure.http.server.SessionParameter;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
@@ -20,6 +23,10 @@ public class AdminController {
         return new JsonObject()
                 .put("people", JsonArray.fromNodeList(profile.listUsers()))
                 .put("achievements", achievementTypes);
+    }
+
+    @Post("/admin/heroes")
+    public void createHero(@Body JsonObject hero) {
     }
 
 }

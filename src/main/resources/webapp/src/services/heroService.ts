@@ -49,8 +49,14 @@ export class HeroServiceHttp implements HeroService {
     async fetchMe(): Promise<Hero> {
         throw new Error("Method not implemented.");
     }
-    addHero(hero: Hero): Promise<void> {
-        throw new Error("Method not implemented.");
+    async addHero(hero: Hero) {
+        await fetch("/api/admin/heroes", {
+            body: JSON.stringify(hero),
+            headers: {
+                "Content-type": "application/json",
+            },
+            method: "POST",
+        });
     }
     async fetchHeroes(): Promise<Hero[]> {
         return [];

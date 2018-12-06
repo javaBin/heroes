@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import no.javabin.heroes.HttpRequestException;
 import org.jsonbuddy.JsonNode;
+import org.jsonbuddy.parse.JsonParser;
 
 public class ApiServlet extends HttpServlet {
 
@@ -48,7 +51,8 @@ public class ApiServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> pathParameters = new HashMap<>();
-        ApiRoute route = findRoute(req, pathParameters);
+        ApiRoute route = findRoute(req, pathParameters,
+                method -> Optional.ofNullable(method.getAnnotation(Get.class)).map(Get::value));
 
         if (route != null) {
             Object[] arguments = createArguments(route.getAction(), req, pathParameters);
@@ -65,7 +69,26 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Map<String, String> pathParameters = new HashMap<>();
+        ApiRoute route = findRoute(req, pathParameters,
+                method -> Optional.ofNullable(method.getAnnotation(Post.class)).map(Post::value));
+        Object[] arguments = createArguments(route.getAction(), req, pathParameters);
+        Object result;
+        try {
+            result = invoke(route.getController(), route.getAction(), arguments);
+        } catch (HttpRequestException e) {
+            resp.sendError(e.getStatusCode(), e.getMessage());
+            return;
+        }
+        sendResponse(result, resp);
+    }
+
     private void sendResponse(Object result, HttpServletResponse resp) throws IOException {
+        if (result == null) {
+            return;
+        }
         if (result instanceof URL) {
             resp.sendRedirect(result.toString());
             return;
@@ -92,17 +115,21 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-    private ApiRoute findRoute(HttpServletRequest req, Map<String, String> pathParameters) {
+    private ApiRoute findRoute(HttpServletRequest req, Map<String, String> pathParameters, Function<Method, Optional<String>> pattern) {
         for (Object controller : controllers) {
             for (Method method : controller.getClass().getMethods()) {
                 pathParameters.clear();
-                Get annotation = method.getAnnotation(Get.class);
-                if (annotation != null && pathMatches(annotation.value(), req.getPathInfo(), pathParameters)) {
+                Optional<String> pathPattern = pattern.apply(method);
+                if (pathPattern.isPresent() && pathMatches(pathPattern.get(), req.getPathInfo(), pathParameters)) {
                     return new ApiRoute(controller,  method);
                 }
             }
         }
         return null;
+    }
+
+    public Optional<String> getPathPattern(Method method) {
+        return Optional.ofNullable(method.getAnnotation(Get.class)).map(Get::value);
     }
 
     public boolean pathMatches(String actionPathPattern, String actualPath, Map<String, String> pathParameters) {
@@ -122,7 +149,7 @@ public class ApiServlet extends HttpServlet {
     }
 
 
-    public Object[] createArguments(Method method, HttpServletRequest req, Map<String, String> pathParameters) {
+    public Object[] createArguments(Method method, HttpServletRequest req, Map<String, String> pathParameters) throws IOException {
         Object[] arguments = new Object[method.getParameterCount()];
         for (int i = 0; i < arguments.length; i++) {
             arguments[i] = createArgument(method, i, req, pathParameters);
@@ -130,7 +157,7 @@ public class ApiServlet extends HttpServlet {
         return arguments;
     }
 
-    public Object createArgument(Method method, int i, HttpServletRequest req, Map<String, String> pathParameters) {
+    public Object createArgument(Method method, int i, HttpServletRequest req, Map<String, String> pathParameters) throws IOException {
         Parameter parameter = method.getParameters()[i];
         if (parameter.getType() == HttpSession.class) {
             return req.getSession();
@@ -140,12 +167,17 @@ public class ApiServlet extends HttpServlet {
             PathParam pathParam;
             RequestParam reqParam;
             SessionParameter sessionParam;
+            Body body;
             if ((pathParam = parameter.getAnnotation(PathParam.class)) != null) {
                 return pathParameters.get(pathParam.value());
             } else if ((sessionParam = parameter.getAnnotation(SessionParameter.class)) != null) {
                 return req.getSession().getAttribute(sessionParam.value());
             } else if ((reqParam = parameter.getAnnotation(RequestParam.class)) != null) {
                 return req.getParameter(reqParam.value());
+            } else if ((body = parameter.getAnnotation(Body.class)) != null) {
+                // TODO: This isn't very nice if the content-type isn't application/json
+                // TODO: This isn't very nice if parameter.getType() == JsonArray.class
+                return JsonParser.parseToObject(req.getReader());
             } else {
                 throw new IllegalArgumentException("Don't know how to get "
                         + method.getDeclaringClass().getSimpleName() + "#" + method.getName()
