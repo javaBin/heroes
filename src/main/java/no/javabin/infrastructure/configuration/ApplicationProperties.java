@@ -14,7 +14,7 @@ public class ApplicationProperties {
 
     public String required(String key) {
         return properties.get(key)
-                .orElseThrow(() -> new IllegalStateException("Missing property " + key + " in " + properties));
+                .orElseThrow(() -> new IllegalStateException("Missing property [" + key + "] in " + properties));
     }
 
 }
