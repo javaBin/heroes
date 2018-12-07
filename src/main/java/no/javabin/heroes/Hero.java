@@ -9,7 +9,7 @@ public class Hero {
 
     private String achievement;
 
-    private long consentId;
+    private Long consentId;
 
     private String consentClientIp;
 
@@ -31,11 +31,11 @@ public class Hero {
         this.achievement = achievement;
     }
 
-    public long getConsentId() {
+    public Long getConsentId() {
         return consentId;
     }
 
-    public void setConsentId(long consentId) {
+    public void setConsentId(Long consentId) {
         this.consentId = consentId;
     }
 

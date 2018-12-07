@@ -27,15 +27,45 @@ public class HeroesRepository {
                 .setPrimaryKey("id", UUID.randomUUID())
                 .setField("email", hero.getEmail())
                 .setField("achievement", hero.getAchievement())
+                .setField("consent_id", hero.getConsentId())
+                .setField("consented_at", hero.getConsentedAt())
+                .setField("consent_client_ip", hero.getConsentClientIp())
                 .execute(conn);
         } catch (SQLException e) {
             throw ExceptionUtil.softenException(e);
         }
     }
 
+    public void update(Hero hero) {
+        try (Connection conn = dataSource.getConnection()) {
+            table
+                .where("email", hero.getEmail())
+                .update()
+                .setField("achievement", hero.getAchievement())
+                .setField("consent_id", hero.getConsentId())
+                .setField("consented_at", hero.getConsentedAt())
+                .setField("consent_client_ip", hero.getConsentClientIp())
+                .execute(conn);
+        } catch (SQLException e) {
+            throw ExceptionUtil.softenException(e);
+        }
+    }
+
+
     public List<Hero> list() {
         try (Connection conn = dataSource.getConnection()) {
-            return table.listObjects(conn, this::mapRow);
+            return table
+                    .whereExpression("consented_at is not null")
+                    .unordered()
+                    .list(conn, this::mapRow);
+        } catch (SQLException e) {
+            throw ExceptionUtil.softenException(e);
+        }
+    }
+
+    public Hero retrieveByEmail(String email) {
+        try (Connection conn = dataSource.getConnection()) {
+            return table.where("email", email).singleObject(conn, this::mapRow);
         } catch (SQLException e) {
             throw ExceptionUtil.softenException(e);
         }
@@ -45,12 +75,10 @@ public class HeroesRepository {
         Hero hero = new Hero();
         hero.setEmail(o.getString("email"));
         hero.setAchievement(o.getString("achievement"));
+        hero.setConsentId(o.getLong("consent_id"));
+        hero.setConsentClientIp(o.getString("consent_client_ip"));
+        hero.setConsentedAt(o.getDateTime("consented_at"));
         return hero;
-    }
-
-    public void update(Hero hero) {
-        // TODO Auto-generated method stub
-
     }
 
 }

@@ -2,6 +2,7 @@ package no.javabin.heroes;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Instant;
 import java.util.Random;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import org.junit.Test;
 public class HeroesRepositoryTest {
     private DataSource dataSource;
     private HeroesRepository heroesRepository;
+    private Random random = new Random();
 
     @Before
     public void setupDataSource() {
@@ -27,19 +29,67 @@ public class HeroesRepositoryTest {
     }
 
     @Test
+    public void shouldRetrieveSavedHero() {
+        Hero hero = sampleHero();
+        assertThat(hero).hasNoNullFieldsOrProperties();
+        heroesRepository.save(hero);
+        assertThat(heroesRepository.retrieveByEmail(hero.getEmail()))
+            .isEqualToComparingFieldByField(hero);
+    }
+
+    @Test
     public void shouldListSavedHeroes() {
         Hero hero = sampleHero();
-
         heroesRepository.save(hero);
         assertThat(heroesRepository.list())
             .contains(hero);
     }
 
+    @Test
+    public void shouldHideHeroesWithoutConsent() {
+        Hero hero = basicHero();
+        heroesRepository.save(hero);
+        assertThat(heroesRepository.list())
+            .doesNotContain(hero);
+    }
+
+    @Test
+    public void shouldShowHeroesAfterConsent() {
+        Hero hero = basicHero();
+        heroesRepository.save(hero);
+        setConsent(hero);
+        heroesRepository.update(hero);
+        assertThat(heroesRepository.list())
+            .contains(hero);
+        assertThat(heroesRepository.retrieveByEmail(hero.getEmail()))
+            .isEqualToComparingFieldByField(hero);
+    }
+
     private Hero sampleHero() {
+        Hero hero = basicHero();
+        setConsent(hero);
+        return hero;
+    }
+
+    public void setConsent(Hero hero) {
+        hero.setConsentId(random.nextLong() % 1000L);
+        hero.setConsentedAt(randomInstant());
+        hero.setConsentClientIp(randomIpAddress());
+    }
+
+    public Hero basicHero() {
         Hero hero = new Hero();
         hero.setEmail(sampleEmail());
         hero.setAchievement(sampleAchievement());
         return hero;
+    }
+
+    public Instant randomInstant() {
+        return Instant.now().minusSeconds(random.nextInt(7 * 24 * 60 * 60));
+    }
+
+    public String randomIpAddress() {
+        return random.nextInt(255) + "." + random.nextInt(255) + "." + random.nextInt(255) + "." + random.nextInt(255);
     }
 
     private String sampleAchievement() {
@@ -50,7 +100,7 @@ public class HeroesRepositoryTest {
                 "regionsleder",
                 "aktiv",
         };
-        return examples[new Random().nextInt(examples.length)];
+        return examples[random.nextInt(examples.length)];
     }
 
     private String sampleEmail() {
