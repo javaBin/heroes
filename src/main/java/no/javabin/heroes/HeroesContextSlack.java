@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class HeroesContextSlack implements ProfileContext {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HeroesContextSlack.class);
 
     private final ApplicationProperties property;
 

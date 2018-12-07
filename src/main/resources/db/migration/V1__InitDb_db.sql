@@ -1,3 +1,10 @@
+create table HEROES (
+    id uuid primary key,
+    email varchar(100),
+    achievement varchar(100)
+);
+
+
 CREATE TABLE person (
     id VARCHAR(50),
     data varchar(1000)

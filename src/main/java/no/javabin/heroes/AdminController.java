@@ -2,6 +2,8 @@ package no.javabin.heroes;
 
 import java.io.IOException;
 
+import javax.sql.DataSource;
+
 import no.javabin.infrastructure.http.server.Body;
 import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.Post;
@@ -10,6 +12,12 @@ import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
 
 public class AdminController {
+
+    private final HeroesRepository repository;
+
+    public AdminController(DataSource dataSource) {
+        repository = new HeroesRepository(dataSource);
+    }
 
     @Get("/admin/heroes/create")
     public JsonObject getCreateData(@SessionParameter("profile") Profile profile) throws IOException {
@@ -26,7 +34,11 @@ public class AdminController {
     }
 
     @Post("/admin/heroes")
-    public void createHero(@Body JsonObject hero) {
+    public void createHero(@Body JsonObject o) {
+        Hero hero = new Hero();
+        hero.setEmail(o.requiredString("email"));
+        hero.setAchievement(o.requiredString("achievement"));
+        repository.save(hero);
     }
 
 }

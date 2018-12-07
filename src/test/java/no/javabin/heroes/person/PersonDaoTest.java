@@ -3,8 +3,6 @@ package no.javabin.heroes.person;
 import no.javabin.heroes.InMemoryDbTest;
 import no.javabin.heroes.NotFoundException;
 import no.javabin.heroes.TestDataUtil;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.Is;
 import org.jsonbuddy.JsonObject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,15 +24,9 @@ public class PersonDaoTest extends InMemoryDbTest {
   }
 
   @Test
-  public void getAllPersons() throws Exception {
-    PersonDao dao = new PersonDao();
-    List<JsonObject> allPersons = dao.getAllPersons();
-    Assert.assertThat(allPersons.size(), is(1));
-  }
-
-  @Test
   public void getHeroByEmailThatExists() throws Exception {
     PersonDao dao = new PersonDao();
+    dao.insertPerson(TestDataUtil.buildPerson("Test Person", "email@mail.com", "+47 12345678", Optional.of("Bergen")));
     List<JsonObject> allPersons = dao.getPersonsByEmail("email@mail.com");
     Assert.assertThat(allPersons.size(), is(1));
   }
