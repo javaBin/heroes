@@ -14,12 +14,12 @@ import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
 import org.jsonbuddy.JsonObject;
 
-public class ProfileController {
+public class LoginController {
 
 
     private final ProfileContext oauth2Configuration;
 
-    public ProfileController(ProfileContext oauth2Configuration) {
+    public LoginController(ProfileContext oauth2Configuration) {
         this.oauth2Configuration = oauth2Configuration;
     }
 
