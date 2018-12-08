@@ -49,11 +49,10 @@ public class WebServer {
         migrateDb(Postgres.datasource());
     }
 
-    protected void migrateDb(PGPoolingDataSource datasource) {
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(datasource);
+    protected void migrateDb(PGPoolingDataSource dataSource) {
+        Flyway flyway = Flyway.configure().dataSource(dataSource).load();
+        flyway.clean();
         flyway.migrate();
-
     }
 
 

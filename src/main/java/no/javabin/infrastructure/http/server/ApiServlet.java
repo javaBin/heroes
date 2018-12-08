@@ -22,8 +22,12 @@ import javax.servlet.http.HttpSession;
 import no.javabin.heroes.HttpRequestException;
 import org.jsonbuddy.JsonNode;
 import org.jsonbuddy.parse.JsonParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ApiServlet extends HttpServlet {
+
+    private Logger logger = LoggerFactory.getLogger(ApiServlet.class);
 
     private static class ApiRoute {
 
@@ -65,6 +69,7 @@ public class ApiServlet extends HttpServlet {
             }
             sendResponse(result, resp);
         } else {
+            logger.warn("No route for {]", req.getPathInfo());
             resp.sendError(404);
         }
     }
@@ -74,6 +79,13 @@ public class ApiServlet extends HttpServlet {
         Map<String, String> pathParameters = new HashMap<>();
         ApiRoute route = findRoute(req, pathParameters,
                 method -> Optional.ofNullable(method.getAnnotation(Post.class)).map(Post::value));
+
+        if (route == null) {
+            logger.warn("No route for {]", req.getPathInfo());
+            resp.sendError(400);
+            return;
+        }
+
         Object[] arguments = createArguments(route.getAction(), req, pathParameters);
         Object result;
         try {
@@ -167,17 +179,22 @@ public class ApiServlet extends HttpServlet {
             PathParam pathParam;
             RequestParam reqParam;
             SessionParameter sessionParam;
+            RequestParam.ClientIp clientIp;
             Body body;
             if ((pathParam = parameter.getAnnotation(PathParam.class)) != null) {
                 return pathParameters.get(pathParam.value());
             } else if ((sessionParam = parameter.getAnnotation(SessionParameter.class)) != null) {
-                return req.getSession().getAttribute(sessionParam.value());
+                Object value = req.getSession().getAttribute(sessionParam.value());
+                return parameter.getType() == Optional.class ? Optional.ofNullable(value) : value;
             } else if ((reqParam = parameter.getAnnotation(RequestParam.class)) != null) {
                 return req.getParameter(reqParam.value());
             } else if ((body = parameter.getAnnotation(Body.class)) != null) {
                 // TODO: This isn't very nice if the content-type isn't application/json
                 // TODO: This isn't very nice if parameter.getType() == JsonArray.class
                 return JsonParser.parseToObject(req.getReader());
+            } else if ((clientIp = parameter.getAnnotation(RequestParam.ClientIp.class)) != null) {
+                // TODO: Skip proxies
+                return req.getRemoteAddr();
             } else {
                 throw new IllegalArgumentException("Don't know how to get "
                         + method.getDeclaringClass().getSimpleName() + "#" + method.getName()

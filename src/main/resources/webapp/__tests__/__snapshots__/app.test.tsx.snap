@@ -26,6 +26,9 @@ Array [
     <h1>
       javaBin Heroes
     </h1>
+    <h2>
+      Add Hero
+    </h2>
     <div
       className="heroes-admin-add"
     >
@@ -37,7 +40,9 @@ Array [
           <select
             onChange={[Function]}
             value=""
-          />
+          >
+            <option />
+          </select>
         </label>
         <label>
           Hero name
@@ -59,7 +64,9 @@ Array [
           <select
             onChange={[Function]}
             value=""
-          />
+          >
+            <option />
+          </select>
         </label>
         <label>
           Dato
@@ -71,6 +78,72 @@ Array [
           Legg til
         </button>
       </form>
+    </div>
+    <h2>
+      Current heroes
+    </h2>
+    <div
+      className="heroes-list"
+    >
+      <h2>
+        Helter
+      </h2>
+      <table>
+        <thead>
+          <tr>
+            <th />
+            <th>
+              Navn
+            </th>
+            <th>
+              Heltetype
+            </th>
+            <th>
+              Published
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img
+                height="25"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </td>
+            <td>
+              Alice
+            </td>
+            <td />
+            <td>
+              Published
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img
+                height="25"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </td>
+            <td>
+              Bob
+            </td>
+            <td />
+            <td>
+              Published
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>,
 ]

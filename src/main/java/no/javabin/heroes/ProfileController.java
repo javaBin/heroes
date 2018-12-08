@@ -20,7 +20,7 @@ public class ProfileController {
 
     @Get("/profiles/mine")
     public JsonObject getMyProfile(@SessionParameter("profile") Profile profile) {
-        Hero hero = heroesRepository.retrieveByEmail(profile.getUsername());
+        Hero hero = heroesRepository.retrieveByEmail(profile.getEmail());
         if (hero == null) {
             return null;
         }
@@ -34,12 +34,12 @@ public class ProfileController {
 
     @Post("/profiles/mine/consent/:consentId")
     public void consentToPublish(
-            @PathParam("consentId") long consentId,
+            @PathParam("consentId") String consentId,
             @RequestParam.ClientIp String clientIp,
             @SessionParameter("profile") Profile profile
     ) {
-        Hero hero = heroesRepository.retrieveByEmail(profile.getUsername());
-        hero.setConsentId(consentId);
+        Hero hero = heroesRepository.retrieveByEmail(profile.getEmail());
+        hero.setConsentId(Long.parseLong(consentId));
         hero.setConsentedAt(Instant.now());
         hero.setConsentClientIp(clientIp);
         heroesRepository.update(hero);

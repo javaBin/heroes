@@ -52,8 +52,11 @@ public class HeroesRepository {
     }
 
 
-    public List<Hero> list() {
+    public List<Hero> list(boolean includeUnpublished) {
         try (Connection conn = dataSource.getConnection()) {
+            if (includeUnpublished) {
+                return table.listObjects(conn, this::mapRow);
+            }
             return table
                     .whereExpression("consented_at is not null")
                     .unordered()

@@ -16,6 +16,11 @@ public class SlackProfile implements Profile {
     }
 
     @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
     public boolean isAdmin() {
         return admin;
     }
@@ -41,12 +46,14 @@ public class SlackProfile implements Profile {
 
     private String accessToken;
 
+    private String email;
+
     public SlackProfile(JsonObject tokenResponse) throws IOException {
         this.accessToken = tokenResponse.requiredString("access_token");
 
         JsonObject userProfile = slackJsonGet(accessToken, "users.profile.get");
         this.username = userProfile.requiredObject("profile").requiredString("real_name");
-        String email = userProfile.requiredObject("profile").requiredString("email");
+        this.email = userProfile.requiredObject("profile").requiredString("email");
 
         JsonObject conversations = slackJsonGet(accessToken, "conversations.list");
         List<String> channelNames = conversations.requiredArray("channels")

@@ -41,7 +41,7 @@ public class HeroesRepositoryTest {
     public void shouldListSavedHeroes() {
         Hero hero = sampleHero();
         heroesRepository.save(hero);
-        assertThat(heroesRepository.list())
+        assertThat(heroesRepository.list(true))
             .contains(hero);
     }
 
@@ -49,8 +49,10 @@ public class HeroesRepositoryTest {
     public void shouldHideHeroesWithoutConsent() {
         Hero hero = basicHero();
         heroesRepository.save(hero);
-        assertThat(heroesRepository.list())
+        assertThat(heroesRepository.list(false))
             .doesNotContain(hero);
+        assertThat(heroesRepository.list(true))
+            .contains(hero);
     }
 
     @Test
@@ -59,7 +61,7 @@ public class HeroesRepositoryTest {
         heroesRepository.save(hero);
         setConsent(hero);
         heroesRepository.update(hero);
-        assertThat(heroesRepository.list())
+        assertThat(heroesRepository.list(false))
             .contains(hero);
         assertThat(heroesRepository.retrieveByEmail(hero.getEmail()))
             .isEqualToComparingFieldByField(hero);

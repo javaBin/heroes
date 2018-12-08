@@ -13,4 +13,6 @@ public interface Profile {
 
     List<JsonObject> listUsers() throws IOException;
 
+    String getEmail();
+
 }

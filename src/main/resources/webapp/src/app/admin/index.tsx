@@ -2,12 +2,15 @@ import React from "react";
 import { HeroService } from "../../services";
 import { CreateHeroData, Hero } from "../../services/heroService";
 
+import heroPng from "../../images/hero.png";
+
 interface AdminProps {
   heroService: HeroService;
 }
 
 interface AdminState {
   createHeroData?: CreateHeroData;
+  heroes?: Hero[];
 }
 
 export class AdminScreen extends React.Component<AdminProps, AdminState> {
@@ -19,28 +22,74 @@ export class AdminScreen extends React.Component<AdminProps, AdminState> {
   }
 
   async componentDidMount() {
-    const createHeroData = await this.props.heroService.fetchCreateHeroData();
-    this.setState({ createHeroData });
+    const {heroService} = this.props;
+    const [createHeroData, heroes] = [await heroService.fetchCreateHeroData(), await heroService.fetchHeroes()];
+    this.setState({ createHeroData, heroes });
   }
 
   handleNewHero = async (hero: Hero) => {
     await this.props.heroService.addHero(hero);
+    const {heroService} = this.props;
+    const [createHeroData, heroes] = [await heroService.fetchCreateHeroData(), await heroService.fetchHeroes()];
+    this.setState({ createHeroData, heroes });
     window.location.hash = "";
   }
 
   render() {
-    const {createHeroData} = this.state;
-    if (!createHeroData) {
+    const {createHeroData, heroes} = this.state;
+    if (!createHeroData || !heroes) {
       return <div>Loading...</div>;
     }
     return <>
       <div className="heroes-admin-container">
         <h1>javaBin Heroes</h1>
+        <h2>Add Hero</h2>
         <NewHeroForm onNewHero={this.handleNewHero} createHeroData={createHeroData} />
+        <h2>Current heroes</h2>
+        <AdminHeroList heroes={heroes} />
       </div>
     </>;
 
   }
+}
+
+function AdminHeroList({heroes}: {heroes: Hero[]}) {
+  const heroComponents = heroes.map((hero) => {
+    return (
+      <tr key={hero.email}>
+        <td>
+          <img height="25" src={heroPng} />
+        </td>
+        <td>
+          {hero.name}
+        </td>
+        <td>
+          {hero.achievement}
+        </td>
+        <td>
+          {hero.published ? "Published" : "Unpublished"}
+        </td>
+      </tr>
+    );
+});
+  return (
+    <div className="heroes-list">
+      <h2>Helter</h2>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Navn</th>
+            <th>Heltetype</th>
+            <th>Published</th>
+          </tr>
+        </thead>
+        <tbody>
+          {heroComponents}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 function FormControl({label, type, value, onChange}:
@@ -61,12 +110,13 @@ function DateControl({label}: {label: string}) {
 
 interface SelectOption { value: string; label: string; }
 
-function SelectControl({label, options, value, onChange}:
-  {label: string, options: SelectOption[], value: string, onChange: (s: string) => void},
+function SelectControl({label, options, value, onChange, includeBlank}:
+  {label: string, options: SelectOption[], value: string, onChange: (s: string) => void, includeBlank: boolean},
   ) {
   return <label>
     {label}
     <select value={value} onChange={event => onChange(event.target.value)}>
+      {includeBlank && <option></option>}
       {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
     </select>
   </label>;
@@ -98,7 +148,13 @@ class NewHeroForm extends React.Component<{onNewHero: (h: Hero) => void, createH
       return (
         <div className="heroes-admin-add">
           <form onSubmit={this.handleSubmit}>
-            <SelectControl label="Person" options={people} value={email} onChange={(email) => this.setState({email})} />
+            <SelectControl
+              label="Person"
+              options={people}
+              value={email}
+              onChange={(email) => this.setState({email})}
+              includeBlank={true}
+            />
             <FormControl label="Hero name" value={name} onChange={(name) => this.setState({name})} />
             <FormControl label="Hero email" type="email" value={email} onChange={(email) => this.setState({email})} />
             <SelectControl
@@ -106,6 +162,7 @@ class NewHeroForm extends React.Component<{onNewHero: (h: Hero) => void, createH
               options={achievements}
               value={achievement}
               onChange={(achievement) => this.setState({achievement})}
+              includeBlank={true}
             />
             <DateControl label="Dato" />
             <button>Legg til</button>

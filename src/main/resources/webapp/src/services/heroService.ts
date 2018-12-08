@@ -43,11 +43,18 @@ export class HeroServiceHttp implements HeroService {
         const response = await fetch("/api/userinfo");
         return await response.json();
     }
-    consentToPublish(): Promise<void> {
-        throw new Error("Method not implemented.");
+    async consentToPublish() {
+        await fetch("/api/profiles/mine/consent/1", {
+            body: JSON.stringify({}),
+            headers: {
+                "Content-type": "application/json",
+            },
+            method: "POST",
+        });
     }
     async fetchMe(): Promise<Hero> {
-        throw new Error("Method not implemented.");
+        const response = await fetch("/api/profiles/mine");
+        return await response.json();
     }
     async addHero(hero: Hero) {
         await fetch("/api/admin/heroes", {
@@ -59,7 +66,8 @@ export class HeroServiceHttp implements HeroService {
         });
     }
     async fetchHeroes(): Promise<Hero[]> {
-        return [];
+        const response = await fetch("/api/heroes");
+        return await response.json();
     }
 
 }

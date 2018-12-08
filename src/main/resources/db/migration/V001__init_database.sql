@@ -2,7 +2,7 @@ create table HEROES (
     id uuid primary key,
     email varchar(100),
     achievement varchar(100),
-    consent_id number,
+    consent_id bigint,
     consented_at timestamp,
     consent_client_ip varchar(100)
 );
