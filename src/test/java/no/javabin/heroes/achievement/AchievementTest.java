@@ -1,6 +1,5 @@
 package no.javabin.heroes.achievement;
 
-import no.javabin.heroes.DataServlet;
 import no.javabin.heroes.InMemoryDbTest;
 import no.javabin.heroes.ServiceLocator;
 import org.jsonbuddy.JsonArray;

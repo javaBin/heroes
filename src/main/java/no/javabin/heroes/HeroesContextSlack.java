@@ -1,15 +1,23 @@
 package no.javabin.heroes;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
+import javax.sql.DataSource;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
 import no.javabin.infrastructure.http.HttpUrl;
+import org.flywaydb.core.Flyway;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HeroesContextSlack implements ProfileContext {
+public class HeroesContextSlack implements HeroesContext {
 
     private static final Logger logger = LoggerFactory.getLogger(HeroesContextSlack.class);
 
@@ -62,5 +70,42 @@ public class HeroesContextSlack implements ProfileContext {
 
 
         return new SlackProfile(tokenResponse);
+    }
+
+    public int getHttpPort() {
+        return Optional.ofNullable(System.getenv("HTTP_PLATFORM_PORT"))
+                .map(Integer::parseInt)
+                .orElse(9093);
+    }
+
+    private Map<String, DataSource> dataSourceCache = new HashMap<>();
+
+    @Override
+    public DataSource getDataSource() {
+        String prefix = "heroes";
+        String url = property.required(prefix + ".datasource.url");
+        String username = property.property(prefix + ".datasource.username").orElse(prefix);
+        String password = property.property(prefix + ".datasource.password").orElse(prefix);
+
+        String cacheKey = url + "|" + username + "|" + password;
+
+        return dataSourceCache.computeIfAbsent(cacheKey, key -> {
+            HikariConfig config = new HikariConfig();
+
+            property.property(prefix + ".datasource.driverClassName")
+                .ifPresent(driverClassName -> config.setDriverClassName(driverClassName));
+
+            config.setJdbcUrl(url);
+            config.setUsername(username);
+            config.setPassword(password);
+
+            HikariDataSource dataSource = new HikariDataSource(config);
+
+            Flyway flyway = Flyway.configure().dataSource(dataSource).load();
+            flyway.clean();
+            flyway.migrate();
+
+            return dataSource;
+        });
     }
 }

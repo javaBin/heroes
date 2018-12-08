@@ -1,9 +1,9 @@
 create table HEROES (
-    id uuid primary key,
+    id uniqueidentifier primary key,
     email varchar(100),
     achievement varchar(100),
     consent_id bigint,
-    consented_at timestamp,
+    consented_at datetime,
     consent_client_ip varchar(100)
 );
 

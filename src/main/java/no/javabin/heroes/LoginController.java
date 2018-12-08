@@ -9,8 +9,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
-
 import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.RequestParam;
@@ -23,9 +21,9 @@ public class LoginController {
     private final ProfileContext profileContext;
     private final HeroesRepository repository;
 
-    public LoginController(ProfileContext oauth2Configuration, DataSource dataSource) {
-        this.profileContext = oauth2Configuration;
-        this.repository = new HeroesRepository(dataSource);
+    public LoginController(HeroesContext heroesContext) {
+        this.profileContext = heroesContext;
+        this.repository = new HeroesRepository(heroesContext);
     }
 
     @Get("/userinfo")

@@ -25,7 +25,7 @@ public class HeroesRepositoryTest {
         dataSource = jdbcDataSource;
         Flyway.configure().dataSource(dataSource).load().migrate();
 
-        heroesRepository = new HeroesRepository(dataSource);
+        heroesRepository = new HeroesRepository(() -> dataSource);
     }
 
     @Test

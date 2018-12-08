@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-import javax.sql.DataSource;
-
 import no.javabin.infrastructure.ExceptionUtil;
 import org.fluentjdbc.DatabaseRow;
 import org.fluentjdbc.DatabaseTable;
@@ -14,15 +12,15 @@ import org.fluentjdbc.DatabaseTableImpl;
 
 public class HeroesRepository {
 
-    private final DataSource dataSource;
     private final DatabaseTable table = new DatabaseTableImpl("heroes");
+    private DataSourceContext dataSourceContext;
 
-    public HeroesRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public HeroesRepository(DataSourceContext dataSourceContext) {
+        this.dataSourceContext = dataSourceContext;
     }
 
     public void save(Hero hero) {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = getConnection()) {
             table.insert()
                 .setPrimaryKey("id", UUID.randomUUID())
                 .setField("email", hero.getEmail())
@@ -37,7 +35,7 @@ public class HeroesRepository {
     }
 
     public void update(Hero hero) {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = getConnection()) {
             table
                 .where("email", hero.getEmail())
                 .update()
@@ -53,7 +51,7 @@ public class HeroesRepository {
 
 
     public List<Hero> list(boolean includeUnpublished) {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = getConnection()) {
             if (includeUnpublished) {
                 return table.listObjects(conn, this::mapRow);
             }
@@ -67,7 +65,7 @@ public class HeroesRepository {
     }
 
     public Hero retrieveByEmail(String email) {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = getConnection()) {
             return table.where("email", email).singleObject(conn, this::mapRow);
         } catch (SQLException e) {
             throw ExceptionUtil.softenException(e);
@@ -84,4 +82,7 @@ public class HeroesRepository {
         return hero;
     }
 
+    private Connection getConnection() throws SQLException {
+        return dataSourceContext.getDataSource().getConnection();
+    }
 }

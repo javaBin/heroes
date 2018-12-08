@@ -2,8 +2,6 @@ package no.javabin.heroes;
 
 import java.time.Instant;
 
-import javax.sql.DataSource;
-
 import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.Post;
@@ -14,8 +12,8 @@ import org.jsonbuddy.JsonObject;
 public class ProfileController {
     private HeroesRepository heroesRepository;
 
-    public ProfileController(DataSource dataSource) {
-        heroesRepository = new HeroesRepository(dataSource);
+    public ProfileController(DataSourceContext dataSourceContext) {
+        heroesRepository = new HeroesRepository(dataSourceContext);
     }
 
     @Get("/profiles/mine")

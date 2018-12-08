@@ -2,8 +2,6 @@ package no.javabin.heroes;
 
 import java.io.IOException;
 
-import javax.sql.DataSource;
-
 import no.javabin.infrastructure.http.server.Body;
 import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.Post;
@@ -15,8 +13,8 @@ public class AdminController {
 
     private final HeroesRepository repository;
 
-    public AdminController(DataSource dataSource) {
-        repository = new HeroesRepository(dataSource);
+    public AdminController(DataSourceContext dataSourceContext) {
+        repository = new HeroesRepository(dataSourceContext);
     }
 
     @Get("/admin/heroes/create")
