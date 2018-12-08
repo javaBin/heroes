@@ -26,7 +26,7 @@
         <dependency>
             <groupId>io.github.jhannes</groupId>
             <artifactId>fluent-jdbc</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.logevents</groupId>
             <artifactId>logevents</artifactId>
-            <version>0.1.9-SNAPSHOT</version>
+            <version>0.1.8</version>
         </dependency>
 
         <dependency>
@@ -99,6 +99,7 @@
                 <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>webapp/node_modules/**</exclude>
+                    <exclude>webapp/.cache/**</exclude>
                 </excludes>
             </resource>
         </resources>
