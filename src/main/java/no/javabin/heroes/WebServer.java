@@ -4,6 +4,7 @@ import java.io.File;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.component.AbstractLifeCycle;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ public class WebServer {
 
     private static final Logger logger = LoggerFactory.getLogger(WebServer.class);
 
-    private static Server server;
+    private Server server;
 
     private HeroesContextSlack context;
 
@@ -22,12 +23,16 @@ public class WebServer {
     }
 
     public static void main(String[] argv) throws Exception {
-        new WebServer(new ApplicationProperties(System.getenv("PROFILES"))).start();
+        try {
+            new WebServer(new ApplicationProperties(System.getenv("PROFILES"))).start();
+        } catch (Exception e) {
+            logger.error("Failed to start server", e);
+        }
     }
 
     protected void start() throws Exception {
-        //Locale.setDefault(new Locale(Configuration.getLocale()));
         server = new Server(context.getHttpPort());
+        server.addLifeCycleListener(AbstractLifeCycle.STOP_ON_FAILURE);
         server.setHandler(createWebAppContext());
         server.start();
 
@@ -36,7 +41,7 @@ public class WebServer {
 
     protected WebAppContext createWebAppContext() {
         WebAppContext webAppContext = new WebAppContext();
-        webAppContext.getSessionHandler().getSessionManager().setMaxInactiveInterval(30);
+        webAppContext.getSessionHandler().setMaxInactiveInterval(30);
         webAppContext.setContextPath("/");
 
         if (isDevEnviroment()) {

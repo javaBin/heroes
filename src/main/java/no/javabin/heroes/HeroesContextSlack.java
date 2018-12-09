@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.sql.DataSource;
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
@@ -82,17 +82,47 @@ public class HeroesContextSlack implements HeroesContext {
 
     @Override
     public DataSource getDataSource() {
-        String prefix = "heroes";
-        String url = property.required(prefix + ".datasource.url");
-        String username = property.property(prefix + ".datasource.username").orElse(prefix);
-        String password = property.property(prefix + ".datasource.password").orElse(prefix);
+        if (System.getenv("SQLAZURECONNSTR_HEROES_DB_CONNECTION") != null) {
+            // Data Source=tcp:jhannes-db.database.windows.net,1433;Initial Catalog=jhannes-db;User ID=jhannes-db;Password=9eyC3tElQ1
 
+            Map<String, String> connectionProperties = new HashMap<>();
+            for (String property : System.getenv("SQLAZURECONNSTR_HEROES_DB_CONNECTION").split(";")) {
+                int equalsPos = property.indexOf("=");
+                connectionProperties.put(property.substring(0, equalsPos), property.substring(equalsPos+1));
+            }
+
+            Matcher dataSourceMatch = Pattern.compile("tcp:([^,]*),(\\d+)").matcher(connectionProperties.get("Data Source"));
+            if (!dataSourceMatch.matches()) {
+                throw new IllegalArgumentException("Can't parse " + connectionProperties.get("Data Source"));
+            }
+            String host = dataSourceMatch.group(1);
+            String port = dataSourceMatch.group(2);
+            String database = connectionProperties.get("Initial Catalog");
+            String username = connectionProperties.get("User ID");
+            String password = connectionProperties.get("Password");
+
+            String url = "jdbc:sqlserver://" + host + ":" + port + ";databaseName=" + database;
+
+
+            return getConnection(url, username, password, Optional.of("com.microsoft.sqlserver.jdbc.SQLServerDriver"));
+        } else {
+            String prefix = "heroes";
+            String url = property.required(prefix + ".datasource.url");
+            String username = property.property(prefix + ".datasource.username").orElse(prefix);
+            String password = property.property(prefix + ".datasource.password").orElse(prefix);
+            Optional<String> optDriverClassName = property.property(prefix + ".datasource.driverClassName");
+
+            return getConnection(url, username, password, optDriverClassName);
+        }
+    }
+
+    public DataSource getConnection(String url, String username, String password, Optional<String> optDriverClassName) {
         String cacheKey = url + "|" + username + "|" + password;
 
         return dataSourceCache.computeIfAbsent(cacheKey, key -> {
             HikariConfig config = new HikariConfig();
 
-            property.property(prefix + ".datasource.driverClassName")
+            optDriverClassName
                 .ifPresent(driverClassName -> config.setDriverClassName(driverClassName));
 
             config.setJdbcUrl(url);
