@@ -1,16 +1,22 @@
 package no.javabin.heroes;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.sql.DataSource;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
 import no.javabin.infrastructure.http.HttpUrl;
+import no.javabin.infrastructure.http.server.HttpRequestException;
 import org.flywaydb.core.Flyway;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
@@ -28,24 +34,33 @@ public class HeroesContextSlack implements HeroesContext {
     }
 
     @Override
-    public HttpUrl createAuthorizationUrl(String state) {
-        return new HttpUrl("https://slack.com/oauth/authorize")
+    public HttpUrl createAuthorizationUrl(String state, boolean admin) {
+        List<String> scopes = new ArrayList<>(Arrays.asList("groups:read", "channels:read", "users.profile:read"));
+        if (admin) {
+            scopes.add("users:read");
+            scopes.add("users:read.email");
+        }
+        return new HttpUrl(String.format("https://%s.slack.com/oauth", getSlackTeam()))
                 .addParameter("client_id", getClientId())
                 .addParameter("redirect_uri", getRedirectUri())
-                .addParameter("team", "TEM1Z3KKN")
                 .addParameter("state", state)
-                .addParameter("scope", "groups:read,channels:read,users.profile:read,users:read,users:read.email");
-        // users:read and users:read.email required only for admins
+                .addParameter("scope", String.join(",", scopes));
     }
+
 
     private JsonObject exchangeCodeForToken(String code) throws IOException {
         String tokenEndpoint = "https://slack.com/api/oauth.access";
         HttpUrl tokenRequest = new HttpUrl(tokenEndpoint)
                 .addParameter("client_id", getClientId())
+                .addParameter("redirect_uri", getRedirectUri())
                 .addParameter("client_secret", getClientSecret())
                 .addParameter("code", code);
         logger.debug("Fetching profile from {}", tokenEndpoint);
         return JsonParser.parseToObject(tokenRequest.toURL());
+    }
+
+    private String getSlackTeam() {
+        return property.required("oauth2.slack_team");
     }
 
     public String getRedirectUri() {
@@ -83,8 +98,6 @@ public class HeroesContextSlack implements HeroesContext {
     @Override
     public DataSource getDataSource() {
         if (System.getenv("SQLAZURECONNSTR_HEROES_DB_CONNECTION") != null) {
-            // Data Source=tcp:jhannes-db.database.windows.net,1433;Initial Catalog=jhannes-db;User ID=jhannes-db;Password=9eyC3tElQ1
-
             Map<String, String> connectionProperties = new HashMap<>();
             for (String property : System.getenv("SQLAZURECONNSTR_HEROES_DB_CONNECTION").split(";")) {
                 int equalsPos = property.indexOf("=");
@@ -107,7 +120,7 @@ public class HeroesContextSlack implements HeroesContext {
             return getConnection(url, username, password, Optional.of("com.microsoft.sqlserver.jdbc.SQLServerDriver"));
         } else {
             String prefix = "heroes";
-            String url = property.required(prefix + ".datasource.url");
+            String url = property.property(prefix + ".datasource.url").orElse("jdbc:h2:mem:" + prefix);
             String username = property.property(prefix + ".datasource.username").orElse(prefix);
             String password = property.property(prefix + ".datasource.password").orElse(prefix);
             Optional<String> optDriverClassName = property.property(prefix + ".datasource.driverClassName");

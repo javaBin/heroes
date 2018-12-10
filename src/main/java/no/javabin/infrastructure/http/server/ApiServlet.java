@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import no.javabin.heroes.HttpRequestException;
 import org.jsonbuddy.JsonNode;
 import org.jsonbuddy.parse.JsonParser;
 import org.slf4j.Logger;
@@ -105,6 +106,10 @@ public class ApiServlet extends HttpServlet {
             resp.sendRedirect(result.toString());
             return;
         }
+        if (result instanceof CharSequence) { // And annotation @SendRedirect
+            resp.sendRedirect(result.toString());
+            return;
+        }
 
         if (result instanceof JsonNode) {
             resp.setContentType("application/json");
@@ -187,7 +192,23 @@ public class ApiServlet extends HttpServlet {
                 Object value = req.getSession().getAttribute(sessionParam.value());
                 return parameter.getType() == Optional.class ? Optional.ofNullable(value) : value;
             } else if ((reqParam = parameter.getAnnotation(RequestParam.class)) != null) {
-                return req.getParameter(reqParam.value());
+                String value = req.getParameter(reqParam.value());
+                boolean optional = parameter.getType() == Optional.class;
+                if (optional) {
+                    Type parameterizedType = parameter.getParameterizedType();
+                    Type actualArgument = ((ParameterizedType)parameterizedType).getActualTypeArguments()[0];
+                    if (actualArgument == String.class) {
+                        return Optional.ofNullable(value);
+                    } else if (actualArgument == Boolean.class) {
+                        return Optional.ofNullable(value).map(Boolean::parseBoolean);
+                    } else {
+                        throw new HttpRequestException(500, "Unhandled parameter type " + actualArgument);
+                    }
+                } else if (value != null) {
+                    return value;
+                } else {
+                    throw new HttpRequestException(400, "Missing required parameter " + reqParam.value());
+                }
             } else if ((body = parameter.getAnnotation(Body.class)) != null) {
                 // TODO: This isn't very nice if the content-type isn't application/json
                 // TODO: This isn't very nice if parameter.getType() == JsonArray.class

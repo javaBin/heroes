@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import no.javabin.infrastructure.http.server.Get;
+import no.javabin.infrastructure.http.server.HttpRequestException;
 import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
@@ -49,19 +50,25 @@ public class LoginController {
     }
 
     @Get("/login")
-    public URL login(HttpSession session) throws MalformedURLException {
+    public URL login(
+            @RequestParam("admin") Optional<Boolean> admin,
+            HttpSession session // TODO: @Session("loginState") Consumer<String> setLoginState
+    ) throws MalformedURLException {
+        boolean needsAdmin = admin.orElse(false);
         String state = UUID.randomUUID().toString();
         session.setAttribute("loginState", state);
-        return profileContext.createAuthorizationUrl(state).toURL();
+        return profileContext.createAuthorizationUrl(state, needsAdmin).toURL();
     }
 
 
     @Get("/oauth2callback/:provider")
-    public URL oauth2Callback(
+    //@SendRedirect
+    public String oauth2Callback(
             @PathParam("provider") String provider,
             @RequestParam("code") String code,
             @RequestParam("state") String state,
             @SessionParameter("loginState") String loginState,
+            //@SessionParameter("profile", invalidate = true) Consumer<Profile> setSessionProfile,
             HttpServletRequest request
     ) throws IOException {
         if (!state.equals(loginState)) {
@@ -74,7 +81,7 @@ public class LoginController {
         request.getSession().invalidate();
         request.getSession(true).setAttribute("profile", profile);
 
-        return new URL("http://localhost:9093/");
+        return "/";
     }
 
 

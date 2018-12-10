@@ -1,6 +1,7 @@
 package no.javabin.heroes;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,8 @@ import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
 
 public class SlackProfile implements Profile {
+
+    private boolean hasAdminScope;
 
     @Override
     public String getUsername() {
@@ -26,8 +29,14 @@ public class SlackProfile implements Profile {
     }
 
     @Override
+    public boolean hasAdminScope() {
+        return hasAdminScope;
+    }
+
+    @Override
     public List<JsonObject> listUsers() throws IOException {
-        return slackJsonGet(accessToken, "users.list")
+        JsonObject userList = slackJsonGet(accessToken, "users.list");
+        return userList
                 .requiredArray("members")
                 .objectStream()
                 .filter(o -> !o.booleanValue("is_bot").orElse(false))
@@ -51,14 +60,20 @@ public class SlackProfile implements Profile {
     public SlackProfile(JsonObject tokenResponse) throws IOException {
         this.accessToken = tokenResponse.requiredString("access_token");
 
+        List<String> scopes = Arrays.asList(tokenResponse.requiredString("scope").split(","));
+        this.hasAdminScope = scopes.contains("users:read.email");
+
         JsonObject userProfile = slackJsonGet(accessToken, "users.profile.get");
         this.username = userProfile.requiredObject("profile").requiredString("real_name");
         this.email = userProfile.requiredObject("profile").requiredString("email");
 
         JsonObject conversations = slackJsonGet(accessToken, "conversations.list");
-        List<String> channelNames = conversations.requiredArray("channels")
-            .objects(o -> o.requiredString("name"));
-        admin = channelNames.contains("admin");
+        // id: CEN9Z1E23
+        admin = conversations.requiredArray("channels")
+                .objectStream()
+                .filter(channel -> channel.requiredBoolean("is_member"))
+                .map(channel -> channel.requiredString("name"))
+                .anyMatch(s -> s.equals("admin"));
     }
 
     public JsonObject slackJsonGet() throws IOException {

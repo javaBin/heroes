@@ -37,6 +37,9 @@ export interface HeroService {
 export class HeroServiceHttp implements HeroService {
     async fetchCreateHeroData(): Promise<CreateHeroData> {
         const response = await fetch("/api/admin/heroes/create");
+        if (response.status === 403) {
+            window.location.href = "/api/login?admin=true";
+        }
         return await response.json();
     }
     async fetchUserinfo(): Promise<Userinfo> {

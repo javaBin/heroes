@@ -1,9 +1,9 @@
 package no.javabin.heroes;
 
 import java.io.IOException;
-
 import no.javabin.infrastructure.http.server.Body;
 import no.javabin.infrastructure.http.server.Get;
+import no.javabin.infrastructure.http.server.HttpRequestException;
 import no.javabin.infrastructure.http.server.Post;
 import no.javabin.infrastructure.http.server.SessionParameter;
 import org.jsonbuddy.JsonArray;
@@ -19,6 +19,10 @@ public class AdminController {
 
     @Get("/admin/heroes/create")
     public JsonObject getCreateData(@SessionParameter("profile") Profile profile) throws IOException {
+        if (profile == null || !profile.hasAdminScope()) {
+            throw new HttpRequestException(403, "Admin login required");
+        }
+
         JsonArray achievementTypes = new JsonArray()
                 .add(new JsonObject().put("value", "styremedlem").put("label", "Styremedlem"))
                 .add(new JsonObject().put("value", "foredragsholder-jz").put("label", "Foredragsholder på JavaZone"))

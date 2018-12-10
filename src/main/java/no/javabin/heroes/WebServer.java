@@ -1,6 +1,8 @@
 package no.javabin.heroes;
 
 import java.io.File;
+import java.util.Optional;
+
 import no.javabin.infrastructure.configuration.ApplicationProperties;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -36,7 +38,7 @@ public class WebServer {
         server.setHandler(createWebAppContext());
         server.start();
 
-        logger.warn("Started on {}", server.getURI());
+        logger.warn("Started on {}", Optional.ofNullable(System.getenv("WEBSITE_HOSTNAME")).orElseGet(() -> server.getURI().toString()));
     }
 
     protected WebAppContext createWebAppContext() {

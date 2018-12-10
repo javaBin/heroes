@@ -18,6 +18,7 @@ target
 .classpath
 .project
 .settings/
+logs
 
 settings.xml
 

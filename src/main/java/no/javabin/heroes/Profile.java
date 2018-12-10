@@ -15,4 +15,6 @@ public interface Profile {
 
     String getEmail();
 
+    boolean hasAdminScope();
+
 }

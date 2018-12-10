@@ -18,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import no.javabin.heroes.HttpRequestException;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
 import org.junit.After;
