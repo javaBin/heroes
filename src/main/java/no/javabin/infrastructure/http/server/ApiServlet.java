@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import javax.servlet.ServletException;
@@ -60,9 +61,9 @@ public class ApiServlet extends HttpServlet {
                 method -> Optional.ofNullable(method.getAnnotation(Get.class)).map(Get::value));
 
         if (route != null) {
-            Object[] arguments = createArguments(route.getAction(), req, pathParameters);
             Object result;
             try {
+                Object[] arguments = createArguments(route.getAction(), req, pathParameters);
                 result = invoke(route.getController(), route.getAction(), arguments);
             } catch (HttpRequestException e) {
                 resp.sendError(e.getStatusCode(), e.getMessage());
@@ -87,9 +88,9 @@ public class ApiServlet extends HttpServlet {
             return;
         }
 
-        Object[] arguments = createArguments(route.getAction(), req, pathParameters);
         Object result;
         try {
+            Object[] arguments = createArguments(route.getAction(), req, pathParameters);
             result = invoke(route.getController(), route.getAction(), arguments);
         } catch (HttpRequestException e) {
             resp.sendError(e.getStatusCode(), e.getMessage());
@@ -184,36 +185,55 @@ public class ApiServlet extends HttpServlet {
             PathParam pathParam;
             RequestParam reqParam;
             SessionParameter sessionParam;
-            RequestParam.ClientIp clientIp;
-            Body body;
             if ((pathParam = parameter.getAnnotation(PathParam.class)) != null) {
                 return pathParameters.get(pathParam.value());
             } else if ((sessionParam = parameter.getAnnotation(SessionParameter.class)) != null) {
+                if (parameter.getType() == Consumer.class) {
+                    return new Consumer<Object>() {
+                        @Override
+                        public void accept(Object o) {
+                            if (sessionParam.invalidate()) {
+                                req.getSession().invalidate();
+                            }
+                            req.getSession(true).setAttribute(sessionParam.value(), o);
+                        }
+                    };
+                }
+
                 Object value = req.getSession().getAttribute(sessionParam.value());
-                return parameter.getType() == Optional.class ? Optional.ofNullable(value) : value;
-            } else if ((reqParam = parameter.getAnnotation(RequestParam.class)) != null) {
-                String value = req.getParameter(reqParam.value());
-                boolean optional = parameter.getType() == Optional.class;
-                if (optional) {
-                    Type parameterizedType = parameter.getParameterizedType();
-                    Type actualArgument = ((ParameterizedType)parameterizedType).getActualTypeArguments()[0];
-                    if (actualArgument == String.class) {
-                        return Optional.ofNullable(value);
-                    } else if (actualArgument == Boolean.class) {
-                        return Optional.ofNullable(value).map(Boolean::parseBoolean);
-                    } else {
-                        throw new HttpRequestException(500, "Unhandled parameter type " + actualArgument);
-                    }
+                if (parameter.getType() == Optional.class) {
+                    return Optional.ofNullable(value);
                 } else if (value != null) {
                     return value;
                 } else {
-                    throw new HttpRequestException(400, "Missing required parameter " + reqParam.value());
+                    throw new HttpRequestException(500, "Missing required session parameter " + sessionParam.value());
                 }
-            } else if ((body = parameter.getAnnotation(Body.class)) != null) {
+            } else if ((reqParam = parameter.getAnnotation(RequestParam.class)) != null) {
+                String value = req.getParameter(reqParam.value());
+                boolean optional = parameter.getType() == Optional.class;
+
+                if (value == null) {
+                    if (!optional) {
+                        throw new HttpRequestException(400, "Missing required parameter " + reqParam.value());
+                    }
+                    return Optional.empty();
+                }
+
+                Type parameterType;
+                if (optional) {
+                    Type parameterizedType = parameter.getParameterizedType();
+                    parameterType = ((ParameterizedType)parameterizedType).getActualTypeArguments()[0];
+                } else {
+                    parameterType = parameter.getType();
+                }
+
+                Object parameterValue = convertParameterType(value, parameterType);
+                return optional ? Optional.of(parameterValue) : parameterValue;
+            } else if (parameter.getAnnotation(Body.class) != null) {
                 // TODO: This isn't very nice if the content-type isn't application/json
                 // TODO: This isn't very nice if parameter.getType() == JsonArray.class
                 return JsonParser.parseToObject(req.getReader());
-            } else if ((clientIp = parameter.getAnnotation(RequestParam.ClientIp.class)) != null) {
+            } else if (parameter.getAnnotation(RequestParam.ClientIp.class) != null) {
                 // TODO: Skip proxies
                 return req.getRemoteAddr();
             } else {
@@ -221,6 +241,23 @@ public class ApiServlet extends HttpServlet {
                         + method.getDeclaringClass().getSimpleName() + "#" + method.getName()
                         + " parameter " + i + ": of type " + parameter.getType().getSimpleName() + " " + Arrays.asList(parameter.getAnnotations()));
             }
+        }
+    }
+
+    public Object convertParameterType(String value, Type parameterType) {
+        if (parameterType == String.class) {
+            return value;
+        } else if (parameterType == Boolean.class) {
+            return Boolean.parseBoolean(value);
+        } else if (parameterType == Integer.class || parameterType == Integer.TYPE) {
+            try {
+                return Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                throw new HttpRequestException(400,
+                        String.format("Invalid parameter amount '%s' is not an %s", value, parameterType));
+            }
+        } else {
+            throw new HttpRequestException(500, "Unhandled parameter type " + parameterType);
         }
     }
 

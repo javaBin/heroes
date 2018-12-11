@@ -11,4 +11,6 @@ public @interface SessionParameter {
 
     String value();
 
+    boolean invalidate() default false;
+
 }

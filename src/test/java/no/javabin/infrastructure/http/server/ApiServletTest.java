@@ -12,11 +12,14 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
@@ -32,14 +35,16 @@ public class ApiServletTest {
     private HttpServletResponse responseMock = Mockito.mock(HttpServletResponse.class);
     private StringWriter responseBody = new StringWriter();
     public JsonObject postedBody;
+    public Optional<Boolean> admin;
+    public int amount;
 
     private class ExampleController {
 
         @Get("/one")
         public JsonObject one(
-                @RequestParam("name") String name
+                @RequestParam("name") Optional<String> name
         ) {
-            return new JsonObject().put("name", name);
+            return new JsonObject().put("name", name.orElse("Anonymous"));
         }
 
         @Get("/error")
@@ -59,6 +64,21 @@ public class ApiServletTest {
         @Post("/postMethod")
         public void postAction(@Body JsonObject o) {
             postedBody = o;
+        }
+
+        @Get("/hello")
+        public void methodWithOptionalBoolean(@RequestParam("admin") Optional<Boolean> adminParam) {
+            admin = adminParam;
+        }
+
+        @Get("/goodbye")
+        public void methodWithRequiredInt(@RequestParam("amount") int amountParam) {
+            amount = amountParam;
+        }
+
+        @Post("/setLoggedInUser")
+        public void sessionUpdater(@SessionParameter("username") Consumer<String> usernameSetter) {
+            usernameSetter.accept("Alice Bobson");
         }
     }
 
@@ -110,6 +130,58 @@ public class ApiServletTest {
         servlet.doPost(requestMock, responseMock);
 
         assertThat(postedBody).isEqualTo(requestObject);
+    }
+
+    @Test
+    public void shouldCallWithOptionalParameter() throws ServletException, IOException {
+        when(requestMock.getPathInfo()).thenReturn("/hello");
+
+        assertThat(admin).isNull();
+        servlet.doGet(requestMock, responseMock);
+        assertThat(admin).isEmpty();
+
+        when(requestMock.getParameter("admin")).thenReturn("true");
+        servlet.doGet(requestMock, responseMock);
+        assertThat(admin).hasValue(true);
+    }
+
+
+    @Test
+    public void shouldCallWithRequiredInt() throws ServletException, IOException {
+        when(requestMock.getPathInfo()).thenReturn("/goodbye");
+
+        when(requestMock.getParameter("amount")).thenReturn("123");
+        servlet.doGet(requestMock, responseMock);
+        assertThat(amount).isEqualTo(123);
+    }
+
+    @Test
+    public void shouldRequireNonOptionalParameter() throws ServletException, IOException {
+        when(requestMock.getPathInfo()).thenReturn("/goodbye");
+
+        servlet.doGet(requestMock, responseMock);
+        verify(responseMock).sendError(400, "Missing required parameter amount");
+    }
+
+    @Test
+    public void shouldReportParameterConversionFailure() throws ServletException, IOException {
+        when(requestMock.getPathInfo()).thenReturn("/goodbye");
+
+        when(requestMock.getParameter("amount")).thenReturn("one");
+        servlet.doGet(requestMock, responseMock);
+        verify(responseMock).sendError(400, "Invalid parameter amount 'one' is not an int");
+    }
+
+    @Test
+    public void shouldSetSessionParameters() throws ServletException, IOException {
+        when(requestMock.getPathInfo()).thenReturn("/setLoggedInUser");
+
+        HttpSession mockSession = Mockito.mock(HttpSession.class);
+        when(requestMock.getSession(Mockito.anyBoolean())).thenReturn(mockSession);
+
+        servlet.doPost(requestMock, responseMock);
+        verify(mockSession).setAttribute("username", "Alice Bobson");
+
     }
 
     @Before
