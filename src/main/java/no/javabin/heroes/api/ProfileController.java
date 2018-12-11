@@ -1,7 +1,11 @@
-package no.javabin.heroes;
+package no.javabin.heroes.api;
 
 import java.time.Instant;
 
+import no.javabin.heroes.DataSourceContext;
+import no.javabin.heroes.Profile;
+import no.javabin.heroes.hero.Hero;
+import no.javabin.heroes.hero.HeroesRepository;
 import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.Post;

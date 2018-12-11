@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.heroes.api;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -6,12 +6,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import no.javabin.heroes.Profile;
+import no.javabin.heroes.ProfileContext;
+import no.javabin.heroes.hero.Hero;
+import no.javabin.heroes.hero.HeroesContext;
+import no.javabin.heroes.hero.HeroesRepository;
 import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.HttpRequestException;
-import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
 import org.jsonbuddy.JsonArray;
@@ -52,11 +55,11 @@ public class LoginController {
     @Get("/login")
     public URL login(
             @RequestParam("admin") Optional<Boolean> admin,
-            HttpSession session // TODO: @Session("loginState") Consumer<String> setLoginState
+            @SessionParameter("loginState") Consumer<String> setLoginState
     ) throws MalformedURLException {
         boolean needsAdmin = admin.orElse(false);
         String state = UUID.randomUUID().toString();
-        session.setAttribute("loginState", state);
+        setLoginState.accept(state);
         return profileContext.createAuthorizationUrl(state, needsAdmin).toURL();
     }
 
@@ -64,23 +67,17 @@ public class LoginController {
     @Get("/oauth2callback/:provider")
     //@SendRedirect
     public String oauth2Callback(
-            @PathParam("provider") String provider,
             @RequestParam("code") String code,
             @RequestParam("state") String state,
             @SessionParameter("loginState") String loginState,
-            //@SessionParameter("profile", invalidate = true) Consumer<Profile> setSessionProfile,
-            HttpServletRequest request
+            @SessionParameter(value = "profile", invalidate = true) Consumer<Profile> setSessionProfile
     ) throws IOException {
         if (!state.equals(loginState)) {
-            request.getSession().invalidate();
             throw new HttpRequestException(400, "Invalidate state");
         }
 
         Profile profile = profileContext.exchangeCodeForProfile(code);
-
-        request.getSession().invalidate();
-        request.getSession(true).setAttribute("profile", profile);
-
+        setSessionProfile.accept(profile);
         return "/";
     }
 

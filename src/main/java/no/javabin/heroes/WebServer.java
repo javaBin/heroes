@@ -3,6 +3,8 @@ package no.javabin.heroes;
 import java.io.File;
 import java.util.Optional;
 
+import no.javabin.heroes.api.HeroesApiServlet;
+import no.javabin.heroes.slack.HeroesContextSlack;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -58,13 +60,6 @@ public class WebServer {
 
         webAppContext.addServlet(new ServletHolder(new HeroesApiServlet(this.context)), "/api/*");
         return webAppContext;
-    }
-
-
-
-    @SuppressWarnings("UnusedDeclaration")
-    protected void stop() throws Exception {
-        server.stop();
     }
 
     static boolean isDevEnviroment() {

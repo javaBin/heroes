@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.heroes.hero;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
+import no.javabin.heroes.hero.Hero;
+import no.javabin.heroes.hero.HeroesRepository;
 import org.flywaydb.core.Flyway;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;

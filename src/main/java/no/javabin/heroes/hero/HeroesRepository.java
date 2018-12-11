@@ -1,10 +1,11 @@
-package no.javabin.heroes;
+package no.javabin.heroes.hero;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+import no.javabin.heroes.DataSourceContext;
 import no.javabin.infrastructure.ExceptionUtil;
 import org.fluentjdbc.DatabaseRow;
 import org.fluentjdbc.DatabaseTable;

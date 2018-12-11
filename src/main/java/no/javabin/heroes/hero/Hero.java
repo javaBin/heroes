@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.heroes.hero;
 
 import java.time.Instant;
 import java.util.Objects;

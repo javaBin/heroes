@@ -1,4 +1,4 @@
-package no.javabin.heroes;
+package no.javabin.heroes.slack;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +14,8 @@ import javax.sql.DataSource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import no.javabin.heroes.Profile;
+import no.javabin.heroes.hero.HeroesContext;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
 import no.javabin.infrastructure.http.HttpUrl;
 import no.javabin.infrastructure.http.server.HttpRequestException;

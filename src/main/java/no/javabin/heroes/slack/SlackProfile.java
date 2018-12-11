@@ -1,10 +1,11 @@
-package no.javabin.heroes;
+package no.javabin.heroes.slack;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import no.javabin.heroes.Profile;
 import no.javabin.infrastructure.http.HttpUrl;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
