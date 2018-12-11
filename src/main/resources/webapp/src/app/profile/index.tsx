@@ -1,17 +1,19 @@
 import React from "react";
-import { HeroService } from "../../services";
+import { HeroProfile, HeroService } from "../../services";
 import { Hero } from "../../services/heroService";
 
 interface ProfileState {
     loaded: boolean;
-    profile: Hero;
+    profile: HeroProfile;
 }
 
 export class ProfileScreen extends React.Component<{heroService: HeroService}, ProfileState> {
     state = {
         loaded: false,
         profile: {
-            email: "", name: "", published: false,
+            consent: { id: 0, text: "" },
+            heroism: { achievement: "" },
+            profile: { name: "", email: "" },
         },
     };
 
@@ -21,7 +23,7 @@ export class ProfileScreen extends React.Component<{heroService: HeroService}, P
     }
 
     handlePublishSubmit = async () => {
-        await this.props.heroService.consentToPublish();
+        await this.props.heroService.consentToPublish(this.state.profile.consent.id);
         const profile = await this.props.heroService.fetchMe();
         this.setState({profile, loaded: true});
     }
@@ -30,14 +32,18 @@ export class ProfileScreen extends React.Component<{heroService: HeroService}, P
         if (!this.state.loaded) {
             return <div>Loading...</div>;
         }
-        const profile = this.state.profile;
-        if (!profile) {
-            return <div>You are not a hero</div>;
+        const {profile} = this.state;
+        if (!profile.heroism) {
+            return <div>You are not a hero, {profile.profile.name}</div>;
         }
         return <>
-            <h1>{profile!.name}</h1>
-
-            {profile.published || <button onClick={this.handlePublishSubmit}>I agree to be published</button>}
+            <h1>{profile.profile.name}</h1>
+            <div>{profile.heroism.achievement}</div>
+            {profile.consent && <>
+                <h2>We need your consent to publish the information about you</h2>
+                {profile.consent.text}
+                <button onClick={this.handlePublishSubmit}>I agree to be published</button>
+            </>}
         </>;
     }
 }

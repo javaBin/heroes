@@ -1,4 +1,4 @@
 
-import { HeroService } from "./heroService";
+import { HeroProfile, HeroService } from "./heroService";
 
-export { HeroService };
+export { HeroProfile, HeroService };

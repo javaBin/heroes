@@ -25,13 +25,29 @@ export interface CreateHeroData {
     achievements: Achievement[];
 }
 
+interface Heroism {
+    achievement: string;
+}
+
+interface Consent {
+    id: number;
+    text: string;
+}
+
+export interface HeroProfile {
+    profile: Person;
+    heroism?: Heroism;
+    published?: boolean;
+    consent?: Consent;
+}
+
 export interface HeroService {
     fetchCreateHeroData(): Promise<CreateHeroData>;
     fetchUserinfo(): Promise<Userinfo>;
-    fetchMe(): Promise<Hero>;
+    fetchMe(): Promise<HeroProfile>;
     fetchHeroes(): Promise<Hero[]>;
     addHero(hero: Hero): Promise<void>;
-    consentToPublish(): Promise<void>;
+    consentToPublish(consentId: number): Promise<void>;
 }
 
 export class HeroServiceHttp implements HeroService {
@@ -46,17 +62,20 @@ export class HeroServiceHttp implements HeroService {
         const response = await fetch("/api/userinfo");
         return await response.json();
     }
-    async consentToPublish() {
+    async consentToPublish(consentId: number) {
         await fetch("/api/profiles/mine/consent/1", {
-            body: JSON.stringify({}),
+            body: JSON.stringify({consentId}),
             headers: {
                 "Content-type": "application/json",
             },
             method: "POST",
         });
     }
-    async fetchMe(): Promise<Hero> {
+    async fetchMe(): Promise<HeroProfile> {
         const response = await fetch("/api/profiles/mine");
+        if (response.status === 401) {
+            window.location.href = "/api/login";
+        }
         return await response.json();
     }
     async addHero(hero: Hero) {

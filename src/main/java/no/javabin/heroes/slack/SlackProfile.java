@@ -3,9 +3,11 @@ package no.javabin.heroes.slack;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import no.javabin.heroes.Profile;
+import no.javabin.infrastructure.ExceptionUtil;
 import no.javabin.infrastructure.http.HttpUrl;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
@@ -25,8 +27,24 @@ public class SlackProfile implements Profile {
     }
 
     @Override
+    public String getTwitterHandle() {
+        return this.twitterHandle.orElse(null);
+    }
+
+    @Override
     public boolean isAdmin() {
-        return admin;
+        try {
+            JsonObject conversations = slackJsonGet(accessToken, "conversations.list");
+            // id: CEN9Z1E23
+            admin = conversations.requiredArray("channels")
+                    .objectStream()
+                    .filter(channel -> channel.requiredBoolean("is_member"))
+                    .map(channel -> channel.requiredString("name"))
+                    .anyMatch(s -> s.equals("admin"));
+            return admin;
+        } catch (IOException e) {
+            throw ExceptionUtil.softenException(e);
+        }
     }
 
     @Override
@@ -58,6 +76,8 @@ public class SlackProfile implements Profile {
 
     private String email;
 
+    private Optional<String> twitterHandle;
+
     public SlackProfile(JsonObject tokenResponse) throws IOException {
         this.accessToken = tokenResponse.requiredString("access_token");
 
@@ -67,6 +87,7 @@ public class SlackProfile implements Profile {
         JsonObject userProfile = slackJsonGet(accessToken, "users.profile.get");
         this.username = userProfile.requiredObject("profile").requiredString("real_name");
         this.email = userProfile.requiredObject("profile").requiredString("email");
+        this.twitterHandle = userProfile.requiredObject("profile").stringValue("twitter");
 
         JsonObject conversations = slackJsonGet(accessToken, "conversations.list");
         // id: CEN9Z1E23

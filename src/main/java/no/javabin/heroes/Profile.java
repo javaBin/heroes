@@ -17,4 +17,6 @@ public interface Profile {
 
     boolean hasAdminScope();
 
+    String getTwitterHandle();
+
 }

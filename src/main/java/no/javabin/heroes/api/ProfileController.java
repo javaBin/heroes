@@ -22,12 +22,19 @@ public class ProfileController {
 
     @Get("/profiles/mine")
     public JsonObject getMyProfile(@SessionParameter("profile") Profile profile) {
+        JsonObject jsonProfile = new JsonObject()
+                .put("name", profile.getUsername())
+                .put("twitter", profile.getTwitterHandle())
+                .put("email", profile.getEmail());
         Hero hero = heroesRepository.retrieveByEmail(profile.getEmail());
         if (hero == null) {
-            return null;
+            return new JsonObject()
+                    .put("profile", jsonProfile);
         }
         return new JsonObject()
-                .put("email", hero.getEmail())
+                .put("profile", jsonProfile)
+                .put("heroism", new JsonObject()
+                        .put("achievement", hero.getAchievement()))
                 .put("published", hero.getConsentedAt() != null)
                 .put("consent", new JsonObject()
                         .put("id", 123)

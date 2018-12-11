@@ -66,6 +66,11 @@ public class ApiServlet extends HttpServlet {
                 Object[] arguments = createArguments(route.getAction(), req, pathParameters);
                 result = invoke(route.getController(), route.getAction(), arguments);
             } catch (HttpRequestException e) {
+                if (e.getStatusCode() >= 500) {
+                    logger.error("While serving {}", route, e);
+                } else {
+                    logger.warn("While serving {}", route, e);
+                }
                 resp.sendError(e.getStatusCode(), e.getMessage());
                 return;
             }
@@ -93,6 +98,11 @@ public class ApiServlet extends HttpServlet {
             Object[] arguments = createArguments(route.getAction(), req, pathParameters);
             result = invoke(route.getController(), route.getAction(), arguments);
         } catch (HttpRequestException e) {
+            if (e.getStatusCode() >= 500) {
+                logger.error("While serving {}", route, e);
+            } else {
+                logger.warn("While serving {}", route, e);
+            }
             resp.sendError(e.getStatusCode(), e.getMessage());
             return;
         }
@@ -206,7 +216,7 @@ public class ApiServlet extends HttpServlet {
                 } else if (value != null) {
                     return value;
                 } else {
-                    throw new HttpRequestException(500, "Missing required session parameter " + sessionParam.value());
+                    throw new HttpRequestException(401, "Missing required session parameter " + sessionParam.value());
                 }
             } else if ((reqParam = parameter.getAnnotation(RequestParam.class)) != null) {
                 String value = req.getParameter(reqParam.value());

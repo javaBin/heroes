@@ -38,7 +38,7 @@ describe("hero service with a hero", () => {
     it("lets hero see themselves", async () => {
         heroService.currentUser = normalUser(newHero.email);
         const me = await heroService.fetchMe();
-        expect(me).toBe(newHero);
+        expect(me).toEqual({profile: newHero});
     });
 
     it("doesn't display unpublished heroes", async () => {

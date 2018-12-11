@@ -18,4 +18,9 @@ public class HttpRequestException extends RuntimeException {
         return statusCode;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getName() + ": " + getStatusCode() + " " + getMessage();
+    }
+
 }

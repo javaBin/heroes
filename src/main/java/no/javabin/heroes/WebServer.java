@@ -6,7 +6,10 @@ import java.util.Optional;
 import no.javabin.heroes.api.HeroesApiServlet;
 import no.javabin.heroes.slack.HeroesContextSlack;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.Slf4jRequestLog;
+import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
 import org.eclipse.jetty.util.resource.Resource;
@@ -37,10 +40,17 @@ public class WebServer {
     protected void start() throws Exception {
         server = new Server(context.getHttpPort());
         server.addLifeCycleListener(AbstractLifeCycle.STOP_ON_FAILURE);
-        server.setHandler(createWebAppContext());
+        server.setHandler(withLogging(createWebAppContext()));
         server.start();
 
         logger.warn("Started on {}", Optional.ofNullable(System.getenv("WEBSITE_HOSTNAME")).orElseGet(() -> server.getURI().toString()));
+    }
+
+    private Handler withLogging(WebAppContext webApp) {
+        RequestLogHandler requestLogHandler = new RequestLogHandler();
+        requestLogHandler.setHandler(webApp);
+        requestLogHandler.setRequestLog(new Slf4jRequestLog());
+        return requestLogHandler;
     }
 
     protected WebAppContext createWebAppContext() {
