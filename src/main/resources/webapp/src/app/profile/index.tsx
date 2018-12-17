@@ -1,6 +1,5 @@
 import React from "react";
 import { HeroProfile, HeroService } from "../../services";
-import { Hero } from "../../services/heroService";
 
 interface ProfileState {
     loaded: boolean;

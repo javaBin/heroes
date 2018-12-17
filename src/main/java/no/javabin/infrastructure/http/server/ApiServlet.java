@@ -69,7 +69,7 @@ public class ApiServlet extends HttpServlet {
                 if (e.getStatusCode() >= 500) {
                     logger.error("While serving {}", route, e);
                 } else {
-                    logger.warn("While serving {}", route, e);
+                    logger.info("While serving {}", route, e);
                 }
                 resp.sendError(e.getStatusCode(), e.getMessage());
                 return;
@@ -101,7 +101,7 @@ public class ApiServlet extends HttpServlet {
             if (e.getStatusCode() >= 500) {
                 logger.error("While serving {}", route, e);
             } else {
-                logger.warn("While serving {}", route, e);
+                logger.info("While serving {}", route, e);
             }
             resp.sendError(e.getStatusCode(), e.getMessage());
             return;

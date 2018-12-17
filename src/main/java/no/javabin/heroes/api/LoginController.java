@@ -48,7 +48,9 @@ public class LoginController {
         return JsonArray.map(list,
                 hero -> new JsonObject()
                     .put("name", hero.getEmail())
+                    .put("id", hero.getId().toString())
                     .put("achievement", hero.getAchievement())
+                    .put("achievements", new JsonArray())
                     .put("published", hero.getConsentedAt() != null));
     }
 

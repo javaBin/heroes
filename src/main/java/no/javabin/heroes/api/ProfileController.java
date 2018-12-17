@@ -11,6 +11,7 @@ import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.Post;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
+import org.jsonbuddy.JsonNull;
 import org.jsonbuddy.JsonObject;
 
 public class ProfileController {
@@ -36,9 +37,11 @@ public class ProfileController {
                 .put("heroism", new JsonObject()
                         .put("achievement", hero.getAchievement()))
                 .put("published", hero.getConsentedAt() != null)
-                .put("consent", new JsonObject()
-                        .put("id", 123)
-                        .put("text", "Please consent to our processing of your data"));
+                .put("consent", hero.getConsentedAt() == null
+                        ? new JsonObject()
+                            .put("id", 123)
+                            .put("text", "Please consent to our processing of your data")
+                        : new JsonNull());
     }
 
     @Post("/profiles/mine/consent/:consentId")

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import { HeroService } from "../../services";
-import { CreateHeroData, Hero } from "../../services/heroService";
+import { Achievement, achievementName, allAchievements, CreateHeroData, Hero } from "../../services/heroService";
 
 import heroPng from "../../images/hero.png";
+import { HeroControlPanel } from "./HeroControlPanel";
 
 interface AdminProps {
   heroService: HeroService;
@@ -32,7 +33,6 @@ export class AdminScreen extends React.Component<AdminProps, AdminState> {
     const {heroService} = this.props;
     const [createHeroData, heroes] = [await heroService.fetchCreateHeroData(), await heroService.fetchHeroes()];
     this.setState({ createHeroData, heroes });
-    window.location.hash = "";
   }
 
   render() {
@@ -48,6 +48,10 @@ export class AdminScreen extends React.Component<AdminProps, AdminState> {
         <h2>Current heroes</h2>
         <AdminHeroList heroes={heroes} />
       </div>
+      <fieldset>
+        <h2>UX Proof-of-concept heroes control panel:</h2>
+        <HeroControlPanel heroes={heroes} />
+      </fieldset>
     </>;
 
   }
@@ -56,7 +60,7 @@ export class AdminScreen extends React.Component<AdminProps, AdminState> {
 function AdminHeroList({heroes}: {heroes: Hero[]}) {
   const heroComponents = heroes.map((hero) => {
     return (
-      <tr key={hero.email}>
+      <tr key={hero.id}>
         <td>
           <img height="25" src={heroPng} />
         </td>
@@ -129,13 +133,15 @@ class NewHeroForm extends React.Component<{onNewHero: (h: Hero) => void, createH
       name: "",
     };
 
-    handleSubmit = () => {
+    handleSubmit = async (e: FormEvent) => {
       const {email, name, achievement} = this.state;
       const newHero = {
-        achievement, email, name,
+        achievement, achievements: [], avatar: "", email, name,
         published: false,
       };
-      this.props.onNewHero(newHero);
+      e.preventDefault();
+      await this.props.onNewHero(newHero);
+      this.setState({achievement: "", email: "", name: ""});
     }
 
     render = () => {
@@ -143,7 +149,7 @@ class NewHeroForm extends React.Component<{onNewHero: (h: Hero) => void, createH
       const {name, email, achievement} = this.state;
 
       const people = this.props.createHeroData.people.map(p => ({label: p.name, value: p.email}));
-      const achievements = this.props.createHeroData.achievements;
+      const achievements = allAchievements();
 
       return (
         <div className="heroes-admin-add">
@@ -159,7 +165,7 @@ class NewHeroForm extends React.Component<{onNewHero: (h: Hero) => void, createH
             <FormControl label="Hero email" type="email" value={email} onChange={(email) => this.setState({email})} />
             <SelectControl
               label="Hero type"
-              options={achievements}
+              options={achievements.map(a => ({value: Achievement[a], label: achievementName(a)}))}
               value={achievement}
               onChange={(achievement) => this.setState({achievement})}
               includeBlank={true}

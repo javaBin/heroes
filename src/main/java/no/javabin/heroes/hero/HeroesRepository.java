@@ -22,14 +22,14 @@ public class HeroesRepository {
 
     public void save(Hero hero) {
         try (Connection conn = getConnection()) {
-            table.insert()
-                .setPrimaryKey("id", UUID.randomUUID())
-                .setField("email", hero.getEmail())
+            UUID id = table.newSaveBuilderWithUUID("id", null)
+                .uniqueKey("email", hero.getEmail())
                 .setField("achievement", hero.getAchievement())
                 .setField("consent_id", hero.getConsentId())
                 .setField("consented_at", hero.getConsentedAt())
                 .setField("consent_client_ip", hero.getConsentClientIp())
                 .execute(conn);
+            hero.setId(id);
         } catch (SQLException e) {
             throw ExceptionUtil.softenException(e);
         }
@@ -38,8 +38,9 @@ public class HeroesRepository {
     public void update(Hero hero) {
         try (Connection conn = getConnection()) {
             table
-                .where("email", hero.getEmail())
+                .where("id", hero.getId())
                 .update()
+                .setField("email", hero.getEmail())
                 .setField("achievement", hero.getAchievement())
                 .setField("consent_id", hero.getConsentId())
                 .setField("consented_at", hero.getConsentedAt())
@@ -75,6 +76,7 @@ public class HeroesRepository {
 
     private Hero mapRow(DatabaseRow o) throws SQLException {
         Hero hero = new Hero();
+        hero.setId(o.getUUID("id"));
         hero.setEmail(o.getString("email"));
         hero.setAchievement(o.getString("achievement"));
         hero.setConsentId(o.getLong("consent_id"));

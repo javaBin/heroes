@@ -33,8 +33,8 @@ public class HeroesRepositoryTest {
     @Test
     public void shouldRetrieveSavedHero() {
         Hero hero = sampleHero();
-        assertThat(hero).hasNoNullFieldsOrProperties();
         heroesRepository.save(hero);
+        assertThat(hero).hasNoNullFieldsOrProperties();
         assertThat(heroesRepository.retrieveByEmail(hero.getEmail()))
             .isEqualToComparingFieldByField(hero);
     }

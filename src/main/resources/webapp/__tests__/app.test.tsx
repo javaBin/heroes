@@ -28,8 +28,8 @@ function findComponent(ancestor: ReactTestRenderer, type: React.ReactType): Reac
 describe("app", () => {
     it("renders hero list", async () => {
         const heroes = [
-            {name: "Alice", email: "alice@example.com", published: true},
-            {name: "Bob", email: "bob@example.com", published: true},
+            {name: "Alice", email: "alice@example.com", achievements: [], achievement: "", published: true},
+            {name: "Bob", email: "bob@example.com", achievements: [], achievement: "", published: true},
         ];
         mockHeroService.fetchHeroes = async () => heroes;
         const app = renderer.create(<App heroService={mockHeroService} />);

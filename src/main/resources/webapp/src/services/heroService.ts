@@ -4,7 +4,16 @@ export interface Person {
     email: string;
 }
 
+export interface HeroAchievement {
+    id?: number;
+    type: string;
+    label: string;
+}
+
 export interface Hero extends Person {
+    avatar?: string;
+    achievements: HeroAchievement[];
+    id?: string;
     achievement?: string;
     published: boolean;
 }
@@ -15,14 +24,26 @@ export interface Userinfo {
     username?: string;
 }
 
-export interface Achievement {
-    value: string;
-    label: string;
+export enum Achievement {
+    foredragsholder_jz, foredragsholder_javabin, styre,
+}
+
+export function achievementName(achievement: Achievement): string {
+    switch (achievement) {
+    case Achievement.foredragsholder_javabin:   return "Foredragsholder JavaBin";
+    case Achievement.foredragsholder_jz:        return "JavaZone foredragsholder";
+    case Achievement.styre:                     return "Styre";
+    }
+}
+
+export function allAchievements(): Achievement[] {
+    return Object.keys(Achievement)
+        .filter(key => !isNaN(Number((Achievement as any)[key])))
+        .map((s: string) => (Achievement as any)[s]);
 }
 
 export interface CreateHeroData {
     people: Person[];
-    achievements: Achievement[];
 }
 
 interface Heroism {
@@ -53,7 +74,7 @@ export interface HeroService {
 export class HeroServiceHttp implements HeroService {
     async fetchCreateHeroData(): Promise<CreateHeroData> {
         const response = await fetch("/api/admin/heroes/create");
-        if (response.status === 403) {
+        if (response.status === 403 || response.status === 401) {
             window.location.href = "/api/login?admin=true";
         }
         return await response.json();
