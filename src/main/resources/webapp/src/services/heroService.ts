@@ -2,11 +2,12 @@
 export interface Person {
     name: string;
     email: string;
+    twitter?: string;
 }
 
 export interface HeroAchievement {
-    id?: number;
-    type: string;
+    id?: string;
+    type: Achievement;
     label: string;
 }
 

@@ -1,15 +1,18 @@
-import React, { ChangeEvent, FormEvent } from "react";
-import { Achievement, achievementName, allAchievements, Hero, HeroAchievement } from "../../services/heroService";
+import React, { ChangeEvent, FormEvent, MouseEvent } from "react";
+import {
+    Achievement, achievementName, allAchievements, Hero, HeroAchievement, Person,
+} from "../../services/heroService";
 
 export class HeroControlPanel extends React.Component<{
-    heroes: Hero[],
+    heroes: Hero[], people: Person[], prefix: string,
 }, {
-    selectedHero?: Hero,
+    selectedHero?: Hero, addHero?: boolean, action?: string,
+    heroes: Hero[], actionTargetId?: string,
 }> {
 
-    constructor(props: {heroes: Hero[]}) {
+    constructor(props: {heroes: Hero[], people: Person[], prefix: string}) {
         super(props);
-        this.state = {};
+        this.state = {heroes: props.heroes};
     }
 
     componentDidMount() {
@@ -26,107 +29,330 @@ export class HeroControlPanel extends React.Component<{
     }
 
     setHash = (hash: string) => {
-        const match = /#admin\/heroes\/([\w-]+)/.exec(hash);
-        if (match) {
-            const heroId = match[1];
-            this.setState({selectedHero: this.props.heroes.find(p => p.id === heroId)});
+        const [prefix, controller, idOrAction, subAction, actionTargetId] = hash.split("/");
+        if (idOrAction === "add") {
+            this.setState({addHero: true});
+        } else if (controller === "heroes" && idOrAction) {
+            const selectedHero = this.state.heroes.find(p => p.id === idOrAction);
+            if (!selectedHero) {
+                window.location.hash = prefix + "/heroes";
+            } else {
+                this.setState({action: subAction, selectedHero, actionTargetId});
+            }
         } else {
-            this.setState({selectedHero: undefined});
+            this.setState({selectedHero: undefined, addHero: false, actionTargetId: undefined});
+        }
+    }
+
+    handleAddHero = (hero: Hero) => {
+        hero.id = "" +  (this.state.heroes.length + 1);
+        this.setState({heroes: this.state.heroes.concat(hero)});
+        window.location.hash = this.props.prefix + "/heroes";
+    }
+
+    handleUpdateHero = (heroId: string, update: Partial<Hero>) => {
+        const index = this.state.heroes.findIndex(h => h.id === heroId);
+        if (index !== undefined) {
+            const hero = {...this.state.heroes[index], ...update};
+            this.state.heroes[index] = hero;
+            this.setState({heroes: this.state.heroes});
+        }
+        window.location.hash = this.props.prefix + "/heroes/" + heroId;
+    }
+
+    handleAddAchievement = (heroId: string, achievement: HeroAchievement) => {
+        const index = this.state.heroes.findIndex(h => h.id === heroId);
+        if (index !== undefined) {
+            achievement.id = "" + (this.state.heroes[index].achievements.length + 1);
+            this.state.heroes[index].achievements.push(achievement);
+            this.setState({heroes: this.state.heroes});
+        }
+        window.location.hash = this.props.prefix + "/heroes/" + heroId;
+    }
+
+    handleUpdateAchievement = (heroId: string, achievementId: string, achievement: any) => {
+        const index = this.state.heroes.findIndex(h => h.id === heroId);
+        if (index !== undefined) {
+            const hero = this.state.heroes[index];
+            const achievementIndex = hero.achievements.findIndex(a => a.id === achievementId);
+            hero.achievements[achievementIndex] = {...hero.achievements[achievementIndex], ...achievement};
+            this.setState({heroes: this.state.heroes});
+        }
+        window.location.hash = this.props.prefix + "/heroes/" + heroId;
+    }
+
+    handleDeleteAchievement = (heroId: string, achievementId: string) => {
+        const index = this.state.heroes.findIndex(h => h.id === heroId);
+        if (index !== undefined) {
+            const hero = this.state.heroes[index];
+            const achievementIndex = hero.achievements.findIndex(a => a.id === achievementId);
+            hero.achievements.splice(achievementIndex);
+            this.setState({heroes: this.state.heroes});
+        }
+        window.location.hash = this.props.prefix + "/heroes/" + heroId;
+    }
+
+    handleCancelAddHero = () => {
+        window.location.hash = this.props.prefix + "/heroes";
+    }
+
+    render() {
+        if (this.state.addHero) {
+            return <AddHeroView
+                people={this.props.people}
+                onSubmit={this.handleAddHero}
+                onCancel={this.handleCancelAddHero}
+            />;
+        }  else if (!this.state.selectedHero) {
+            return <HeroList heroes={this.state.heroes} prefix={this.props.prefix} />;
+        } else {
+            return <HeroView
+                hero={this.state.selectedHero}
+                action={this.state.action}
+                actionTargetId={this.state.actionTargetId}
+                prefix={this.props.prefix}
+                onSubmit={this.handleUpdateHero}
+                onAddAchievement={this.handleAddAchievement}
+                onUpdateAchievement={this.handleUpdateAchievement}
+                onDeleteAchievement={this.handleDeleteAchievement}
+            />;
+        }
+    }
+}
+
+class AddHeroView extends React.Component<{
+    people: Person[],
+    onSubmit: (hero: Hero) => void,
+    onCancel: () => void,
+}, Partial<Person>> {
+    constructor(props: {people: Person[], onSubmit: (hero: Hero) => void, onCancel: () => void}) {
+        super(props);
+        this.state = {};
+    }
+
+    handleSelectSlackPerson = (e: ChangeEvent<HTMLSelectElement>) => {
+        const {value} = e.target;
+        const person = this.props.people.find(p => p.email === value);
+        if (person) {
+            this.setState({...person});
+        }
+    }
+
+    handleCancel = (e: MouseEvent) => {
+        e.preventDefault();
+        this.props.onCancel();
+    }
+
+    handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        const {name, email, twitter} = this.state;
+        if (email && name) {
+            this.props.onSubmit({name, email, twitter, achievements: [], published: false});
         }
     }
 
     render() {
-        if (this.state.selectedHero) {
-            return <HeroEditView hero={this.state.selectedHero} />;
-        } else {
-            return <HeroList heroes={this.props.heroes} />;
-        }
+        return <form onSubmit={this.handleSubmit}>
+            <h2>Add a hero</h2>
+
+            <div>
+                <label>
+                    Select from slack:
+                    <select onChange={this.handleSelectSlackPerson} value={this.state.email} autoFocus>
+                        <option></option>
+                        {this.props.people.map(p =>
+                            <option key={p.email} value={p.email}>{p.name} &lt;{p.email}&gt;</option>,
+                        )}
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Name:
+                    <input value={this.state.name} onChange={e => this.setState({name: e.target.value})} />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Email:
+                    <input value={this.state.email} onChange={e => this.setState({email: e.target.value})} />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Twitter:
+                    <input value={this.state.twitter} onChange={e => this.setState({twitter: e.target.value})} />
+                </label>
+            </div>
+            <button>Submit</button>
+            <button onClick={this.handleCancel}>Cancel</button>
+        </form>;
     }
 }
 
-interface EditHeroState {
-    displayName: string;
-    emailAddress: string;
-    twitterHandle: string;
-    achievements: HeroAchievement[];
+interface HeroEditProps {
+    hero: Hero;
+    action?: string;
+    actionTargetId?: string;
+    prefix: string;
+    onSubmit: (id: string, hero: Partial<Hero>) => void;
+    onAddAchievement: (heroId: string, achievement: any) => void;
+    onUpdateAchievement: (heroId: string, achievementId: string, achievement: any) => void;
+
+    onDeleteAchievement: (heroId: string, achievementId: string) => void;
 }
 
-class HeroEditView extends React.Component<{hero: Hero}, EditHeroState> {
-    constructor(props: {hero: Hero, achievementTypes: []}) {
+class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
+    constructor(props: HeroEditProps) {
         super(props);
         const {hero} = props;
         this.state = {
             achievements: hero.achievements,
-            displayName: hero.name,
-            emailAddress: hero.email,
-            twitterHandle: "",
+            email: hero.email,
+            name: hero.name,
+            published: hero.published,
+            twitter: hero.twitter,
         };
     }
 
-    renderAchievement = (achievement: HeroAchievement) => {
-        return <li key={achievement.label}>{achievement.label}</li>;
+    handleDeleteAchievement = (e: MouseEvent, achievementId: string) => {
+        e.preventDefault();
+        this.props.onDeleteAchievement(this.props.hero.id!, achievementId);
     }
 
-    handleAddAchievement = (o: any) => {
-        this.setState({achievements: this.state.achievements.concat([o])});
+    renderAchievement = (achievement: HeroAchievement) => {
+        return <li key={achievement.label}>
+            {achievement.label} [
+                <a href={this.props.prefix + "/heroes/" + this.props.hero.id + "/achievement/" + achievement.id}>
+                Edit
+                </a>]
+                [
+                <a href="#" onClick={e => this.handleDeleteAchievement(e, achievement.id!)}>
+                Delete
+                </a>]
+        </li>;
+    }
+
+    handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        const {email, name, twitter} = this.state;
+        const hero = {email, name, twitter};
+        this.props.onSubmit(this.props.hero.id!, hero);
     }
 
     render() {
-        const {hero} = this.props;
-        const {displayName, emailAddress, twitterHandle, achievements} = this.state;
+        const {hero, prefix} = this.props;
+        const {name, email, twitter, achievements} = this.state;
         return <>
-            <h3><a href="#admin">Back</a></h3>
+            <h3><a href={prefix}>Back</a></h3>
             <h2>{hero.name}</h2>
 
-            <form>
-                {hero.avatar && <img src={hero.avatar} alt={"Picture of " + hero.name} />}
-                <h2>Information</h2>
+            {!this.props.action && <>
                 <ul>
-                    <li>Display name:
-                        <input value={displayName} onChange={e => this.setState({displayName: e.target.value})} />
-                    </li>
-                    <li>Email address:
-                        <input value={emailAddress} onChange={e => this.setState({emailAddress: e.target.value})} />
-                    </li>
-                    <li>Twitter handle:
-                        <input value={twitterHandle} onChange={e => this.setState({twitterHandle: e.target.value})} />
-                    </li>
+                    <li>Email: {hero.email}</li>
+                    <li>Twitter: {hero.twitter}</li>
+                    <li><a href={prefix + "/heroes/" + hero.id + "/edit"}>Update</a></li>
                 </ul>
 
-                <button>Lagre</button>
-            </form>
+                <h2>Achievements</h2>
 
-            <h2>Achievements</h2>
+                <ul>
+                    {achievements && achievements.map(this.renderAchievement)}
+                </ul>
 
-            <ul>
-                {achievements.map(this.renderAchievement)}
-            </ul>
+                <p>
+                    <a href={prefix + "/heroes/" + hero.id + "/addAchievement"}>Add achievement</a>
+                </p>
+            </>}
 
-            <AddHeroAchievement
-                hero={hero}
-                onAddAchievement={this.handleAddAchievement}
-            />
+            {this.props.action === "edit" && <>
+                <form onSubmit={this.handleSubmit}>
+                {hero.avatar && <img src={hero.avatar} alt={"Picture of " + hero.name} />}
+                    <h2>Information</h2>
+                    <ul>
+                        <li>Display name:
+                            <input
+                                autoFocus
+                                value={name}
+                                onChange={e => this.setState({name: e.target.value})}
+                            />
+                        </li>
+                        <li>Email address:
+                            <input value={email} onChange={e => this.setState({email: e.target.value})} />
+                        </li>
+                        <li>Twitter handle:
+                            <input
+                                value={twitter}
+                                onChange={e => this.setState({twitter: e.target.value})}
+                            />
+                        </li>
+                    </ul>
+
+                    <button>Lagre</button>
+                    <a href={prefix + "/heroes/" + hero.id}>Back</a>
+                </form>
+            </>}
+
+            {this.props.action === "addAchievement" &&
+                <AddHeroAchievement
+                    hero={hero}
+                    onSubmit={this.props.onAddAchievement}
+                    prefix={prefix}
+                />
+            }
+            {this.props.action === "achievement" && this.props.actionTargetId !== undefined &&
+                <HeroAchievementEditView
+                    hero={hero}
+                    achievementId={this.props.actionTargetId}
+                    onSubmit={this.props.onUpdateAchievement}
+                    prefix={prefix}
+                />
+            }
         </>;
+    }
+}
+
+interface HeroAchievementEditProps {
+    hero: Hero;
+    achievementId: string;
+    prefix: string ;
+    onSubmit: (heroId: string, achievementId: string, o: any) => void;
+}
+
+class HeroAchievementEditView extends React.Component<HeroAchievementEditProps> {
+    handleSave = (update: any) => {
+        this.props.onSubmit(this.props.hero.id!, this.props.achievementId, update);
+    }
+
+    render() {
+        const {hero, achievementId} = this.props;
+        const achievement = hero.achievements.find(a => a.id === achievementId)!;
+        const DetailView = achievementDetail(achievement.type);
+        return <form>
+            <DetailView hero={hero} onSave={this.handleSave} achievement={achievement} />
+        </form>;
     }
 }
 
 interface HeroAchievementProps {
     hero: Hero;
+    achievement?: any;
     onSave(o: any): void;
 }
 
-class JavaZoneSpeakerAchievementDetails extends React.Component<HeroAchievementProps, {
+class JavaZoneSpeakerAchievementDetails extends React.Component<
+    HeroAchievementProps & {achievement?: {year?: string, title?: string}}, {
     year?: string, title: string,
 }> {
     years: string[];
-    constructor(props: HeroAchievementProps) {
+    constructor(props: HeroAchievementProps & {achievement?: {year?: string, title?: string}}) {
         super(props);
         this.years = [
             "2018", "2017", "2016", "2015", "2014",
             "2013", "2012", "2011", "2010", "2009",
             "2008",
         ];
-        this.state = { year: this.years[0], title: "" };
+        this.state = { year: this.years[0], title: "", ...props.achievement };
     }
 
     handleSubmit = (e: FormEvent) => {
@@ -141,7 +367,7 @@ class JavaZoneSpeakerAchievementDetails extends React.Component<HeroAchievementP
             <h4>JavaZone foredragsholder</h4>
             <label>
                 JavaZone year
-                <select value={this.state.year} onChange={e => this.setState({year: e.target.value})}>
+                <select value={this.state.year} onChange={e => this.setState({year: e.target.value})} autoFocus>
                     {this.years.map(y => <option value={y} key={y}>{y}</option>)}
                 </select>
             </label>
@@ -154,13 +380,14 @@ class JavaZoneSpeakerAchievementDetails extends React.Component<HeroAchievementP
     }
 }
 
-class JavaBinSpeakerAchievementDetails extends React.Component<HeroAchievementProps, {
+class JavaBinSpeakerAchievementDetails extends React.Component<
+    HeroAchievementProps & {achievement?: {date?: string, title?: string}}, {
     date?: string,
     title: string,
 }> {
-    constructor(props: HeroAchievementProps) {
+    constructor(props: HeroAchievementProps & {achievement?: {date?: string, title?: string}}) {
         super(props);
-        this.state = {title: ""};
+        this.state = {title: "", ...props.achievement};
     }
     handleSubmit = (e: FormEvent) => {
         const {date, title} = this.state;
@@ -185,12 +412,13 @@ class JavaBinSpeakerAchievementDetails extends React.Component<HeroAchievementPr
     }
 }
 
-class BoardMemberAchievementDetails extends React.Component<HeroAchievementProps, {
+class BoardMemberAchievementDetails extends React.Component<
+    HeroAchievementProps & {achievement?: {year?: string, role?: string}}, {
     year?: string, role: string,
 }> {
     years: string[];
     roles: string[];
-    constructor(props: HeroAchievementProps) {
+    constructor(props: HeroAchievementProps & {achievement?: {year?: string, role?: string}}) {
         super(props);
         this.years = [
             "2018", "2017", "2016", "2015", "2014",
@@ -200,7 +428,7 @@ class BoardMemberAchievementDetails extends React.Component<HeroAchievementProps
         this.roles = [
             "board member", "vice chair", "chair",
         ];
-        this.state = { role: this.roles[0], year: this.years[0] };
+        this.state = { role: this.roles[0], year: this.years[0], ...props.achievement };
     }
 
     handleSubmit = (e: FormEvent) => {
@@ -236,23 +464,25 @@ class EmptyAchievementDetails extends React.Component<HeroAchievementProps> {
     }
 }
 
+function achievementDetail(achievementType?: Achievement): React.ComponentType<HeroAchievementProps> {
+    switch (achievementType) {
+    case Achievement.foredragsholder_javabin:   return JavaBinSpeakerAchievementDetails;
+    case Achievement.foredragsholder_jz:        return JavaZoneSpeakerAchievementDetails;
+    case Achievement.styre:                     return BoardMemberAchievementDetails;
+    case undefined:                             return EmptyAchievementDetails;
+    }
+}
+
 class AddHeroAchievement extends React.Component<{
-    hero: Hero, onAddAchievement(o: any): void,
+    hero: Hero, prefix: string, onSubmit(heroId: string, o: any): void,
 }, {
     achievementType?: Achievement, achievementTypeString?: string,
 }> {
-    constructor(props: {hero: Hero, onAddAchievement: (o: any) => void, achievementTypes: Achievement[]}) {
+    constructor(props: {
+        hero: Hero, prefix: string, onSubmit: (heroId: string, o: any) => void, achievementTypes: Achievement[],
+    }) {
         super(props);
         this.state = {};
-    }
-
-    achievementDetail(): React.ComponentType<HeroAchievementProps> {
-        switch (this.state.achievementType) {
-        case Achievement.foredragsholder_javabin:   return JavaBinSpeakerAchievementDetails;
-        case Achievement.foredragsholder_jz:        return JavaZoneSpeakerAchievementDetails;
-        case Achievement.styre:                     return BoardMemberAchievementDetails;
-        case undefined:                             return EmptyAchievementDetails;
-        }
     }
 
     renderAchievementType = (achivementType: Achievement) => {
@@ -263,7 +493,7 @@ class AddHeroAchievement extends React.Component<{
     }
 
     handleSave = (o: any) => {
-        this.props.onAddAchievement({type: this.state.achievementType, ...o});
+        this.props.onSubmit(this.props.hero.id!, {type: this.state.achievementType, ...o});
         this.setState({achievementType: undefined});
     }
 
@@ -277,28 +507,29 @@ class AddHeroAchievement extends React.Component<{
         const {achievementTypeString} = this.state;
         const {hero} = this.props;
 
-        const DetailComponent = this.achievementDetail();
+        const DetailComponent = achievementDetail(this.state.achievementType);
 
         return <>
             <h2>Please Add achievement</h2>
             <form>
                 <label>
                     Achievement:
-                    <select value={achievementTypeString} onChange={this.handleChangeAchievementType}>
+                    <select autoFocus={true} value={achievementTypeString} onChange={this.handleChangeAchievementType}>
                         <option></option>
                         {allAchievements().map(this.renderAchievementType)}
                     </select>
                 </label>
                 <DetailComponent hero={hero} onSave={this.handleSave} ></DetailComponent>
+                <a href={this.props.prefix + "/heroes/" + hero.id}>Back</a>
             </form>
         </>;
     }
 }
 
-export class HeroList extends React.Component<{heroes: Hero[]}> {
+export class HeroList extends React.Component<{heroes: Hero[], prefix: string}> {
 
     renderHero = (hero: Hero) => {
-        return <li key={hero.id}><a href={"#admin/heroes/" + hero.id}>{hero.name}</a></li>;
+        return <li key={hero.id}><a href={this.props.prefix + "/heroes/" + hero.id}>{hero.name}</a></li>;
     }
 
     render() {
@@ -307,6 +538,8 @@ export class HeroList extends React.Component<{heroes: Hero[]}> {
             <ul>
                 {this.props.heroes.map(this.renderHero)}
             </ul>
+
+            <a href={this.props.prefix + "/heroes/add"}>Add a hero</a>
         </>;
     }
 }

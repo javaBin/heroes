@@ -188,6 +188,11 @@ Array [
         </a>
       </li>
     </ul>
+    <a
+      href="#admin/heroes/add"
+    >
+      Add a hero
+    </a>
   </fieldset>,
 ]
 `;

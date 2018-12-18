@@ -50,7 +50,7 @@ export class AdminScreen extends React.Component<AdminProps, AdminState> {
       </div>
       <fieldset>
         <h2>UX Proof-of-concept heroes control panel:</h2>
-        <HeroControlPanel heroes={heroes} />
+        <HeroControlPanel heroes={heroes} people={createHeroData.people} prefix="#admin" />
       </fieldset>
     </>;
 

@@ -7,6 +7,7 @@ import { Table } from "react-bootstrap";
 import { ProfileScreen } from "./profile";
 
 import heroPng from "../images/hero.png";
+import { HeroControlPanel } from "./admin/HeroControlPanel";
 
 export function HeroList({heroes}: {heroes: Hero[]}) {
     const heroComponents = heroes.map((hero) => {
@@ -92,6 +93,15 @@ export class App extends React.Component<{heroService: HeroService}, {hash: stri
 
         if (hash.indexOf("#profile") === 0) {
             return <ProfileScreen heroService={this.props.heroService} />;
+        }
+
+        if (hash.indexOf("#poc") === 0) {
+            const heroes: Hero[] = [];
+            const people = [
+                { name: "Johannes", email: "johannes@brodwall.com" },
+            ];
+
+            return <HeroControlPanel heroes={heroes} people={people} prefix="#poc" />;
         }
 
         return (
