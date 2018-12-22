@@ -16,7 +16,7 @@ export interface Hero extends Person {
     achievements: HeroAchievement[];
     id?: string;
     achievement?: string;
-    published: boolean;
+    published?: boolean;
 }
 
 export interface Userinfo {

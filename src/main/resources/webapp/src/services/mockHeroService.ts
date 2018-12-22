@@ -11,7 +11,13 @@ export class MockHeroService implements HeroService {
         email: "johannes@brodwall.com",
     };
 
-    private heroes: Hero[] = [];
+    private heroes: Hero[] = [
+        {
+            achievements: [],
+            email: this.currentUser!.email,
+            name: "Johannes",
+        },
+    ];
 
     async fetchCreateHeroData() {
         return {

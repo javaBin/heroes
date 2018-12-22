@@ -15,7 +15,7 @@ export class HeroControlPanel extends React.Component<{
         this.state = {heroes: props.heroes};
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         window.addEventListener("hashchange", this.handleHashChange);
         this.setHash(window.location.hash);
     }
@@ -28,19 +28,19 @@ export class HeroControlPanel extends React.Component<{
         this.setHash(window.location.hash);
     }
 
-    setHash = (hash: string) => {
+    setHash = async (hash: string) => {
         const [prefix, controller, idOrAction, subAction, actionTargetId] = hash.split("/");
         if (idOrAction === "add") {
-            this.setState({addHero: true});
+            await this.setState({addHero: true});
         } else if (controller === "heroes" && idOrAction) {
             const selectedHero = this.state.heroes.find(p => p.id === idOrAction);
             if (!selectedHero) {
                 window.location.hash = prefix + "/heroes";
             } else {
-                this.setState({action: subAction, selectedHero, actionTargetId});
+                await this.setState({action: subAction, selectedHero, actionTargetId});
             }
         } else {
-            this.setState({selectedHero: undefined, addHero: false, actionTargetId: undefined});
+            await this.setState({selectedHero: undefined, addHero: false, actionTargetId: undefined});
         }
     }
 
@@ -104,7 +104,7 @@ export class HeroControlPanel extends React.Component<{
                 onCancel={this.handleCancelAddHero}
             />;
         }  else if (!this.state.selectedHero) {
-            return <HeroList heroes={this.state.heroes} prefix={this.props.prefix} />;
+            return <HeroListView heroes={this.state.heroes} prefix={this.props.prefix} />;
         } else {
             return <HeroView
                 hero={this.state.selectedHero}
@@ -120,7 +120,7 @@ export class HeroControlPanel extends React.Component<{
     }
 }
 
-class AddHeroView extends React.Component<{
+export class AddHeroView extends React.Component<{
     people: Person[],
     onSubmit: (hero: Hero) => void,
     onCancel: () => void,
@@ -202,18 +202,10 @@ interface HeroEditProps {
     onDeleteAchievement: (heroId: string, achievementId: string) => void;
 }
 
-class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
-    constructor(props: HeroEditProps) {
-        super(props);
-        const {hero} = props;
-        this.state = {
-            achievements: hero.achievements,
-            email: hero.email,
-            name: hero.name,
-            published: hero.published,
-            twitter: hero.twitter,
-        };
-    }
+export class HeroAchievementList extends React.Component<{
+    hero: Hero, achievements: any[], prefix: string,
+    onDeleteAchievement: (heroId: string, achievementId: string) => void,
+}> {
 
     handleDeleteAchievement = (e: MouseEvent, achievementId: string) => {
         e.preventDefault();
@@ -227,10 +219,38 @@ class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
                 Edit
                 </a>]
                 [
-                <a href="#" onClick={e => this.handleDeleteAchievement(e, achievement.id!)}>
+                <a
+                    href="#"
+                    onClick={e => this.handleDeleteAchievement(e, achievement.id!)}
+                    className="deleteAchievementLink"
+                >
                 Delete
                 </a>]
         </li>;
+    }
+
+    render() {
+        return <>
+            <h3>Achievements</h3>
+
+            <ul>
+                {this.props.achievements.map(this.renderAchievement)}
+            </ul>
+        </>;
+    }
+}
+
+export class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
+    constructor(props: HeroEditProps) {
+        super(props);
+        const {hero} = props;
+        this.state = {
+            achievements: hero.achievements,
+            email: hero.email,
+            name: hero.name,
+            published: hero.published,
+            twitter: hero.twitter,
+        };
     }
 
     handleSubmit = (e: FormEvent) => {
@@ -241,7 +261,7 @@ class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
     }
 
     render() {
-        const {hero, prefix} = this.props;
+        const {hero, prefix, onDeleteAchievement} = this.props;
         const {name, email, twitter, achievements} = this.state;
         return <>
             <h3><a href={prefix}>Back</a></h3>
@@ -254,11 +274,12 @@ class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
                     <li><a href={prefix + "/heroes/" + hero.id + "/edit"}>Update</a></li>
                 </ul>
 
-                <h2>Achievements</h2>
-
-                <ul>
-                    {achievements && achievements.map(this.renderAchievement)}
-                </ul>
+                {achievements && <HeroAchievementList
+                    hero={hero}
+                    achievements={achievements}
+                    prefix={prefix}
+                    onDeleteAchievement={onDeleteAchievement}
+                />}
 
                 <p>
                     <a href={prefix + "/heroes/" + hero.id + "/addAchievement"}>Add achievement</a>
@@ -268,7 +289,7 @@ class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
             {this.props.action === "edit" && <>
                 <form onSubmit={this.handleSubmit}>
                 {hero.avatar && <img src={hero.avatar} alt={"Picture of " + hero.name} />}
-                    <h2>Information</h2>
+                    <h3>Information</h3>
                     <ul>
                         <li>Display name:
                             <input
@@ -319,7 +340,7 @@ interface HeroAchievementEditProps {
     onSubmit: (heroId: string, achievementId: string, o: any) => void;
 }
 
-class HeroAchievementEditView extends React.Component<HeroAchievementEditProps> {
+export class HeroAchievementEditView extends React.Component<HeroAchievementEditProps> {
     handleSave = (update: any) => {
         this.props.onSubmit(this.props.hero.id!, this.props.achievementId, update);
     }
@@ -340,7 +361,7 @@ interface HeroAchievementProps {
     onSave(o: any): void;
 }
 
-class JavaZoneSpeakerAchievementDetails extends React.Component<
+export class JavaZoneSpeakerAchievementDetails extends React.Component<
     HeroAchievementProps & {achievement?: {year?: string, title?: string}}, {
     year?: string, title: string,
 }> {
@@ -380,7 +401,7 @@ class JavaZoneSpeakerAchievementDetails extends React.Component<
     }
 }
 
-class JavaBinSpeakerAchievementDetails extends React.Component<
+export class JavaBinSpeakerAchievementDetails extends React.Component<
     HeroAchievementProps & {achievement?: {date?: string, title?: string}}, {
     date?: string,
     title: string,
@@ -412,7 +433,7 @@ class JavaBinSpeakerAchievementDetails extends React.Component<
     }
 }
 
-class BoardMemberAchievementDetails extends React.Component<
+export class BoardMemberAchievementDetails extends React.Component<
     HeroAchievementProps & {achievement?: {year?: string, role?: string}}, {
     year?: string, role: string,
 }> {
@@ -473,7 +494,7 @@ function achievementDetail(achievementType?: Achievement): React.ComponentType<H
     }
 }
 
-class AddHeroAchievement extends React.Component<{
+export class AddHeroAchievement extends React.Component<{
     hero: Hero, prefix: string, onSubmit(heroId: string, o: any): void,
 }, {
     achievementType?: Achievement, achievementTypeString?: string,
@@ -510,7 +531,7 @@ class AddHeroAchievement extends React.Component<{
         const DetailComponent = achievementDetail(this.state.achievementType);
 
         return <>
-            <h2>Please Add achievement</h2>
+            <h3>Please Add achievement</h3>
             <form>
                 <label>
                     Achievement:
@@ -526,7 +547,7 @@ class AddHeroAchievement extends React.Component<{
     }
 }
 
-export class HeroList extends React.Component<{heroes: Hero[], prefix: string}> {
+export class HeroListView extends React.Component<{heroes: Hero[], prefix: string}> {
 
     renderHero = (hero: Hero) => {
         return <li key={hero.id}><a href={this.props.prefix + "/heroes/" + hero.id}>{hero.name}</a></li>;

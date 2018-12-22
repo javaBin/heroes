@@ -1,0 +1,931 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeroControlPanel adds achievement to hero of JavaZone achievement type shows achievement form 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Some test
+  </h2>,
+  <h3>
+    Please Add achievement
+  </h3>,
+  <form>
+    <label>
+      Achievement:
+      <select
+        autoFocus={true}
+        onChange={[Function]}
+      >
+        <option />
+        <option
+          value="foredragsholder_jz"
+        >
+          JavaZone foredragsholder
+        </option>
+        <option
+          value="foredragsholder_javabin"
+        >
+          Foredragsholder JavaBin
+        </option>
+        <option
+          value="styre"
+        >
+          Styre
+        </option>
+      </select>
+    </label>
+    <div>
+      <h4>
+        JavaZone foredragsholder
+      </h4>
+      <label>
+        JavaZone year
+        <select
+          autoFocus={true}
+          onChange={[Function]}
+          value="2018"
+        >
+          <option
+            value="2018"
+          >
+            2018
+          </option>
+          <option
+            value="2017"
+          >
+            2017
+          </option>
+          <option
+            value="2016"
+          >
+            2016
+          </option>
+          <option
+            value="2015"
+          >
+            2015
+          </option>
+          <option
+            value="2014"
+          >
+            2014
+          </option>
+          <option
+            value="2013"
+          >
+            2013
+          </option>
+          <option
+            value="2012"
+          >
+            2012
+          </option>
+          <option
+            value="2011"
+          >
+            2011
+          </option>
+          <option
+            value="2010"
+          >
+            2010
+          </option>
+          <option
+            value="2009"
+          >
+            2009
+          </option>
+          <option
+            value="2008"
+          >
+            2008
+          </option>
+        </select>
+      </label>
+      <label>
+        Title:
+        <input
+          onChange={[Function]}
+          value=""
+        />
+      </label>
+      <button
+        disabled={true}
+        onClick={[Function]}
+      >
+        Submit
+      </button>
+    </div>
+    <a
+      href="#test/heroes/2"
+    >
+      Back
+    </a>
+  </form>,
+]
+`;
+
+exports[`HeroControlPanel adds achievement to hero shows JavaBin achievement type 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Some test
+  </h2>,
+  <h3>
+    Please Add achievement
+  </h3>,
+  <form>
+    <label>
+      Achievement:
+      <select
+        autoFocus={true}
+        onChange={[Function]}
+      >
+        <option />
+        <option
+          value="foredragsholder_jz"
+        >
+          JavaZone foredragsholder
+        </option>
+        <option
+          value="foredragsholder_javabin"
+        >
+          Foredragsholder JavaBin
+        </option>
+        <option
+          value="styre"
+        >
+          Styre
+        </option>
+      </select>
+    </label>
+    <h3>
+      JavaBin usergroup speaker
+    </h3>
+    <label>
+      Title:
+      <input
+        onChange={[Function]}
+        value=""
+      />
+    </label>
+    <label>
+      Date:
+      <input
+        onChange={[Function]}
+        type="date"
+      />
+    </label>
+    <button
+      disabled={true}
+      onClick={[Function]}
+    >
+      Submit
+    </button>
+    <a
+      href="#test/heroes/2"
+    >
+      Back
+    </a>
+  </form>,
+]
+`;
+
+exports[`HeroControlPanel adds achievement to hero shows board member achievement type 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Some test
+  </h2>,
+  <h3>
+    Please Add achievement
+  </h3>,
+  <form>
+    <label>
+      Achievement:
+      <select
+        autoFocus={true}
+        onChange={[Function]}
+      >
+        <option />
+        <option
+          value="foredragsholder_jz"
+        >
+          JavaZone foredragsholder
+        </option>
+        <option
+          value="foredragsholder_javabin"
+        >
+          Foredragsholder JavaBin
+        </option>
+        <option
+          value="styre"
+        >
+          Styre
+        </option>
+      </select>
+    </label>
+    <h3>
+      JavaBin board member
+    </h3>
+    <label>
+      Role
+      <select
+        onChange={[Function]}
+        value="board member"
+      >
+        <option
+          value="board member"
+        >
+          board member
+        </option>
+        <option
+          value="vice chair"
+        >
+          vice chair
+        </option>
+        <option
+          value="chair"
+        >
+          chair
+        </option>
+      </select>
+    </label>
+    <label>
+      Elected year
+      <select
+        onChange={[Function]}
+        value="2018"
+      >
+        <option
+          value="2018"
+        >
+          2018
+        </option>
+        <option
+          value="2017"
+        >
+          2017
+        </option>
+        <option
+          value="2016"
+        >
+          2016
+        </option>
+        <option
+          value="2015"
+        >
+          2015
+        </option>
+        <option
+          value="2014"
+        >
+          2014
+        </option>
+        <option
+          value="2013"
+        >
+          2013
+        </option>
+        <option
+          value="2012"
+        >
+          2012
+        </option>
+        <option
+          value="2011"
+        >
+          2011
+        </option>
+        <option
+          value="2010"
+        >
+          2010
+        </option>
+        <option
+          value="2009"
+        >
+          2009
+        </option>
+        <option
+          value="2008"
+        >
+          2008
+        </option>
+      </select>
+    </label>
+    <button
+      disabled={false}
+      onClick={[Function]}
+    >
+      Submit
+    </button>
+    <a
+      href="#test/heroes/2"
+    >
+      Back
+    </a>
+  </form>,
+]
+`;
+
+exports[`HeroControlPanel deletes achievement 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Updated name
+  </h2>,
+  <ul>
+    <li>
+      Email: 
+      johannes@example.com
+    </li>
+    <li>
+      Twitter: 
+    </li>
+    <li>
+      <a
+        href="#test/heroes/1/edit"
+      >
+        Update
+      </a>
+    </li>
+  </ul>,
+  <h3>
+    Achievements
+  </h3>,
+  <ul />,
+  <p>
+    <a
+      href="#test/heroes/1/addAchievement"
+    >
+      Add achievement
+    </a>
+  </p>,
+]
+`;
+
+exports[`HeroControlPanel lists achievements 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Some test
+  </h2>,
+  <ul>
+    <li>
+      Email: 
+      test@example.com
+    </li>
+    <li>
+      Twitter: 
+    </li>
+    <li>
+      <a
+        href="#test/heroes/2/edit"
+      >
+        Update
+      </a>
+    </li>
+  </ul>,
+  <h3>
+    Achievements
+  </h3>,
+  <ul>
+    <li>
+      A great guy!
+       [
+      <a
+        href="#test/heroes/2/achievement/11"
+      >
+        Edit
+      </a>
+      ] [
+      <a
+        className="deleteAchievementLink"
+        href="#"
+        onClick={[Function]}
+      >
+        Delete
+      </a>
+      ]
+    </li>
+    <li>
+      A super guy!
+       [
+      <a
+        href="#test/heroes/2/achievement/12"
+      >
+        Edit
+      </a>
+      ] [
+      <a
+        className="deleteAchievementLink"
+        href="#"
+        onClick={[Function]}
+      >
+        Delete
+      </a>
+      ]
+    </li>
+    <li>
+      Speaker at JavaZone 2018: My Talk
+       [
+      <a
+        href="#test/heroes/2/achievement/3"
+      >
+        Edit
+      </a>
+      ] [
+      <a
+        className="deleteAchievementLink"
+        href="#"
+        onClick={[Function]}
+      >
+        Delete
+      </a>
+      ]
+    </li>
+  </ul>,
+  <p>
+    <a
+      href="#test/heroes/2/addAchievement"
+    >
+      Add achievement
+    </a>
+  </p>,
+]
+`;
+
+exports[`HeroControlPanel shows achievement update 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Some test
+  </h2>,
+  <form>
+    <h3>
+      JavaBin board member
+    </h3>
+    <label>
+      Role
+      <select
+        onChange={[Function]}
+        value="board member"
+      >
+        <option
+          value="board member"
+        >
+          board member
+        </option>
+        <option
+          value="vice chair"
+        >
+          vice chair
+        </option>
+        <option
+          value="chair"
+        >
+          chair
+        </option>
+      </select>
+    </label>
+    <label>
+      Elected year
+      <select
+        onChange={[Function]}
+        value="2018"
+      >
+        <option
+          value="2018"
+        >
+          2018
+        </option>
+        <option
+          value="2017"
+        >
+          2017
+        </option>
+        <option
+          value="2016"
+        >
+          2016
+        </option>
+        <option
+          value="2015"
+        >
+          2015
+        </option>
+        <option
+          value="2014"
+        >
+          2014
+        </option>
+        <option
+          value="2013"
+        >
+          2013
+        </option>
+        <option
+          value="2012"
+        >
+          2012
+        </option>
+        <option
+          value="2011"
+        >
+          2011
+        </option>
+        <option
+          value="2010"
+        >
+          2010
+        </option>
+        <option
+          value="2009"
+        >
+          2009
+        </option>
+        <option
+          value="2008"
+        >
+          2008
+        </option>
+      </select>
+    </label>
+    <button
+      disabled={false}
+      onClick={[Function]}
+    >
+      Submit
+    </button>
+  </form>,
+]
+`;
+
+exports[`HeroControlPanel shows hero edit view 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Some test
+  </h2>,
+  <form
+    onSubmit={[Function]}
+  >
+    <h3>
+      Information
+    </h3>
+    <ul>
+      <li>
+        Display name:
+        <input
+          autoFocus={true}
+          onChange={[Function]}
+          value="Some test"
+        />
+      </li>
+      <li>
+        Email address:
+        <input
+          onChange={[Function]}
+          value="test@example.com"
+        />
+      </li>
+      <li>
+        Twitter handle:
+        <input
+          onChange={[Function]}
+        />
+      </li>
+    </ul>
+    <button>
+      Lagre
+    </button>
+    <a
+      href="#test/heroes/2"
+    >
+      Back
+    </a>
+  </form>,
+]
+`;
+
+exports[`HeroControlPanel shows hero status 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Some test
+  </h2>,
+  <ul>
+    <li>
+      Email: 
+      test@example.com
+    </li>
+    <li>
+      Twitter: 
+    </li>
+    <li>
+      <a
+        href="#test/heroes/2/edit"
+      >
+        Update
+      </a>
+    </li>
+  </ul>,
+  <h3>
+    Achievements
+  </h3>,
+  <ul>
+    <li>
+      A great guy!
+       [
+      <a
+        href="#test/heroes/2/achievement/11"
+      >
+        Edit
+      </a>
+      ] [
+      <a
+        className="deleteAchievementLink"
+        href="#"
+        onClick={[Function]}
+      >
+        Delete
+      </a>
+      ]
+    </li>
+    <li>
+      A super guy!
+       [
+      <a
+        href="#test/heroes/2/achievement/12"
+      >
+        Edit
+      </a>
+      ] [
+      <a
+        className="deleteAchievementLink"
+        href="#"
+        onClick={[Function]}
+      >
+        Delete
+      </a>
+      ]
+    </li>
+  </ul>,
+  <p>
+    <a
+      href="#test/heroes/2/addAchievement"
+    >
+      Add achievement
+    </a>
+  </p>,
+]
+`;
+
+exports[`HeroControlPanel shows list of current heroes 1`] = `
+Array [
+  <h2>
+    Here are all the heroes
+  </h2>,
+  <ul>
+    <li>
+      <a
+        href="#test/heroes/1"
+      >
+        Johannes Test
+      </a>
+    </li>
+    <li>
+      <a
+        href="#test/heroes/2"
+      >
+        Some test
+      </a>
+    </li>
+  </ul>,
+  <a
+    href="#test/heroes/add"
+  >
+    Add a hero
+  </a>,
+]
+`;
+
+exports[`HeroControlPanel shows new hero screen 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <h2>
+    Add a hero
+  </h2>
+  <div>
+    <label>
+      Select from slack:
+      <select
+        autoFocus={true}
+        onChange={[Function]}
+      >
+        <option />
+        <option
+          value="johannes@example.com"
+        >
+          Johannes Brodwall
+           &lt;
+          johannes@example.com
+          &gt;
+        </option>
+        <option
+          value="alice@example.com"
+        >
+          Alice
+           &lt;
+          alice@example.com
+          &gt;
+        </option>
+        <option
+          value="bob@example.net"
+        >
+          Bob
+           &lt;
+          bob@example.net
+          &gt;
+        </option>
+      </select>
+    </label>
+  </div>
+  <div>
+    <label>
+      Name:
+      <input
+        onChange={[Function]}
+      />
+    </label>
+  </div>
+  <div>
+    <label>
+      Email:
+      <input
+        onChange={[Function]}
+      />
+    </label>
+  </div>
+  <div>
+    <label>
+      Twitter:
+      <input
+        onChange={[Function]}
+      />
+    </label>
+  </div>
+  <button>
+    Submit
+  </button>
+  <button
+    onClick={[Function]}
+  >
+    Cancel
+  </button>
+</form>
+`;
+
+exports[`HeroControlPanel udpates hero name 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Johannes Test
+  </h2>,
+  <form
+    onSubmit={[Function]}
+  >
+    <h3>
+      Information
+    </h3>
+    <ul>
+      <li>
+        Display name:
+        <input
+          autoFocus={true}
+          onChange={[Function]}
+          value="Updated name"
+        />
+      </li>
+      <li>
+        Email address:
+        <input
+          onChange={[Function]}
+          value="johannes@example.com"
+        />
+      </li>
+      <li>
+        Twitter handle:
+        <input
+          onChange={[Function]}
+        />
+      </li>
+    </ul>
+    <button>
+      Lagre
+    </button>
+    <a
+      href="#test/heroes/1"
+    >
+      Back
+    </a>
+  </form>,
+]
+`;
+
+exports[`HeroControlPanel updates speaker achievement 1`] = `
+Array [
+  <h3>
+    <a
+      href="#test"
+    >
+      Back
+    </a>
+  </h3>,
+  <h2>
+    Some test
+  </h2>,
+  <form>
+    <h3>
+      JavaBin usergroup speaker
+    </h3>
+    <label>
+      Title:
+      <input
+        onChange={[Function]}
+        value="Updated title"
+      />
+    </label>
+    <label>
+      Date:
+      <input
+        onChange={[Function]}
+        type="date"
+        value="2018/10/15"
+      />
+    </label>
+    <button
+      disabled={false}
+      onClick={[Function]}
+    >
+      Submit
+    </button>
+  </form>,
+]
+`;

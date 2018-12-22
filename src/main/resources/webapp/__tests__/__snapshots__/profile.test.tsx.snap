@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`profile screen shows profile screen 1`] = `
+<div>
+  You are not a hero, 
+  Johannes
+</div>
+`;
