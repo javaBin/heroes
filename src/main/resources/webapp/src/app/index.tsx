@@ -1,13 +1,15 @@
 import React from "react";
 import { HeroService } from "../services";
-import { Hero, Userinfo } from "../services/heroService";
+import { Hero, Userinfo } from "../services/api";
 import { AdminScreen } from "./admin";
 
 import { Table } from "react-bootstrap";
 import { ProfileScreen } from "./profile";
 
 import heroPng from "../images/hero.png";
+import { HeroServiceHttp } from "../services/heroServiceHttp";
 import { HeroControlPanel } from "./admin/HeroControlPanel";
+import { MockHeroService } from "../services/mockHeroService";
 
 export function HeroList({heroes}: {heroes: Hero[]}) {
     const heroComponents = heroes.map((hero) => {
@@ -96,12 +98,7 @@ export class App extends React.Component<{heroService: HeroService}, {hash: stri
         }
 
         if (hash.indexOf("#poc") === 0) {
-            const heroes: Hero[] = [];
-            const people = [
-                { name: "Johannes", email: "johannes@brodwall.com" },
-            ];
-
-            return <HeroControlPanel heroes={heroes} people={people} prefix="#poc" />;
+            return <HeroControlPanel heroService={new MockHeroService()} prefix="#poc" />;
         }
 
         return (

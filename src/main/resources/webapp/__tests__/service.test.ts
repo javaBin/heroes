@@ -1,10 +1,10 @@
 import faker from "faker";
-import { HeroService } from "../src/services";
-import { Hero } from "../src/services/heroService";
+import { Hero } from "../src/services/api";
 import { MockHeroService } from "../src/services/mockHeroService";
 
 function sampleHero(): Hero {
     return {
+        achievements: [],
         email: faker.internet.email(),
         name: faker.name.findName(),
         published: false,

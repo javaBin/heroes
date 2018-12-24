@@ -1,34 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HeroControlPanel shows list of current heroes 1`] = `
-Array [
-  <h2>
-    Here are all the heroes
-  </h2>,
-  <ul>
-    <li>
-      <a
-        href="#test/heroes/1"
-      >
-        Johannes Test
-      </a>
-    </li>
-    <li>
-      <a
-        href="#test/heroes/2"
-      >
-        Some test
-      </a>
-    </li>
-  </ul>,
-  <a
-    href="#test/heroes/add"
-  >
-    Add a hero
-  </a>,
-]
-`;
-
 exports[`app renders admin page 1`] = `
 Array [
   <nav>

@@ -1,23 +1,28 @@
 import React, { ChangeEvent, FormEvent, MouseEvent } from "react";
 import {
-    Achievement, achievementName, allAchievements, Hero, HeroAchievement, Person,
-} from "../../services/heroService";
+    Achievement, achievementName, allAchievements, Hero, HeroAchievement, HeroService, Person,
+} from "../../services/api";
 
 export class HeroControlPanel extends React.Component<{
-    heroes: Hero[], people: Person[], prefix: string,
+    heroService: HeroService, prefix: string,
 }, {
-    selectedHero?: Hero, addHero?: boolean, action?: string,
+    loading: boolean,
+    addHero?: boolean, action?: string,
+    idOrAction?: string,
     heroes: Hero[], actionTargetId?: string,
 }> {
 
-    constructor(props: {heroes: Hero[], people: Person[], prefix: string}) {
+    constructor(props: {heroService: HeroService, prefix: string}) {
         super(props);
-        this.state = {heroes: props.heroes};
+        this.state = {heroes: [], loading: true };
     }
 
     async componentDidMount() {
         window.addEventListener("hashchange", this.handleHashChange);
         this.setHash(window.location.hash);
+
+        const heroes = await this.props.heroService.fetchHeroes();
+        this.setState({heroes, loading: false});
     }
 
     componentWillUnmount() {
@@ -33,62 +38,48 @@ export class HeroControlPanel extends React.Component<{
         if (idOrAction === "add") {
             await this.setState({addHero: true});
         } else if (controller === "heroes" && idOrAction) {
-            const selectedHero = this.state.heroes.find(p => p.id === idOrAction);
-            if (!selectedHero) {
-                window.location.hash = prefix + "/heroes";
-            } else {
-                await this.setState({action: subAction, selectedHero, actionTargetId});
-            }
+            await this.setState({addHero: false, action: subAction, idOrAction, actionTargetId});
         } else {
-            await this.setState({selectedHero: undefined, addHero: false, actionTargetId: undefined});
+            await this.setState({addHero: false, actionTargetId: undefined});
         }
     }
 
-    handleAddHero = (hero: Hero) => {
-        hero.id = "" +  (this.state.heroes.length + 1);
-        this.setState({heroes: this.state.heroes.concat(hero)});
+    handleAddHero = async (hero: Hero) => {
+        this.setState({loading: true});
+        await this.props.heroService.addHero(hero);
+        const heroes = await this.props.heroService.fetchHeroes();
+        this.setState({heroes, loading: false});
         window.location.hash = this.props.prefix + "/heroes";
     }
 
-    handleUpdateHero = (heroId: string, update: Partial<Hero>) => {
-        const index = this.state.heroes.findIndex(h => h.id === heroId);
-        if (index !== undefined) {
-            const hero = {...this.state.heroes[index], ...update};
-            this.state.heroes[index] = hero;
-            this.setState({heroes: this.state.heroes});
-        }
+    handleUpdateHero = async (heroId: string, update: Partial<Hero>) => {
+        this.setState({loading: true});
+        await this.props.heroService.updateHero(heroId, update);
+        const heroes = await this.props.heroService.fetchHeroes();
+        this.setState({heroes, loading: false});
         window.location.hash = this.props.prefix + "/heroes/" + heroId;
     }
 
-    handleAddAchievement = (heroId: string, achievement: HeroAchievement) => {
-        const index = this.state.heroes.findIndex(h => h.id === heroId);
-        if (index !== undefined) {
-            achievement.id = "" + (this.state.heroes[index].achievements.length + 1);
-            this.state.heroes[index].achievements.push(achievement);
-            this.setState({heroes: this.state.heroes});
-        }
+    handleAddAchievement = async (heroId: string, achievement: HeroAchievement) => {
+        this.setState({loading: true});
+        await this.props.heroService.addAchievement(heroId, achievement);
+        const heroes = await this.props.heroService.fetchHeroes();
+        this.setState({heroes, loading: false});
         window.location.hash = this.props.prefix + "/heroes/" + heroId;
     }
 
-    handleUpdateAchievement = (heroId: string, achievementId: string, achievement: any) => {
-        const index = this.state.heroes.findIndex(h => h.id === heroId);
-        if (index !== undefined) {
-            const hero = this.state.heroes[index];
-            const achievementIndex = hero.achievements.findIndex(a => a.id === achievementId);
-            hero.achievements[achievementIndex] = {...hero.achievements[achievementIndex], ...achievement};
-            this.setState({heroes: this.state.heroes});
-        }
+    handleUpdateAchievement = async (heroId: string, achievementId: string, achievement: any) => {
+        await this.props.heroService.updateAchievement(heroId, achievementId, achievement);
+        const heroes = await this.props.heroService.fetchHeroes();
+        this.setState({heroes, loading: false});
         window.location.hash = this.props.prefix + "/heroes/" + heroId;
     }
 
-    handleDeleteAchievement = (heroId: string, achievementId: string) => {
-        const index = this.state.heroes.findIndex(h => h.id === heroId);
-        if (index !== undefined) {
-            const hero = this.state.heroes[index];
-            const achievementIndex = hero.achievements.findIndex(a => a.id === achievementId);
-            hero.achievements.splice(achievementIndex);
-            this.setState({heroes: this.state.heroes});
-        }
+    handleDeleteAchievement = async (heroId: string, achievementId: string) => {
+        this.setState({loading: true});
+        await this.props.heroService.deleteAchievement(heroId, achievementId);
+        const heroes = await this.props.heroService.fetchHeroes();
+        this.setState({heroes, loading: false});
         window.location.hash = this.props.prefix + "/heroes/" + heroId;
     }
 
@@ -97,17 +88,24 @@ export class HeroControlPanel extends React.Component<{
     }
 
     render() {
+        if (this.state.loading) {
+            return <div>Please wait...</div>;
+        }
         if (this.state.addHero) {
             return <AddHeroView
-                people={this.props.people}
+                adminService={this.props.heroService}
                 onSubmit={this.handleAddHero}
                 onCancel={this.handleCancelAddHero}
             />;
-        }  else if (!this.state.selectedHero) {
-            return <HeroListView heroes={this.state.heroes} prefix={this.props.prefix} />;
+        }
+        const {heroes, idOrAction} = this.state;
+        const selectedHero = heroes.find(p => p.id === idOrAction);
+
+        if (!selectedHero) {
+            return <HeroListView heroes={heroes} prefix={this.props.prefix} />;
         } else {
             return <HeroView
-                hero={this.state.selectedHero}
+                hero={selectedHero}
                 action={this.state.action}
                 actionTargetId={this.state.actionTargetId}
                 prefix={this.props.prefix}
@@ -121,18 +119,25 @@ export class HeroControlPanel extends React.Component<{
 }
 
 export class AddHeroView extends React.Component<{
-    people: Person[],
+    adminService: HeroService,
     onSubmit: (hero: Hero) => void,
     onCancel: () => void,
-}, Partial<Person>> {
-    constructor(props: {people: Person[], onSubmit: (hero: Hero) => void, onCancel: () => void}) {
+}, Partial<Person> & {people: Person[]} & {loading: boolean}> {
+    constructor(props: {
+        adminService: HeroService, onSubmit: (hero: Hero) => void, onCancel: () => void,
+    }) {
         super(props);
-        this.state = {};
+        this.state = { loading: true, people: [] };
+    }
+
+    async componentDidMount() {
+        const {people} = await this.props.adminService.fetchCreateHeroData();
+        this.setState({people, loading: false});
     }
 
     handleSelectSlackPerson = (e: ChangeEvent<HTMLSelectElement>) => {
         const {value} = e.target;
-        const person = this.props.people.find(p => p.email === value);
+        const person = this.state.people.find(p => p.email === value);
         if (person) {
             this.setState({...person});
         }
@@ -152,6 +157,9 @@ export class AddHeroView extends React.Component<{
     }
 
     render() {
+        if (this.state.loading || !this.state.people) {
+            return <div>Please wait...</div>;
+        }
         return <form onSubmit={this.handleSubmit}>
             <h2>Add a hero</h2>
 
@@ -160,7 +168,7 @@ export class AddHeroView extends React.Component<{
                     Select from slack:
                     <select onChange={this.handleSelectSlackPerson} value={this.state.email} autoFocus>
                         <option></option>
-                        {this.props.people.map(p =>
+                        {this.state.people.map(p =>
                             <option key={p.email} value={p.email}>{p.name} &lt;{p.email}&gt;</option>,
                         )}
                     </select>
@@ -514,8 +522,9 @@ export class AddHeroAchievement extends React.Component<{
     }
 
     handleSave = (o: any) => {
-        this.props.onSubmit(this.props.hero.id!, {type: this.state.achievementType, ...o});
+        const {achievementType} = this.state;
         this.setState({achievementType: undefined});
+        this.props.onSubmit(this.props.hero.id!, {type: achievementType, ...o});
     }
 
     handleChangeAchievementType = (e: ChangeEvent<HTMLSelectElement>) => {

@@ -357,7 +357,7 @@ Array [
     </a>
   </h3>,
   <h2>
-    Updated name
+    Johannes Test
   </h2>,
   <ul>
     <li>
@@ -444,24 +444,6 @@ Array [
        [
       <a
         href="#test/heroes/2/achievement/12"
-      >
-        Edit
-      </a>
-      ] [
-      <a
-        className="deleteAchievementLink"
-        href="#"
-        onClick={[Function]}
-      >
-        Delete
-      </a>
-      ]
-    </li>
-    <li>
-      Speaker at JavaZone 2018: My Talk
-       [
-      <a
-        href="#test/heroes/2/achievement/3"
       >
         Edit
       </a>
@@ -846,7 +828,7 @@ Array [
     </a>
   </h3>,
   <h2>
-    Johannes Test
+    Updated name
   </h2>,
   <form
     onSubmit={[Function]}

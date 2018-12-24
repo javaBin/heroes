@@ -1,4 +1,4 @@
-import { CreateHeroData, Hero, HeroService } from "./heroService";
+import { Hero, HeroAchievement, HeroService } from "./api";
 
 interface User {
     admin: boolean;
@@ -19,6 +19,15 @@ export class MockHeroService implements HeroService {
         },
     ];
 
+    deleteAchievement(heroId: string, achievementId: string): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+    updateAchievement(heroId: string, achievementId: string, achievement: any): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+    addAchievement(heroId: string, achievement: HeroAchievement): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
     async fetchCreateHeroData() {
         return {
             achievements: [],
@@ -27,6 +36,11 @@ export class MockHeroService implements HeroService {
     }
     async consentToPublish() {
         this.heroes.find(h => h.email === this.currentUser!.email)!.published = true;
+    }
+
+    async updateHero(heroId: string, update: Partial<Hero>) {
+        // const heroIndex = this.heroes.findIndex(h => h.id === heroId);
+        // this.heroes[heroIndex] = {...this.heroes[heroIndex], ...update};
     }
 
     async fetchUserinfo() {

@@ -3,7 +3,7 @@ import renderer, { ReactTestInstance, ReactTestRenderer } from "react-test-rende
 import { App, HeroList } from "../src/app";
 import { AdminScreen } from "../src/app/admin";
 import { HeroControlPanel, HeroListView } from "../src/app/admin/HeroControlPanel";
-import { Hero, Person } from "../src/services/heroService";
+import { Hero, Person } from "../src/services/api";
 import { MockHeroService } from "../src/services/mockHeroService";
 
 function promiseCompletion() {
@@ -11,6 +11,9 @@ function promiseCompletion() {
 }
 
 const mockHeroService = new MockHeroService();
+jest.mock("../src/services/heroServiceHttp", () => ({
+    HeroServiceHttp: () => mockHeroService,
+}));
 
 // tslint:disable-next-line:no-eval
 eval(`global["window"] = {
@@ -48,31 +51,4 @@ describe("app", () => {
         expect(findComponent(app, AdminScreen).props).toHaveProperty("heroService", mockHeroService);
         expect(app.toJSON()).toMatchSnapshot();
     });
-});
-
-describe("HeroControlPanel", () => {
-
-    const heroes: Hero[] = [
-        {
-            achievements: [], email: "johannes@example.com", id: "1", name: "Johannes Test", published: false,
-        },
-        {
-            achievements: [], email: "test@example.com", id: "2", name: "Some test", published: true,
-        },
-    ];
-
-    const people: Person[] = [
-        { email: "johannes@example.com", name: "Johannes Brodwall" },
-        { email: "alice@example.com", name: "Alice" },
-        { email: "bob@example.net", name: "Bob" },
-    ];
-
-    it("shows list of current heroes", async () => {
-        const app = renderer.create(<HeroControlPanel heroes={heroes} prefix="#test" people={people} />);
-        await promiseCompletion();
-        expect(app.toJSON()).toMatchSnapshot();
-        expect(app.root.findByType(HeroListView).findByType("ul").findAllByType("a").map(li => li.children[0]))
-            .toEqual(["Johannes Test", "Some test"]);
-    });
-
 });

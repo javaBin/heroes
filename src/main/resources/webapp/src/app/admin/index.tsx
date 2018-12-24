@@ -1,8 +1,9 @@
 import React, { FormEvent } from "react";
 import { HeroService } from "../../services";
-import { Achievement, achievementName, allAchievements, CreateHeroData, Hero } from "../../services/heroService";
+import { Achievement, achievementName, allAchievements, CreateHeroData, Hero } from "../../services/api";
 
 import heroPng from "../../images/hero.png";
+import { HeroServiceHttp } from "../../services/heroServiceHttp";
 import { HeroControlPanel } from "./HeroControlPanel";
 
 interface AdminProps {
@@ -50,7 +51,7 @@ export class AdminScreen extends React.Component<AdminProps, AdminState> {
       </div>
       <fieldset>
         <h2>UX Proof-of-concept heroes control panel:</h2>
-        <HeroControlPanel heroes={heroes} people={createHeroData.people} prefix="#admin" />
+        <HeroControlPanel heroService={new HeroServiceHttp()} prefix="#admin" />
       </fieldset>
     </>;
 
