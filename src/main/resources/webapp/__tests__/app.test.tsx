@@ -2,8 +2,6 @@ import React from "react";
 import renderer, { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 import { App, HeroList } from "../src/app";
 import { AdminScreen } from "../src/app/admin";
-import { HeroControlPanel, HeroListView } from "../src/app/admin/HeroControlPanel";
-import { Hero, Person } from "../src/services/api";
 import { MockHeroService } from "../src/services/mockHeroService";
 
 function promiseCompletion() {

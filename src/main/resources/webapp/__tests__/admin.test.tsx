@@ -1,6 +1,6 @@
 import React from "react";
 import renderer, { ReactTestRenderer } from "react-test-renderer";
-import { Achievement, Hero, HeroAchievement, HeroService, Person } from "../src/services/api";
+import { Hero, HeroAchievement, HeroService, Person } from "../src/services/api";
 import { MockHeroService } from "../src/services/mockHeroService";
 
 import {
@@ -45,15 +45,15 @@ describe("HeroControlPanel", () => {
         heroes = [
             {
                 achievements: [
-                    { id: "13", label: "ABC", type: Achievement.foredragsholder_javabin },
-                    { id: "13", label: "XYZ", type: Achievement.foredragsholder_javabin },
+                    { id: "13", label: "ABC", type: "foredragsholder_javabin" },
+                    { id: "13", label: "XYZ", type: "foredragsholder_javabin" },
                 ],
                 email: "johannes@example.com", id: "1", name: "Johannes Test", published: false,
             },
             {
                 achievements: [
-                    {id: "11", label: "A great guy!", type: Achievement.foredragsholder_javabin },
-                    {id: "12", label: "A super guy!", type: Achievement.styre },
+                    {id: "11", label: "A great guy!", type: "foredragsholder_javabin" },
+                    {id: "12", label: "A super guy!", type: "styre" },
                 ],
                 email: "test@example.com", id: "2", name: "Some test", published: true,
             },
@@ -140,8 +140,9 @@ describe("HeroControlPanel", () => {
 
         describe("of JavaZone achievement type", () => {
             beforeEach(async () => {
+                expect(app.root.findAll(c => true).map(c => c.type)).toContain(AddHeroAchievement);
                 app.root.findByType(AddHeroAchievement).instance
-                .setState({achievementType: Achievement.foredragsholder_jz});
+                .setState({achievementType: "foredragsholder_jz"});
                 await promiseCompletion();
             });
 
@@ -165,7 +166,7 @@ describe("HeroControlPanel", () => {
 
         it("shows JavaBin achievement type", async () => {
             app.root.findByType(AddHeroAchievement).instance
-                .setState({achievementType: Achievement.foredragsholder_javabin});
+                .setState({achievementType: "foredragsholder_javabin"});
             await promiseCompletion();
             app.root.findByType(JavaBinSpeakerAchievementDetails);
             expect(app.toJSON()).toMatchSnapshot();
@@ -173,7 +174,7 @@ describe("HeroControlPanel", () => {
 
         it("shows board member achievement type", async () => {
             app.root.findByType(AddHeroAchievement).instance
-                .setState({achievementType: Achievement.styre});
+                .setState({achievementType: "styre"});
             await promiseCompletion();
             app.root.findByType(BoardMemberAchievementDetails);
             expect(app.toJSON()).toMatchSnapshot();

@@ -1,14 +1,14 @@
 import { CreateHeroData, Hero, HeroAchievement, HeroProfile, HeroService, Userinfo } from "./api";
 
 export class HeroServiceHttp implements HeroService {
-    deleteAchievement(heroId: string, achievementId: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async deleteAchievement(heroId: string, achievementId: string) {
+        await fetch("/api/admin/heroes/" + heroId + "/achievements/" + achievementId, { method: "DELETE" });
     }
-    updateAchievement(heroId: string, achievementId: string, achievement: any): Promise<void> {
-        throw new Error("Method not implemented.");
+    async updateAchievement(heroId: string, achievementId: string, achievement: any) {
+        await this.sendJSON("/api/admin/heroes/" + heroId + "/achievements/" + achievementId, achievement, "PUT");
     }
-    addAchievement(heroId: string, achievement: HeroAchievement): Promise<void> {
-        throw new Error("Method not implemented.");
+    async addAchievement(heroId: string, achievement: HeroAchievement): Promise<void> {
+        await this.sendJSON("/api/admin/heroes/" + heroId + "/achievements", achievement);
     }
     async fetchCreateHeroData(): Promise<CreateHeroData> {
         const response = await fetch("/api/admin/heroes/create");
@@ -17,18 +17,17 @@ export class HeroServiceHttp implements HeroService {
         }
         return await response.json();
     }
+
+    async fetchHeroDetails(id: string) {
+        const response = await fetch("/api/heroes/" + id);
+        return await response.json();
+    }
     async fetchUserinfo(): Promise<Userinfo> {
         const response = await fetch("/api/userinfo");
         return await response.json();
     }
     async consentToPublish(consentId: number) {
-        await fetch("/api/profiles/mine/consent/1", {
-            body: JSON.stringify({ consentId }),
-            headers: {
-                "Content-type": "application/json",
-            },
-            method: "POST",
-        });
+        await this.sendJSON("/api/profiles/mine/consent/1", {consentId});
     }
     async fetchMe(): Promise<HeroProfile> {
         const response = await fetch("/api/profiles/mine");
@@ -39,20 +38,24 @@ export class HeroServiceHttp implements HeroService {
     }
 
     async updateHero(heroId: string, hero: Partial<Hero>) {
-        return;
+        await this.sendJSON("/api/admin/heroes/" + heroId, hero, "PUT");
     }
 
     async addHero(hero: Hero) {
-        await fetch("/api/admin/heroes", {
-            body: JSON.stringify(hero),
-            headers: {
-                "Content-type": "application/json",
-            },
-            method: "POST",
-        });
+        await this.sendJSON("/api/admin/heroes", hero);
     }
     async fetchHeroes(): Promise<Hero[]> {
         const response = await fetch("/api/heroes");
         return await response.json();
+    }
+
+    async sendJSON(path: string, json: any, method: string = "POST") {
+        await fetch(path, {
+            body: JSON.stringify(json),
+            headers: {
+                "Content-type": "application/json",
+            },
+            method,
+        });
     }
 }

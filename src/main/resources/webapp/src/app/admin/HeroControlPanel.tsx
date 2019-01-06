@@ -40,8 +40,13 @@ export class HeroControlPanel extends React.Component<{
         } else if (controller === "heroes" && idOrAction) {
             await this.setState({addHero: false, action: subAction, idOrAction, actionTargetId});
         } else {
-            await this.setState({addHero: false, actionTargetId: undefined});
+            await this.setState({addHero: false, action: undefined, idOrAction: undefined, actionTargetId: undefined});
         }
+    }
+
+    handleLoadHero = async (id: string) => {
+        const hero = await this.props.heroService.fetchHeroDetails(id);
+        return hero;
     }
 
     handleAddHero = async (hero: Hero) => {
@@ -109,6 +114,7 @@ export class HeroControlPanel extends React.Component<{
                 action={this.state.action}
                 actionTargetId={this.state.actionTargetId}
                 prefix={this.props.prefix}
+                onLoadHero={this.handleLoadHero}
                 onSubmit={this.handleUpdateHero}
                 onAddAchievement={this.handleAddAchievement}
                 onUpdateAchievement={this.handleUpdateAchievement}
@@ -203,6 +209,7 @@ interface HeroEditProps {
     action?: string;
     actionTargetId?: string;
     prefix: string;
+    onLoadHero: (id: string) => Promise<Hero>;
     onSubmit: (id: string, hero: Partial<Hero>) => void;
     onAddAchievement: (heroId: string, achievement: any) => void;
     onUpdateAchievement: (heroId: string, achievementId: string, achievement: any) => void;
@@ -248,17 +255,23 @@ export class HeroAchievementList extends React.Component<{
     }
 }
 
-export class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
+export class HeroView extends React.Component<HeroEditProps, Partial<Hero> & {hero: Hero}> {
     constructor(props: HeroEditProps) {
         super(props);
         const {hero} = props;
         this.state = {
             achievements: hero.achievements,
             email: hero.email,
+            hero,
             name: hero.name,
             published: hero.published,
             twitter: hero.twitter,
         };
+    }
+
+    async componentDidMount() {
+        const hero = await this.props.onLoadHero(this.props.hero.id!);
+        this.setState({...hero, hero});
     }
 
     handleSubmit = (e: FormEvent) => {
@@ -269,8 +282,11 @@ export class HeroView extends React.Component<HeroEditProps, Partial<Hero>> {
     }
 
     render() {
-        const {hero, prefix, onDeleteAchievement} = this.props;
-        const {name, email, twitter, achievements} = this.state;
+        const {prefix, onDeleteAchievement} = this.props;
+        const {hero, name, email, twitter, achievements} = this.state;
+        if (!hero) {
+            return null;
+        }
         return <>
             <h3><a href={prefix}>Back</a></h3>
             <h2>{hero.name}</h2>
@@ -355,7 +371,10 @@ export class HeroAchievementEditView extends React.Component<HeroAchievementEdit
 
     render() {
         const {hero, achievementId} = this.props;
-        const achievement = hero.achievements.find(a => a.id === achievementId)!;
+        const achievement = hero.achievements.find(a => a.id === achievementId);
+        if (!achievement) {
+            return null;
+        }
         const DetailView = achievementDetail(achievement.type);
         return <form>
             <DetailView hero={hero} onSave={this.handleSave} achievement={achievement} />
@@ -495,10 +514,10 @@ class EmptyAchievementDetails extends React.Component<HeroAchievementProps> {
 
 function achievementDetail(achievementType?: Achievement): React.ComponentType<HeroAchievementProps> {
     switch (achievementType) {
-    case Achievement.foredragsholder_javabin:   return JavaBinSpeakerAchievementDetails;
-    case Achievement.foredragsholder_jz:        return JavaZoneSpeakerAchievementDetails;
-    case Achievement.styre:                     return BoardMemberAchievementDetails;
-    case undefined:                             return EmptyAchievementDetails;
+    case "foredragsholder_javabin":   return JavaBinSpeakerAchievementDetails;
+    case "foredragsholder_jz":        return JavaZoneSpeakerAchievementDetails;
+    case "styre":                     return BoardMemberAchievementDetails;
+    case undefined:                   return EmptyAchievementDetails;
     }
 }
 
@@ -517,7 +536,7 @@ export class AddHeroAchievement extends React.Component<{
     renderAchievementType = (achivementType: Achievement) => {
         return <option
             key={achivementType}
-            value={Achievement[achivementType]}
+            value={achivementType}
         >{achievementName(achivementType)}</option>;
     }
 
@@ -529,7 +548,7 @@ export class AddHeroAchievement extends React.Component<{
 
     handleChangeAchievementType = (e: ChangeEvent<HTMLSelectElement>) => {
         const {value} = e.target;
-        const achievementType: Achievement = (Achievement as any)[value];
+        const achievementType: Achievement = value as Achievement;
         this.setState({achievementType, achievementTypeString: value});
     }
 

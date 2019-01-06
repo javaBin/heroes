@@ -15,6 +15,7 @@ export class MockHeroService implements HeroService {
         {
             achievements: [],
             email: this.currentUser!.email,
+            id: "abc123",
             name: "Johannes",
         },
     ];
@@ -58,6 +59,11 @@ export class MockHeroService implements HeroService {
     }
     async fetchHeroes() {
         return this.heroes.filter(h => h.published);
+    }
+
+    async fetchHeroDetails(id: string) {
+        const heroes = await this.fetchHeroes();
+        return heroes.find(h => h.id === id)!;
     }
 
 }

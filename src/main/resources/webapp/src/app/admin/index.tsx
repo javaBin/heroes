@@ -1,6 +1,6 @@
 import React, { FormEvent } from "react";
 import { HeroService } from "../../services";
-import { Achievement, achievementName, allAchievements, CreateHeroData, Hero } from "../../services/api";
+import { achievementName, allAchievements, CreateHeroData, Hero } from "../../services/api";
 
 import heroPng from "../../images/hero.png";
 import { HeroServiceHttp } from "../../services/heroServiceHttp";
@@ -166,7 +166,7 @@ class NewHeroForm extends React.Component<{onNewHero: (h: Hero) => void, createH
             <FormControl label="Hero email" type="email" value={email} onChange={(email) => this.setState({email})} />
             <SelectControl
               label="Hero type"
-              options={achievements.map(a => ({value: Achievement[a], label: achievementName(a)}))}
+              options={achievements.map(a => ({value: a, label: achievementName(a)}))}
               value={achievement}
               onChange={(achievement) => this.setState({achievement})}
               includeBlank={true}

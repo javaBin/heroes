@@ -9,7 +9,6 @@ import { ProfileScreen } from "./profile";
 import heroPng from "../images/hero.png";
 import { HeroServiceHttp } from "../services/heroServiceHttp";
 import { HeroControlPanel } from "./admin/HeroControlPanel";
-import { MockHeroService } from "../services/mockHeroService";
 
 export function HeroList({heroes}: {heroes: Hero[]}) {
     const heroComponents = heroes.map((hero) => {
@@ -98,7 +97,7 @@ export class App extends React.Component<{heroService: HeroService}, {hash: stri
         }
 
         if (hash.indexOf("#poc") === 0) {
-            return <HeroControlPanel heroService={new MockHeroService()} prefix="#poc" />;
+            return <HeroControlPanel heroService={new HeroServiceHttp()} prefix="#poc" />;
         }
 
         return (

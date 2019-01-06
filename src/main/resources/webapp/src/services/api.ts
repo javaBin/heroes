@@ -25,22 +25,18 @@ export interface Userinfo {
     username?: string;
 }
 
-export enum Achievement {
-    foredragsholder_jz, foredragsholder_javabin, styre,
+export type Achievement = "foredragsholder_jz"|"foredragsholder_javabin"|"styre";
+
+export function allAchievements(): Achievement[] {
+    return ["foredragsholder_jz", "foredragsholder_javabin", "styre"];
 }
 
 export function achievementName(achievement: Achievement): string {
     switch (achievement) {
-    case Achievement.foredragsholder_javabin:   return "Foredragsholder JavaBin";
-    case Achievement.foredragsholder_jz:        return "JavaZone foredragsholder";
-    case Achievement.styre:                     return "Styre";
+    case "foredragsholder_javabin":         return "Foredragsholder JavaBin";
+    case "foredragsholder_jz":              return "JavaZone foredragsholder";
+    case "styre":                           return "Styre";
     }
-}
-
-export function allAchievements(): Achievement[] {
-    return Object.keys(Achievement)
-        .filter(key => !isNaN(Number((Achievement as any)[key])))
-        .map((s: string) => (Achievement as any)[s]);
 }
 
 export interface CreateHeroData {
@@ -71,6 +67,7 @@ export interface HeroService {
     fetchCreateHeroData(): Promise<CreateHeroData>;
     fetchUserinfo(): Promise<Userinfo>;
     fetchMe(): Promise<HeroProfile>;
+    fetchHeroDetails(heroId: string): Promise<Hero>;
     fetchHeroes(): Promise<Hero[]>;
     addHero(hero: Hero): Promise<void>;
     consentToPublish(consentId: number): Promise<void>;
