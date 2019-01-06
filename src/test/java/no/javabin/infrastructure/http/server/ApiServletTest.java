@@ -26,6 +26,7 @@ import org.jsonbuddy.parse.JsonParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 public class ApiServletTest {
@@ -52,13 +53,23 @@ public class ApiServletTest {
             throw new HttpRequestException(401, "You are not authorized");
         }
 
-        // TODO: Avoid using undeclared path parameters
         @Get("/user/:userId/message/:messageId")
         public URL privateMethod(
-                @PathParam("userId") String userId,
+                @PathParam("userId") UUID userId,
                 @PathParam("messageId") String messageId
         ) throws MalformedURLException {
             return new URL("https://messages.example.com/?user=" + userId + "&message=" + messageId);
+        }
+
+        @Get("/mismatch/:something")
+        public JsonObject mismatched(@PathParam("somethingElse") String param) {
+            return new JsonObject();
+        }
+
+        @Get("/restricted")
+        @RequireUserRole("admin")
+        public JsonObject restrictedOperation() {
+            return new JsonObject().put("message", "you're in!");
         }
 
         @Post("/postMethod")
@@ -80,15 +91,17 @@ public class ApiServletTest {
         public void sessionUpdater(@SessionParameter("username") Consumer<String> usernameSetter) {
             usernameSetter.accept("Alice Bobson");
         }
+
     }
 
     @Test
     public void shouldCallMethodWithArgumentsAndConvertReturn() throws ServletException, IOException {
         String name = UUID.randomUUID().toString();
+        when(requestMock.getMethod()).thenReturn("GET");
         when(requestMock.getPathInfo()).thenReturn("/one");
         when(requestMock.getParameter("name")).thenReturn(name);
 
-        servlet.doGet(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
 
         assertThat(JsonParser.parseToObject(responseBody.toString()).requiredString("name"))
             .isEqualTo(name);
@@ -98,28 +111,42 @@ public class ApiServletTest {
 
     @Test
     public void shouldOutputErrorToResponse() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
         when(requestMock.getPathInfo()).thenReturn("/error");
 
-        servlet.doGet(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
         verify(responseMock).sendError(401, "You are not authorized");
     }
 
     @Test
     public void shouldGive404OnUnknownAction() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
         when(requestMock.getPathInfo()).thenReturn("/missing");
-        servlet.doGet(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
         verify(responseMock).sendError(404);
     }
 
     @Test
     public void shouldDecodePathParams() throws ServletException, IOException {
-        when(requestMock.getPathInfo()).thenReturn("/user/3341/message/abc");
-        servlet.doGet(requestMock, responseMock);
-        verify(responseMock).sendRedirect("https://messages.example.com/?user=3341&message=abc");
+        UUID userId = UUID.randomUUID();
+        when(requestMock.getMethod()).thenReturn("GET");
+        when(requestMock.getPathInfo()).thenReturn("/user/" + userId + "/message/abc");
+        servlet.service(requestMock, responseMock);
+        verify(responseMock).sendRedirect("https://messages.example.com/?user=" + userId + "&message=abc");
+    }
+
+    @Test
+    public void shouldSetServerErrorWhenRouteIsMismatched() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
+        when(requestMock.getPathInfo()).thenReturn("/mismatch/1244");
+        servlet.service(requestMock, responseMock);
+        verify(responseMock).sendError(Matchers.eq(500),
+                Matchers.startsWith("Path parameter :somethingElse not matched"));
     }
 
     @Test
     public void shouldPostJson() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("POST");
         when(requestMock.getPathInfo()).thenReturn("/postMethod");
 
         JsonObject requestObject = new JsonObject()
@@ -127,60 +154,108 @@ public class ApiServletTest {
                 .put("list", Arrays.asList("a", "b", "c"));
         when(requestMock.getReader())
             .thenReturn(new BufferedReader(new StringReader(requestObject.toIndentedJson(" "))));
-        servlet.doPost(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
 
         assertThat(postedBody).isEqualTo(requestObject);
     }
 
     @Test
     public void shouldCallWithOptionalParameter() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
         when(requestMock.getPathInfo()).thenReturn("/hello");
 
         assertThat(admin).isNull();
-        servlet.doGet(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
         assertThat(admin).isEmpty();
 
         when(requestMock.getParameter("admin")).thenReturn("true");
-        servlet.doGet(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
         assertThat(admin).hasValue(true);
     }
 
 
     @Test
     public void shouldCallWithRequiredInt() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
         when(requestMock.getPathInfo()).thenReturn("/goodbye");
 
         when(requestMock.getParameter("amount")).thenReturn("123");
-        servlet.doGet(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
         assertThat(amount).isEqualTo(123);
     }
 
     @Test
     public void shouldRequireNonOptionalParameter() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
         when(requestMock.getPathInfo()).thenReturn("/goodbye");
 
-        servlet.doGet(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
         verify(responseMock).sendError(400, "Missing required parameter amount");
     }
 
     @Test
     public void shouldReportParameterConversionFailure() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
         when(requestMock.getPathInfo()).thenReturn("/goodbye");
 
         when(requestMock.getParameter("amount")).thenReturn("one");
-        servlet.doGet(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
         verify(responseMock).sendError(400, "Invalid parameter amount 'one' is not an int");
     }
 
     @Test
     public void shouldSetSessionParameters() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("POST");
         when(requestMock.getPathInfo()).thenReturn("/setLoggedInUser");
 
         HttpSession mockSession = Mockito.mock(HttpSession.class);
         when(requestMock.getSession(Mockito.anyBoolean())).thenReturn(mockSession);
 
-        servlet.doPost(requestMock, responseMock);
+        servlet.service(requestMock, responseMock);
         verify(mockSession).setAttribute("username", "Alice Bobson");
+    }
+
+    @Test
+    public void shouldRejectUnauthenticedUsersFromRestrictedOperation() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
+        when(requestMock.getPathInfo()).thenReturn("/restricted");
+        servlet.service(requestMock, responseMock);
+
+        verify(responseMock).setStatus(401);
+        verify(responseMock).setContentType("application/json");
+        verify(responseMock).getWriter();
+        assertThat(JsonParser.parseToObject(responseBody.toString()).requiredString("message"))
+                .isEqualTo("Login required");
+    }
+
+    @Test
+    public void shouldAllowUserWithCorrectRole() throws ServletException, IOException {
+        when(requestMock.getRemoteUser()).thenReturn("good user");
+        when(requestMock.isUserInRole("admin")).thenReturn(true);
+
+        when(requestMock.getMethod()).thenReturn("GET");
+        when(requestMock.getPathInfo()).thenReturn("/restricted");
+        servlet.service(requestMock, responseMock);
+
+        verify(responseMock).setContentType("application/json");
+        verify(responseMock).getWriter();
+        assertThat(JsonParser.parseToObject(responseBody.toString()).requiredString("message"))
+                .isEqualTo("you're in!");
+    }
+
+    @Test
+    public void shouldRejectUserWithoutCorrectRole() throws ServletException, IOException {
+        when(requestMock.getRemoteUser()).thenReturn("silly user");
+        when(requestMock.isUserInRole("guest")).thenReturn(false);
+        when(requestMock.getMethod()).thenReturn("GET");
+        when(requestMock.getPathInfo()).thenReturn("/restricted");
+        servlet.service(requestMock, responseMock);
+
+        verify(responseMock).setStatus(403);
+        verify(responseMock).setContentType("application/json");
+        verify(responseMock).getWriter();
+        assertThat(JsonParser.parseToObject(responseBody.toString()).requiredString("message"))
+                .isEqualTo("Insufficient permissions");
 
     }
 

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -22,14 +23,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import no.javabin.infrastructure.http.Delete;
 import org.jsonbuddy.JsonNode;
+import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ApiServlet extends HttpServlet {
 
-    private Logger logger = LoggerFactory.getLogger(ApiServlet.class);
+    private static Logger logger = LoggerFactory.getLogger(ApiServlet.class);
 
     private static class ApiRoute {
 
@@ -52,44 +55,34 @@ public class ApiServlet extends HttpServlet {
     }
 
 
+    protected boolean isUserLoggedIn(HttpServletRequest req) {
+        return req.getRemoteUser() != null;
+    }
+
+    protected boolean isUserInRole(HttpServletRequest req, String role) {
+        return req.isUserInRole(role);
+    }
+
     private List<Object> controllers = new ArrayList<>();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map<String, String> pathParameters = new HashMap<>();
-        ApiRoute route = findRoute(req, pathParameters,
-                method -> Optional.ofNullable(method.getAnnotation(Get.class)).map(Get::value));
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Map<String, Function<Method, Optional<String>>> actionMatchers = new HashMap<>();
 
-        if (route != null) {
-            Object result;
-            try {
-                Object[] arguments = createArguments(route.getAction(), req, pathParameters);
-                result = invoke(route.getController(), route.getAction(), arguments);
-            } catch (HttpRequestException e) {
-                if (e.getStatusCode() >= 500) {
-                    logger.error("While serving {}", route, e);
-                } else {
-                    logger.info("While serving {}", route, e);
-                }
-                resp.sendError(e.getStatusCode(), e.getMessage());
-                return;
-            }
-            sendResponse(result, resp);
-        } else {
-            logger.warn("No route for {}", req.getPathInfo());
-            resp.sendError(404);
-        }
-    }
+        actionMatchers.put("GET", method -> Optional.ofNullable(method.getAnnotation(Get.class)).map(Get::value));
+        actionMatchers.put("POST", method -> Optional.ofNullable(method.getAnnotation(Post.class)).map(Post::value));
+        actionMatchers.put("PUT", method -> Optional.ofNullable(method.getAnnotation(Put.class)).map(Put::value));
+        actionMatchers.put("DELETE", method -> Optional.ofNullable(method.getAnnotation(Delete.class)).map(Delete::value));
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> pathParameters = new HashMap<>();
-        ApiRoute route = findRoute(req, pathParameters,
-                method -> Optional.ofNullable(method.getAnnotation(Post.class)).map(Post::value));
+        ApiRoute route = findRoute(req, pathParameters, actionMatchers.get(req.getMethod()));
 
         if (route == null) {
-            logger.warn("No route for {]", req.getPathInfo());
-            resp.sendError(400);
+            logger.warn("No route for {}", req.getPathInfo());
+            resp.sendError(404);
+            return;
+        }
+        if (!verifyUserPermissions(req, resp, route)) {
             return;
         }
 
@@ -108,6 +101,29 @@ public class ApiServlet extends HttpServlet {
         }
         sendResponse(result, resp);
     }
+
+    protected boolean verifyUserPermissions(HttpServletRequest req, HttpServletResponse resp, ApiRoute route) throws IOException {
+        Method action = route.getAction();
+        RequireUserRole requireUserRole = action.getDeclaredAnnotation(RequireUserRole.class);
+        if (requireUserRole != null) {
+            if (!isUserLoggedIn(req)) {
+                logger.warn("User must be logged in for {}", action);
+                resp.setStatus(401);
+                resp.setContentType("application/json");
+                resp.getWriter().write(new JsonObject().put("message", "Login required").toJson());
+                return false;
+            }
+            if (!isUserInRole(req, requireUserRole.value())) {
+                logger.warn("User failed to authenticate for {}: Missing role {} for user", action, requireUserRole.value());
+                resp.setStatus(403);
+                resp.setContentType("application/json");
+                resp.getWriter().write(new JsonObject().put("message", "Insufficient permissions").toJson());
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     private void sendResponse(Object result, HttpServletResponse resp) throws IOException {
         if (result == null) {
@@ -196,7 +212,17 @@ public class ApiServlet extends HttpServlet {
             RequestParam reqParam;
             SessionParameter sessionParam;
             if ((pathParam = parameter.getAnnotation(PathParam.class)) != null) {
-                return pathParameters.get(pathParam.value());
+                String result = pathParameters.get(pathParam.value());
+                if (result == null) {
+                    throw new HttpRequestException(500, "Path parameter :" + pathParam.value() + " not matched for " + method);
+                }
+                if (parameter.getType() == String.class) {
+                    return result;
+                } else if (parameter.getType() == UUID.class) {
+                    return UUID.fromString(result);
+                } else {
+                    throw new HttpRequestException(500, "Illegal type for " + pathParam.value());
+                }
             } else if ((sessionParam = parameter.getAnnotation(SessionParameter.class)) != null) {
                 if (parameter.getType() == Consumer.class) {
                     return new Consumer<Object>() {
