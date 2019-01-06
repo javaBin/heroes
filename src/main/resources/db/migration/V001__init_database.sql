@@ -17,3 +17,10 @@ CREATE TABLE achievement (
     id VARCHAR(50),
     data varchar(1000)
 );
+
+CREATE TABLE hero_achievements (
+    id uniqueidentifier primary key,
+    hero_id uniqueidentifier not null REFERENCES heroes(id),
+    achievement_type varchar(50) not null,
+    data text
+);

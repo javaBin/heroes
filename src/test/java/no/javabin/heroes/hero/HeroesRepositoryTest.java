@@ -8,25 +8,19 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
+import no.javabin.heroes.TestDataSource;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
-import org.flywaydb.core.Flyway;
-import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;
 import org.junit.Test;
 
 public class HeroesRepositoryTest {
-    private DataSource dataSource;
     private HeroesRepository heroesRepository;
-    private Random random = new Random();
+    private static Random random = new Random();
 
     @Before
     public void setupDataSource() {
-        JdbcDataSource jdbcDataSource = new JdbcDataSource();
-        jdbcDataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
-        dataSource = jdbcDataSource;
-        Flyway.configure().dataSource(dataSource).load().migrate();
-
+        DataSource dataSource = TestDataSource.createDataSource();
         heroesRepository = new HeroesRepository(() -> dataSource);
     }
 
@@ -36,6 +30,8 @@ public class HeroesRepositoryTest {
         heroesRepository.save(hero);
         assertThat(hero).hasNoNullFieldsOrProperties();
         assertThat(heroesRepository.retrieveByEmail(hero.getEmail()))
+            .isEqualToComparingFieldByField(hero);
+        assertThat(heroesRepository.retrieveById(hero.getId()))
             .isEqualToComparingFieldByField(hero);
     }
 
@@ -69,34 +65,45 @@ public class HeroesRepositoryTest {
             .isEqualToComparingFieldByField(hero);
     }
 
-    private Hero sampleHero() {
+    @Test
+    public void shouldUpdateHero() {
+        Hero hero = basicHero();
+        heroesRepository.save(hero);
+        Hero update = basicHero();
+        update.setId(hero.getId());
+        heroesRepository.update(update);
+        assertThat(heroesRepository.retrieveById(hero.getId()))
+            .isEqualToComparingFieldByField(update);
+    }
+
+    public static Hero sampleHero() {
         Hero hero = basicHero();
         setConsent(hero);
         return hero;
     }
 
-    public void setConsent(Hero hero) {
+    public static void setConsent(Hero hero) {
         hero.setConsentId(random.nextLong() % 1000L);
         hero.setConsentedAt(randomInstant());
         hero.setConsentClientIp(randomIpAddress());
     }
 
-    public Hero basicHero() {
+    public static Hero basicHero() {
         Hero hero = new Hero();
         hero.setEmail(sampleEmail());
         hero.setAchievement(sampleAchievement());
         return hero;
     }
 
-    public Instant randomInstant() {
+    public static Instant randomInstant() {
         return Instant.now().minusSeconds(random.nextInt(7 * 24 * 60 * 60));
     }
 
-    public String randomIpAddress() {
+    public static String randomIpAddress() {
         return random.nextInt(255) + "." + random.nextInt(255) + "." + random.nextInt(255) + "." + random.nextInt(255);
     }
 
-    private String sampleAchievement() {
+    private static String sampleAchievement() {
         String[] examples = {
                 "styremedlem",
                 "foredragsholder-jz",
@@ -107,7 +114,7 @@ public class HeroesRepositoryTest {
         return examples[random.nextInt(examples.length)];
     }
 
-    private String sampleEmail() {
+    private static String sampleEmail() {
         return "my+email+" + UUID.randomUUID() + "@example.com";
     }
 

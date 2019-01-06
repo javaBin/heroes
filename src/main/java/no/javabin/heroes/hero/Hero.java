@@ -1,8 +1,11 @@
 package no.javabin.heroes.hero;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import no.javabin.heroes.hero.achievement.HeroAchievement;
 
 public class Hero {
 
@@ -17,6 +20,8 @@ public class Hero {
     private String consentClientIp;
 
     private Instant consentedAt;
+
+    private List<HeroAchievement> achievements = new ArrayList<>();
 
     public UUID getId() {
         return id;
@@ -64,6 +69,14 @@ public class Hero {
 
     public void setConsentedAt(Instant consentedAt) {
         this.consentedAt = consentedAt;
+    }
+
+    public List<HeroAchievement> getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(List<HeroAchievement> achievements) {
+        this.achievements = achievements;
     }
 
     @Override

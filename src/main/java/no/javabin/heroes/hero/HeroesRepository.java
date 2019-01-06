@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import no.javabin.heroes.DataSourceContext;
+import no.javabin.heroes.hero.achievement.AchievementRepository;
 import no.javabin.infrastructure.ExceptionUtil;
 import org.fluentjdbc.DatabaseRow;
 import org.fluentjdbc.DatabaseTable;
@@ -15,9 +16,11 @@ public class HeroesRepository {
 
     private final DatabaseTable table = new DatabaseTableImpl("heroes");
     private DataSourceContext dataSourceContext;
+    private AchievementRepository achievementRepository;
 
     public HeroesRepository(DataSourceContext dataSourceContext) {
         this.dataSourceContext = dataSourceContext;
+        achievementRepository = new AchievementRepository(dataSourceContext);
     }
 
     public void save(Hero hero) {
@@ -51,7 +54,6 @@ public class HeroesRepository {
         }
     }
 
-
     public List<Hero> list(boolean includeUnpublished) {
         try (Connection conn = getConnection()) {
             if (includeUnpublished) {
@@ -68,10 +70,26 @@ public class HeroesRepository {
 
     public Hero retrieveByEmail(String email) {
         try (Connection conn = getConnection()) {
-            return table.where("email", email).singleObject(conn, this::mapRow);
+            Hero hero = table.where("email", email).singleObject(conn, this::mapRow);
+            retrieveAchievements(hero);
+            return hero;
         } catch (SQLException e) {
             throw ExceptionUtil.softenException(e);
         }
+    }
+
+    public Hero retrieveById(UUID id) {
+        try (Connection conn = getConnection()) {
+            Hero hero = table.where("id", id).singleObject(conn, this::mapRow);
+            retrieveAchievements(hero);
+            return hero;
+        } catch (SQLException e) {
+            throw ExceptionUtil.softenException(e);
+        }
+    }
+
+    private void retrieveAchievements(Hero hero) {
+        hero.setAchievements(achievementRepository.listByHeroId(hero.getId()));
     }
 
     private Hero mapRow(DatabaseRow o) throws SQLException {
@@ -88,4 +106,6 @@ public class HeroesRepository {
     private Connection getConnection() throws SQLException {
         return dataSourceContext.getDataSource().getConnection();
     }
+
+
 }
