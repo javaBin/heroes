@@ -27,10 +27,14 @@ public class HttpUrl {
 
     public URL toURL() {
         try {
-            return new URL(baseUrl + (parameters.isEmpty() ? "" : "?" + urlEncode(parameters)));
+            return new URL(getUrl());
         } catch (MalformedURLException e) {
             throw ExceptionUtil.softenException(e);
         }
+    }
+
+    public String getUrl() {
+        return baseUrl + (parameters.isEmpty() ? "" : "?" + urlEncode(parameters));
     }
 
     private String urlEncode(Map<String, String> parameters) {
