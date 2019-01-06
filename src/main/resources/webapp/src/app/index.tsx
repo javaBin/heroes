@@ -89,7 +89,7 @@ export class App extends React.Component<{heroService: HeroService}, {hash: stri
     renderContent() {
         const { hash } = this.state;
         if (hash.indexOf("#admin") === 0) {
-            return <AdminScreen heroService={this.props.heroService} />;
+            return <HeroControlPanel heroService={new HeroServiceHttp()} prefix="#admin" />;
         }
 
         if (hash.indexOf("#profile") === 0) {

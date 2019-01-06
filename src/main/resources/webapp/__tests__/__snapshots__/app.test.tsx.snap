@@ -20,180 +20,30 @@ Array [
       </li>
     </ul>
   </nav>,
-  <div
-    className="heroes-admin-container"
-  >
-    <h1>
-      javaBin Heroes
-    </h1>
-    <h2>
-      Add Hero
-    </h2>
-    <div
-      className="heroes-admin-add"
-    >
-      <form
-        onSubmit={[Function]}
+  <h2>
+    Here are all the heroes
+  </h2>,
+  <ul>
+    <li>
+      <a
+        href="#admin/heroes/1"
       >
-        <label>
-          Person
-          <select
-            onChange={[Function]}
-            value=""
-          >
-            <option />
-          </select>
-        </label>
-        <label>
-          Hero name
-          <input
-            onChange={[Function]}
-            value=""
-          />
-        </label>
-        <label>
-          Hero email
-          <input
-            onChange={[Function]}
-            type="email"
-            value=""
-          />
-        </label>
-        <label>
-          Hero type
-          <select
-            onChange={[Function]}
-            value=""
-          >
-            <option />
-            <option
-              value="foredragsholder_jz"
-            >
-              JavaZone foredragsholder
-            </option>
-            <option
-              value="foredragsholder_javabin"
-            >
-              Foredragsholder JavaBin
-            </option>
-            <option
-              value="styre"
-            >
-              Styre
-            </option>
-          </select>
-        </label>
-        <label>
-          Dato
-          <input
-            type="date"
-          />
-        </label>
-        <button>
-          Legg til
-        </button>
-      </form>
-    </div>
-    <h2>
-      Current heroes
-    </h2>
-    <div
-      className="heroes-list"
-    >
-      <h2>
-        Helter
-      </h2>
-      <table>
-        <thead>
-          <tr>
-            <th />
-            <th>
-              Navn
-            </th>
-            <th>
-              Heltetype
-            </th>
-            <th>
-              Published
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <img
-                height="25"
-                src={
-                  Object {
-                    "process": [Function],
-                  }
-                }
-              />
-            </td>
-            <td>
-              Alice
-            </td>
-            <td>
-              
-            </td>
-            <td>
-              Published
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                height="25"
-                src={
-                  Object {
-                    "process": [Function],
-                  }
-                }
-              />
-            </td>
-            <td>
-              Bob
-            </td>
-            <td>
-              
-            </td>
-            <td>
-              Published
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>,
-  <fieldset>
-    <h2>
-      UX Proof-of-concept heroes control panel:
-    </h2>
-    <h2>
-      Here are all the heroes
-    </h2>
-    <ul>
-      <li>
-        <a
-          href="#admin/heroes/1"
-        >
-          Alice
-        </a>
-      </li>
-      <li>
-        <a
-          href="#admin/heroes/2"
-        >
-          Bob
-        </a>
-      </li>
-    </ul>
-    <a
-      href="#admin/heroes/add"
-    >
-      Add a hero
-    </a>
-  </fieldset>,
+        Alice
+      </a>
+    </li>
+    <li>
+      <a
+        href="#admin/heroes/2"
+      >
+        Bob
+      </a>
+    </li>
+  </ul>,
+  <a
+    href="#admin/heroes/add"
+  >
+    Add a hero
+  </a>,
 ]
 `;
 

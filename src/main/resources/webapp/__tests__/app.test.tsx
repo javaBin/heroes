@@ -1,7 +1,7 @@
 import React from "react";
 import renderer, { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 import { App, HeroList } from "../src/app";
-import { AdminScreen } from "../src/app/admin";
+import { HeroControlPanel } from "../src/app/admin/HeroControlPanel";
 import { MockHeroService } from "../src/services/mockHeroService";
 
 function promiseCompletion() {
@@ -46,7 +46,7 @@ describe("app", () => {
         const app = renderer.create(<App heroService={mockHeroService} />);
         await promiseCompletion();
 
-        expect(findComponent(app, AdminScreen).props).toHaveProperty("heroService", mockHeroService);
+        expect(findComponent(app, HeroControlPanel).props).toHaveProperty("heroService", mockHeroService);
         expect(app.toJSON()).toMatchSnapshot();
     });
 });
