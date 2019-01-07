@@ -35,7 +35,7 @@ State: Not feature complete
 
 ### Features to version 1.0
 
-[ ] Add/update personal information must store correct info in database
+[x] Add/update personal information must store correct info in database
 [ ] Edit achievement must show current information
 [ ] Achievement types to be completed:
     [ ] All must have an effective date for sorting
@@ -45,22 +45,25 @@ State: Not feature complete
 [ ] Notify hero via email
 [ ] Establish session via email link
 [ ] Hero can see own information
+[ ] Material design frontend
 
 ### Cleanup to version 1.0
 
 [ ] One database table per achievement type
 [ ] Remove version 0.0.0.1 database tables and code
 [ ] Redirect to https (on Azure!)
+[ ] Consent in separate table?
+[ ] Frontend error handling
 
 ### Infrastructure & tooling improvements
 
-[ ] logevents to link to github.com
+[x] logevents to link to github.com
 [ ] fluent-jdbc to abstract away DataSource.getConnection
 [ ] DTOs as return values and arguments for controllers
 [ ] ApiServlet to have a register-like structure for annotations
 [ ] mvn to run `npm test && npm run build`
 [ ] Use NPM Prettier
-[ ] Keep Slack access_token and refresh_token in encrypted cookie
+[ ] Keep Slack `access_token` and `refresh_token` in encrypted cookie
 
 ### Cleanup for later
 

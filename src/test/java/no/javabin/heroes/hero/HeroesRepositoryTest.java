@@ -57,8 +57,10 @@ public class HeroesRepositoryTest {
     public void shouldShowHeroesAfterConsent() {
         Hero hero = basicHero();
         heroesRepository.save(hero);
-        setConsent(hero);
-        heroesRepository.update(hero);
+        hero.setConsentId(random.nextLong() % 1000L);
+        hero.setConsentClientIp(randomIpAddress());
+        hero.setConsentedAt(Instant.now());
+        heroesRepository.updateConsent(hero.getId(), hero.getConsentId(), hero.getConsentClientIp(), hero.getConsentedAt());
         assertThat(heroesRepository.list(false))
             .contains(hero);
         assertThat(heroesRepository.retrieveByEmail(hero.getEmail()))
@@ -79,6 +81,7 @@ public class HeroesRepositoryTest {
     public static Hero sampleHero() {
         Hero hero = basicHero();
         setConsent(hero);
+        hero.setTwitter(hero.getName().toLowerCase() + random.nextInt(10000));
         return hero;
     }
 
@@ -91,8 +94,16 @@ public class HeroesRepositoryTest {
     public static Hero basicHero() {
         Hero hero = new Hero();
         hero.setEmail(sampleEmail());
+        hero.setName(sampleName());
         hero.setAchievement(sampleAchievement());
         return hero;
+    }
+
+    private static String sampleName() {
+        return pickOne(new String[] {
+                "Olivia", "Sophia", "Emma", "Isabella", "Elizabeth", "Madison", "Jessica",
+                "Oliver", "Ethan", "Alexander", "Michael", "William", "Jacob", "Thomas",
+        });
     }
 
     public static Instant randomInstant() {
@@ -104,19 +115,20 @@ public class HeroesRepositoryTest {
     }
 
     private static String sampleAchievement() {
-        String[] examples = {
+        return pickOne(new String[] {
                 "styremedlem",
                 "foredragsholder-jz",
                 "foredragsholder",
                 "regionsleder",
                 "aktiv",
-        };
+        });
+    }
+
+    protected static String pickOne(String[] examples) {
         return examples[random.nextInt(examples.length)];
     }
 
     private static String sampleEmail() {
         return "my+email+" + UUID.randomUUID() + "@example.com";
     }
-
-
 }

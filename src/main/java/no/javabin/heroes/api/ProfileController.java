@@ -46,15 +46,12 @@ public class ProfileController {
 
     @Post("/profiles/mine/consent/:consentId")
     public void consentToPublish(
-            @PathParam("consentId") String consentId,
+            @PathParam("consentId") long consentId,
             @RequestParam.ClientIp String clientIp,
             @SessionParameter("profile") Profile profile
     ) {
         Hero hero = heroesRepository.retrieveByEmail(profile.getEmail());
-        hero.setConsentId(Long.parseLong(consentId));
-        hero.setConsentedAt(Instant.now());
-        hero.setConsentClientIp(clientIp);
-        heroesRepository.update(hero);
+        heroesRepository.updateConsent(hero.getId(), consentId, clientIp, Instant.now());
     }
 
 }

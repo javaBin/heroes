@@ -1,6 +1,8 @@
 create table HEROES (
     id uniqueidentifier primary key,
-    email varchar(100),
+    email varchar(100) not null,
+    name varchar(100) not null,
+    twitter varchar(100),
     achievement varchar(100),
     consent_id bigint,
     consented_at datetime,

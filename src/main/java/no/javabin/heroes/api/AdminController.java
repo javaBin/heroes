@@ -50,7 +50,9 @@ public class AdminController {
     public JsonObject getHeroDetails(@PathParam("heroId") UUID heroId) {
         Hero hero = repository.retrieveById(heroId);
         return new JsonObject()
-                .put("name", hero.getEmail())
+                .put("email", hero.getEmail())
+                .put("name", hero.getName())
+                .put("twitter", hero.getTwitter())
                 .put("id", hero.getId().toString())
                 .put("achievements", JsonArray.map(hero.getAchievements(),
                         a -> new JsonObject().put("id", a.getId().toString()).put("label", a.getLabel()).put("type", a.getType())))
@@ -62,6 +64,8 @@ public class AdminController {
     public void createHero(@Body JsonObject o) {
         Hero hero = new Hero();
         hero.setEmail(o.requiredString("email"));
+        hero.setName(o.requiredString("name"));
+        hero.setTwitter(o.stringValue("twitter").orElse(null));
         hero.setAchievement(o.stringValue("achievement").orElse(null));
         repository.save(hero);
     }
@@ -72,6 +76,8 @@ public class AdminController {
         Hero hero = new Hero();
         hero.setId(heroId);
         hero.setEmail(o.requiredString("email"));
+        hero.setName(o.requiredString("name"));
+        hero.setTwitter(o.stringValue("twitter").orElse(null));
         hero.setAchievement(o.stringValue("achievement").orElse(null));
         repository.update(hero);
     }

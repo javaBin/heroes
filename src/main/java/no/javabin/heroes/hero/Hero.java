@@ -13,6 +13,10 @@ public class Hero {
 
     private String email;
 
+    private String name;
+
+    private String twitter;
+
     private String achievement;
 
     private Long consentId;
@@ -37,6 +41,22 @@ public class Hero {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
     }
 
     public String getAchievement() {

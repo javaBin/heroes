@@ -2,6 +2,7 @@ package no.javabin.heroes.hero;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +28,8 @@ public class HeroesRepository {
         try (Connection conn = getConnection()) {
             UUID id = table.newSaveBuilderWithUUID("id", null)
                 .uniqueKey("email", hero.getEmail())
+                .setField("name", hero.getName())
+                .setField("twitter", hero.getTwitter())
                 .setField("achievement", hero.getAchievement())
                 .setField("consent_id", hero.getConsentId())
                 .setField("consented_at", hero.getConsentedAt())
@@ -44,15 +47,30 @@ public class HeroesRepository {
                 .where("id", hero.getId())
                 .update()
                 .setField("email", hero.getEmail())
+                .setField("name", hero.getName())
+                .setField("twitter", hero.getTwitter())
                 .setField("achievement", hero.getAchievement())
-                .setField("consent_id", hero.getConsentId())
-                .setField("consented_at", hero.getConsentedAt())
-                .setField("consent_client_ip", hero.getConsentClientIp())
                 .execute(conn);
         } catch (SQLException e) {
             throw ExceptionUtil.softenException(e);
         }
     }
+
+    public void updateConsent(UUID id, long consentId, String clientIp, Instant consentedTime) {
+        try (Connection conn = getConnection()) {
+            table
+                .where("id", id)
+                .update()
+                .setField("consent_id", consentId)
+                .setField("consented_at", consentedTime)
+                .setField("consent_client_ip", clientIp)
+                .execute(conn);
+        } catch (SQLException e) {
+            throw ExceptionUtil.softenException(e);
+        }
+    }
+
+
 
     public List<Hero> list(boolean includeUnpublished) {
         try (Connection conn = getConnection()) {
@@ -96,6 +114,8 @@ public class HeroesRepository {
         Hero hero = new Hero();
         hero.setId(o.getUUID("id"));
         hero.setEmail(o.getString("email"));
+        hero.setName(o.getString("name"));
+        hero.setTwitter(o.getString("twitter"));
         hero.setAchievement(o.getString("achievement"));
         hero.setConsentId(o.getLong("consent_id"));
         hero.setConsentClientIp(o.getString("consent_client_ip"));
@@ -106,6 +126,5 @@ public class HeroesRepository {
     private Connection getConnection() throws SQLException {
         return dataSourceContext.getDataSource().getConnection();
     }
-
 
 }
