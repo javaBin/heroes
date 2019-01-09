@@ -1,6 +1,15 @@
 import React, { ChangeEvent, FormEvent, MouseEvent } from "react";
 import {
-    Achievement, achievementName, allAchievements, Hero, HeroAchievement, HeroService, Person,
+    Achievement,
+    achievementName,
+    allAchievements,
+    BoardMemberRole,
+    boardMemberRoleName,
+    Hero,
+    HeroAchievement,
+    HeroAchievementDetail,
+    HeroService,
+    Person,
 } from "../../services/api";
 
 export class HeroControlPanel extends React.Component<{
@@ -65,7 +74,7 @@ export class HeroControlPanel extends React.Component<{
         window.location.hash = this.props.prefix + "/heroes/" + heroId;
     }
 
-    handleAddAchievement = async (heroId: string, achievement: HeroAchievement) => {
+    handleAddAchievement = async (heroId: string, achievement: HeroAchievementDetail) => {
         this.setState({loading: true});
         await this.props.heroService.addAchievement(heroId, achievement);
         const heroes = await this.props.heroService.fetchHeroes();
@@ -73,7 +82,7 @@ export class HeroControlPanel extends React.Component<{
         window.location.hash = this.props.prefix + "/heroes/" + heroId;
     }
 
-    handleUpdateAchievement = async (heroId: string, achievementId: string, achievement: any) => {
+    handleUpdateAchievement = async (heroId: string, achievementId: string, achievement: HeroAchievementDetail) => {
         await this.props.heroService.updateAchievement(heroId, achievementId, achievement);
         const heroes = await this.props.heroService.fetchHeroes();
         this.setState({heroes, loading: false});
@@ -211,14 +220,13 @@ interface HeroEditProps {
     prefix: string;
     onLoadHero: (id: string) => Promise<Hero>;
     onSubmit: (id: string, hero: Partial<Hero>) => void;
-    onAddAchievement: (heroId: string, achievement: any) => void;
-    onUpdateAchievement: (heroId: string, achievementId: string, achievement: any) => void;
-
+    onAddAchievement: (heroId: string, achievement: HeroAchievementDetail) => void;
+    onUpdateAchievement: (heroId: string, achievementId: string, achievement: HeroAchievementDetail) => void;
     onDeleteAchievement: (heroId: string, achievementId: string) => void;
 }
 
 export class HeroAchievementList extends React.Component<{
-    hero: Hero, achievements: any[], prefix: string,
+    hero: Hero, achievements: HeroAchievementDetail[], prefix: string,
     onDeleteAchievement: (heroId: string, achievementId: string) => void,
 }> {
 
@@ -270,15 +278,19 @@ export class HeroView extends React.Component<HeroEditProps, Partial<Hero> & {he
     }
 
     async componentDidMount() {
+        this.refresh();
+    }
+
+    async refresh() {
         const hero = await this.props.onLoadHero(this.props.hero.id!);
         this.setState({...hero, hero});
     }
 
-    handleSubmit = (e: FormEvent) => {
+    handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         const {email, name, twitter} = this.state;
         const hero = {email, name, twitter};
-        this.props.onSubmit(this.props.hero.id!, hero);
+        await this.props.onSubmit(this.props.hero.id!, hero);
     }
 
     render() {
@@ -361,11 +373,11 @@ interface HeroAchievementEditProps {
     hero: Hero;
     achievementId: string;
     prefix: string ;
-    onSubmit: (heroId: string, achievementId: string, o: any) => void;
+    onSubmit: (heroId: string, achievementId: string, o: HeroAchievementDetail) => void;
 }
 
 export class HeroAchievementEditView extends React.Component<HeroAchievementEditProps> {
-    handleSave = (update: any) => {
+    handleSave = (update: HeroAchievementDetail) => {
         this.props.onSubmit(this.props.hero.id!, this.props.achievementId, update);
     }
 
@@ -385,28 +397,27 @@ export class HeroAchievementEditView extends React.Component<HeroAchievementEdit
 interface HeroAchievementProps {
     hero: Hero;
     achievement?: any;
-    onSave(o: any): void;
+    onSave(o: HeroAchievementDetail): void;
 }
 
 export class JavaZoneSpeakerAchievementDetails extends React.Component<
-    HeroAchievementProps & {achievement?: {year?: string, title?: string}}, {
-    year?: string, title: string,
+    HeroAchievementProps & {achievement?: {year: string, title: string}}, {
+    year: number, title: string,
 }> {
-    years: string[];
-    constructor(props: HeroAchievementProps & {achievement?: {year?: string, title?: string}}) {
+    years: number[];
+    constructor(props: HeroAchievementProps & {achievement?: {year: number, title: string}}) {
         super(props);
         this.years = [
-            "2018", "2017", "2016", "2015", "2014",
-            "2013", "2012", "2011", "2010", "2009",
-            "2008",
+            2018, 2017, 2016, 2015, 2014,
+            2013, 2012, 2011, 2010, 2009,
+            2008,
         ];
         this.state = { year: this.years[0], title: "", ...props.achievement };
     }
 
     handleSubmit = (e: FormEvent) => {
         const {year, title} = this.state;
-        const label = "Speaker at JavaZone " + year + ": " + title;
-        this.props.onSave({ year, title, label });
+        this.props.onSave({ type: "FOREDRAGSHOLDER_JZ", year, title });
         e.preventDefault();
     }
 
@@ -415,7 +426,11 @@ export class JavaZoneSpeakerAchievementDetails extends React.Component<
             <h4>JavaZone foredragsholder</h4>
             <label>
                 JavaZone year
-                <select value={this.state.year} onChange={e => this.setState({year: e.target.value})} autoFocus>
+                <select
+                    value={this.state.year.toString()}
+                    onChange={e => this.setState({year: parseInt(e.target.value.toString(), 10) })}
+                    autoFocus
+                >
                     {this.years.map(y => <option value={y} key={y}>{y}</option>)}
                 </select>
             </label>
@@ -430,17 +445,16 @@ export class JavaZoneSpeakerAchievementDetails extends React.Component<
 
 export class JavaBinSpeakerAchievementDetails extends React.Component<
     HeroAchievementProps & {achievement?: {date?: string, title?: string}}, {
-    date?: string,
+    date: string,
     title: string,
 }> {
     constructor(props: HeroAchievementProps & {achievement?: {date?: string, title?: string}}) {
         super(props);
-        this.state = {title: "", ...props.achievement};
+        this.state = {title: "", date: "", ...props.achievement};
     }
     handleSubmit = (e: FormEvent) => {
         const {date, title} = this.state;
-        const label = `JavaBin speaker ${date}: ${title}`;
-        this.props.onSave({ date, title, label });
+        this.props.onSave({ type: "FOREDRAGSHOLDER_JAVABIN", date: new Date(date), title });
         e.preventDefault();
     }
 
@@ -461,11 +475,11 @@ export class JavaBinSpeakerAchievementDetails extends React.Component<
 }
 
 export class BoardMemberAchievementDetails extends React.Component<
-    HeroAchievementProps & {achievement?: {year?: string, role?: string}}, {
-    year?: string, role: string,
+    HeroAchievementProps & {achievement?: {year?: string, role?: BoardMemberRole}}, {
+    year?: string, role: BoardMemberRole,
 }> {
     years: string[];
-    roles: string[];
+    roles: BoardMemberRole[];
     constructor(props: HeroAchievementProps & {achievement?: {year?: string, role?: string}}) {
         super(props);
         this.years = [
@@ -474,15 +488,14 @@ export class BoardMemberAchievementDetails extends React.Component<
             "2008",
         ];
         this.roles = [
-            "board member", "vice chair", "chair",
+            "BOARD_MEMBER", "VICE_CHAIR", "CHAIR",
         ];
         this.state = { role: this.roles[0], year: this.years[0], ...props.achievement };
     }
 
     handleSubmit = (e: FormEvent) => {
         const {year, role} = this.state;
-        const label = role + " i styret " + year;
-        this.props.onSave({ year, role, label });
+        this.props.onSave({ type: "STYRE", year: parseInt(year!, 10), role });
         e.preventDefault();
     }
 
@@ -491,8 +504,11 @@ export class BoardMemberAchievementDetails extends React.Component<
             <h3>JavaBin board member</h3>
             <label>
                 Role
-                <select value={this.state.role} onChange={e => this.setState({role: e.target.value})}>
-                    {this.roles.map(r => <option value={r} key={r}>{r}</option>)}
+                <select
+                    value={this.state.role}
+                    onChange={e => this.setState({role: (e.target.value as BoardMemberRole)})}
+                >
+                    {this.roles.map(r => <option value={r} key={r}>{boardMemberRoleName(r)}</option>)}
                 </select>
             </label>
             <label>
@@ -514,9 +530,9 @@ class EmptyAchievementDetails extends React.Component<HeroAchievementProps> {
 
 function achievementDetail(achievementType?: Achievement): React.ComponentType<HeroAchievementProps> {
     switch (achievementType) {
-    case "foredragsholder_javabin":   return JavaBinSpeakerAchievementDetails;
-    case "foredragsholder_jz":        return JavaZoneSpeakerAchievementDetails;
-    case "styre":                     return BoardMemberAchievementDetails;
+    case "FOREDRAGSHOLDER_JAVABIN":   return JavaBinSpeakerAchievementDetails;
+    case "FOREDRAGSHOLDER_JZ":        return JavaZoneSpeakerAchievementDetails;
+    case "STYRE":                     return BoardMemberAchievementDetails;
     case undefined:                   return EmptyAchievementDetails;
     }
 }

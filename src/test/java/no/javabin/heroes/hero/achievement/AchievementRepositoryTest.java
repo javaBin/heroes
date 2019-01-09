@@ -2,6 +2,8 @@ package no.javabin.heroes.hero.achievement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -33,7 +35,7 @@ public class AchievementRepositoryTest {
     @Test
     public void shouldSaveNewTalkAchievement() {
         achievementRepository.add(hero.getId(), new JsonObject()
-                .put("type", "foredragsholder_jz")
+                .put("type", Achievement.FOREDRAGSHOLDER_JZ)
                 .put("year", "2018")
                 .put("title", "How to write Java applications"));
 
@@ -44,13 +46,10 @@ public class AchievementRepositoryTest {
 
     @Test
     public void shouldDeleteAchievement() {
-        achievementRepository.add(hero.getId(), new JsonObject()
-                .put("type", "styremedlem")
+        UUID achievementId = achievementRepository.add(hero.getId(), new JsonObject()
+                .put("type", Achievement.STYRE)
                 .put("year", "2017")
-                .put("role", "styreleder"));
-
-        UUID achievementId = heroesRepository.retrieveById(hero.getId()).getAchievements()
-            .stream().filter(a -> a.getData().requiredString("type").equals("styremedlem")).map(a -> a.getId()).findAny().get();
+                .put("role", BoardMemberRole.CHAIR));
 
         achievementRepository.delete(hero.getId(), achievementId);
         assertThat(heroesRepository.retrieveById(hero.getId()).getAchievements())
@@ -61,20 +60,46 @@ public class AchievementRepositoryTest {
     @Test
     public void shouldUpdateAchievement() {
         String title = "Title " + UUID.randomUUID();
-        achievementRepository.add(hero.getId(), new JsonObject()
-                .put("type", "foredragsholder_javabin")
+        UUID achievementId = achievementRepository.add(hero.getId(), new JsonObject()
+                .put("type", Achievement.FOREDRAGSHOLDER_JAVABIN)
                 .put("date", "2018-11-01")
                 .put("title", title));
 
-        UUID achievementId = heroesRepository.retrieveById(hero.getId()).getAchievements()
-                .stream().filter(a -> a.getData().requiredString("title").equals(title)).map(a -> a.getId()).findAny().get();
-
         achievementRepository.update(hero.getId(), achievementId, new JsonObject()
+                .put("type", Achievement.FOREDRAGSHOLDER_JAVABIN)
                 .put("title", "Updated title"));
 
         assertThat(heroesRepository.retrieveById(hero.getId()).getAchievements())
             .extracting("label")
             .contains("Foredragsholder JavaBin 1. november 2018: Updated title");
+    }
+
+    @Test
+    public void shouldListAllAchivementTypes() {
+        ConferenceSpeakerAchievement confSpeaker = new ConferenceSpeakerAchievement();
+        confSpeaker.setYear(Year.of(2017));
+        confSpeaker.setTitle("This is my talk");
+        achievementRepository.add(hero.getId(), confSpeaker);
+        assertThat(confSpeaker).hasNoNullFieldsOrPropertiesExcept("label", "data", "type");
+
+        UsergroupSpeakerAchievement usergroupSpeaker = new UsergroupSpeakerAchievement();
+        usergroupSpeaker.setDate(LocalDate.of(2017, 11, 15));
+        usergroupSpeaker.setTitle("I want to share");
+        achievementRepository.add(hero.getId(), usergroupSpeaker);
+        assertThat(usergroupSpeaker).hasNoNullFieldsOrPropertiesExcept("label", "data", "type");
+
+        BoardMemberAchievement boardMember = new BoardMemberAchievement();
+        boardMember.setYear(Year.of(2017));
+        boardMember.setRole(BoardMemberRole.CHAIR);
+        achievementRepository.add(hero.getId(), boardMember);
+        assertThat(boardMember).hasNoNullFieldsOrPropertiesExcept("label", "data", "type");
+
+        assertThat(achievementRepository.listAchievements(hero.getId()))
+            .contains(confSpeaker, usergroupSpeaker, boardMember);
+        assertThat(achievementRepository.listAchievements(hero.getId()))
+            .filteredOn(a -> a.getId().equals(confSpeaker.getId()))
+            .first()
+            .isEqualToComparingFieldByField(confSpeaker);
     }
 
 }

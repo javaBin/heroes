@@ -45,15 +45,15 @@ describe("HeroControlPanel", () => {
         heroes = [
             {
                 achievements: [
-                    { id: "13", label: "ABC", type: "foredragsholder_javabin" },
-                    { id: "13", label: "XYZ", type: "foredragsholder_javabin" },
+                    { id: "13", label: "ABC", type: "FOREDRAGSHOLDER_JAVABIN" },
+                    { id: "13", label: "XYZ", type: "FOREDRAGSHOLDER_JAVABIN" },
                 ],
                 email: "johannes@example.com", id: "1", name: "Johannes Test", published: false,
             },
             {
                 achievements: [
-                    {id: "11", label: "A great guy!", type: "foredragsholder_javabin" },
-                    {id: "12", label: "A super guy!", type: "styre" },
+                    {id: "11", label: "A great guy!", type: "FOREDRAGSHOLDER_JAVABIN" },
+                    {id: "12", label: "A super guy!", type: "STYRE" },
                 ],
                 email: "test@example.com", id: "2", name: "Some test", published: true,
             },
@@ -142,7 +142,7 @@ describe("HeroControlPanel", () => {
             beforeEach(async () => {
                 expect(app.root.findAll(c => true).map(c => c.type)).toContain(AddHeroAchievement);
                 app.root.findByType(AddHeroAchievement).instance
-                .setState({achievementType: "foredragsholder_jz"});
+                .setState({achievementType: "FOREDRAGSHOLDER_JZ"});
                 await promiseCompletion();
             });
 
@@ -166,7 +166,7 @@ describe("HeroControlPanel", () => {
 
         it("shows JavaBin achievement type", async () => {
             app.root.findByType(AddHeroAchievement).instance
-                .setState({achievementType: "foredragsholder_javabin"});
+                .setState({achievementType: "FOREDRAGSHOLDER_JAVABIN"});
             await promiseCompletion();
             app.root.findByType(JavaBinSpeakerAchievementDetails);
             expect(app.toJSON()).toMatchSnapshot();
@@ -174,7 +174,7 @@ describe("HeroControlPanel", () => {
 
         it("shows board member achievement type", async () => {
             app.root.findByType(AddHeroAchievement).instance
-                .setState({achievementType: "styre"});
+                .setState({achievementType: "STYRE"});
             await promiseCompletion();
             app.root.findByType(BoardMemberAchievementDetails);
             expect(app.toJSON()).toMatchSnapshot();

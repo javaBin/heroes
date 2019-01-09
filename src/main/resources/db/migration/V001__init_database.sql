@@ -10,19 +10,24 @@ create table HEROES (
 );
 
 
-CREATE TABLE person (
-    id VARCHAR(50),
-    data varchar(1000)
-);
-
-CREATE TABLE achievement (
-    id VARCHAR(50),
-    data varchar(1000)
-);
-
-CREATE TABLE hero_achievements (
+CREATE TABLE achievement_conference_speaker (
     id uniqueidentifier primary key,
     hero_id uniqueidentifier not null REFERENCES heroes(id),
-    achievement_type varchar(50) not null,
-    data text
+    title varchar(50) not null,
+    year int not null
 );
+
+CREATE TABLE achievement_usergroup_speaker (
+    id uniqueidentifier primary key,
+    hero_id uniqueidentifier not null REFERENCES heroes(id),
+    title varchar(50) not null,
+    talk_date date not null
+);
+
+CREATE TABLE achievement_board_member (
+    id uniqueidentifier primary key,
+    hero_id uniqueidentifier not null REFERENCES heroes(id),
+    role varchar(50) not null,
+    year int not null
+);
+

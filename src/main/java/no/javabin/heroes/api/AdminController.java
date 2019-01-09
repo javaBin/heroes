@@ -33,16 +33,8 @@ public class AdminController {
     @Get("/admin/heroes/create")
     @RequireUserRole("admin")
     public JsonObject getCreateData(@SessionParameter("profile") Profile profile) throws IOException {
-        JsonArray achievementTypes = new JsonArray()
-                .add(new JsonObject().put("value", "styremedlem").put("label", "Styremedlem"))
-                .add(new JsonObject().put("value", "foredragsholder-jz").put("label", "Foredragsholder på JavaZone"))
-                .add(new JsonObject().put("value", "foredragsholder").put("label", " Foredragsholder på javaBin"))
-                .add(new JsonObject().put("value", "regionsleder").put("label", "Regionsleder"))
-                .add(new JsonObject().put("value", "aktiv").put("label", "Aktiv"))
-                ;
         return new JsonObject()
-                .put("people", JsonArray.fromNodeList(profile.listUsers()))
-                .put("achievements", achievementTypes);
+                .put("people", JsonArray.fromNodeList(profile.listUsers()));
     }
 
     @Get("/heroes/:heroId")
@@ -55,7 +47,7 @@ public class AdminController {
                 .put("twitter", hero.getTwitter())
                 .put("id", hero.getId().toString())
                 .put("achievements", JsonArray.map(hero.getAchievements(),
-                        a -> new JsonObject().put("id", a.getId().toString()).put("label", a.getLabel()).put("type", a.getType())))
+                        a -> a.toJSON()))
                 .put("published", hero.getConsentedAt() != null);
     }
 

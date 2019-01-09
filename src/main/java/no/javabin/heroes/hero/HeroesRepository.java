@@ -107,7 +107,7 @@ public class HeroesRepository {
     }
 
     private void retrieveAchievements(Hero hero) {
-        hero.setAchievements(achievementRepository.listByHeroId(hero.getId()));
+        hero.setAchievements(achievementRepository.listAchievements(hero.getId()));
     }
 
     private Hero mapRow(DatabaseRow o) throws SQLException {

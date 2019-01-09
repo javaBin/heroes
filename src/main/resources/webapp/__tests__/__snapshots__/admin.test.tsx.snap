@@ -24,17 +24,17 @@ Array [
       >
         <option />
         <option
-          value="foredragsholder_jz"
+          value="FOREDRAGSHOLDER_JZ"
         >
           JavaZone foredragsholder
         </option>
         <option
-          value="foredragsholder_javabin"
+          value="FOREDRAGSHOLDER_JAVABIN"
         >
           Foredragsholder JavaBin
         </option>
         <option
-          value="styre"
+          value="STYRE"
         >
           Styre
         </option>
@@ -52,57 +52,57 @@ Array [
           value="2018"
         >
           <option
-            value="2018"
+            value={2018}
           >
             2018
           </option>
           <option
-            value="2017"
+            value={2017}
           >
             2017
           </option>
           <option
-            value="2016"
+            value={2016}
           >
             2016
           </option>
           <option
-            value="2015"
+            value={2015}
           >
             2015
           </option>
           <option
-            value="2014"
+            value={2014}
           >
             2014
           </option>
           <option
-            value="2013"
+            value={2013}
           >
             2013
           </option>
           <option
-            value="2012"
+            value={2012}
           >
             2012
           </option>
           <option
-            value="2011"
+            value={2011}
           >
             2011
           </option>
           <option
-            value="2010"
+            value={2010}
           >
             2010
           </option>
           <option
-            value="2009"
+            value={2009}
           >
             2009
           </option>
           <option
-            value="2008"
+            value={2008}
           >
             2008
           </option>
@@ -155,17 +155,17 @@ Array [
       >
         <option />
         <option
-          value="foredragsholder_jz"
+          value="FOREDRAGSHOLDER_JZ"
         >
           JavaZone foredragsholder
         </option>
         <option
-          value="foredragsholder_javabin"
+          value="FOREDRAGSHOLDER_JAVABIN"
         >
           Foredragsholder JavaBin
         </option>
         <option
-          value="styre"
+          value="STYRE"
         >
           Styre
         </option>
@@ -186,6 +186,7 @@ Array [
       <input
         onChange={[Function]}
         type="date"
+        value=""
       />
     </label>
     <button
@@ -227,17 +228,17 @@ Array [
       >
         <option />
         <option
-          value="foredragsholder_jz"
+          value="FOREDRAGSHOLDER_JZ"
         >
           JavaZone foredragsholder
         </option>
         <option
-          value="foredragsholder_javabin"
+          value="FOREDRAGSHOLDER_JAVABIN"
         >
           Foredragsholder JavaBin
         </option>
         <option
-          value="styre"
+          value="STYRE"
         >
           Styre
         </option>
@@ -250,22 +251,22 @@ Array [
       Role
       <select
         onChange={[Function]}
-        value="board member"
+        value="BOARD_MEMBER"
       >
         <option
-          value="board member"
+          value="BOARD_MEMBER"
         >
-          board member
+          Board member
         </option>
         <option
-          value="vice chair"
+          value="VICE_CHAIR"
         >
-          vice chair
+          Vice chair
         </option>
         <option
-          value="chair"
+          value="CHAIR"
         >
-          chair
+          Chair
         </option>
       </select>
     </label>
@@ -488,22 +489,22 @@ Array [
       Role
       <select
         onChange={[Function]}
-        value="board member"
+        value="BOARD_MEMBER"
       >
         <option
-          value="board member"
+          value="BOARD_MEMBER"
         >
-          board member
+          Board member
         </option>
         <option
-          value="vice chair"
+          value="VICE_CHAIR"
         >
-          vice chair
+          Vice chair
         </option>
         <option
-          value="chair"
+          value="CHAIR"
         >
-          chair
+          Chair
         </option>
       </select>
     </label>

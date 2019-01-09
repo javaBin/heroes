@@ -36,24 +36,24 @@ State: Not feature complete
 ### Features to version 1.0
 
 [x] Add/update personal information must store correct info in database
-[ ] Edit achievement must show current information
+[x] Edit achievement must show current information
 [ ] Achievement types to be completed:
     [ ] All must have an effective date for sorting
     [ ] Regionsleder
+[ ] Material design frontend
 [ ] Highlight must important/recent achievement
 [ ] Display hero Gravatar (or Slack) picture
 [ ] Notify hero via email
 [ ] Establish session via email link
 [ ] Hero can see own information
-[ ] Material design frontend
 
 ### Cleanup to version 1.0
 
-[ ] One database table per achievement type
+[x] One database table per achievement type
+[ ] Frontend error handling
 [ ] Remove version 0.0.0.1 database tables and code
 [ ] Redirect to https (on Azure!)
 [ ] Consent in separate table?
-[ ] Frontend error handling
 
 ### Infrastructure & tooling improvements
 
