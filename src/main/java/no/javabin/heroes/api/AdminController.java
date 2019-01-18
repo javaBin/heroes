@@ -3,7 +3,6 @@ package no.javabin.heroes.api;
 import java.io.IOException;
 import java.util.UUID;
 
-import no.javabin.heroes.DataSourceContext;
 import no.javabin.heroes.Profile;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
@@ -17,6 +16,7 @@ import no.javabin.infrastructure.http.server.Post;
 import no.javabin.infrastructure.http.server.Put;
 import no.javabin.infrastructure.http.server.RequireUserRole;
 import no.javabin.infrastructure.http.server.SessionParameter;
+import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
 
@@ -25,9 +25,9 @@ public class AdminController {
     private final HeroesRepository repository;
     private final AchievementRepository achievementRepository;
 
-    public AdminController(DataSourceContext dataSourceContext) {
-        repository = new HeroesRepository(dataSourceContext);
-        achievementRepository = new AchievementRepository(dataSourceContext);
+    public AdminController(DbContext dbContext) {
+        repository = new HeroesRepository(dbContext);
+        achievementRepository = new AchievementRepository(dbContext);
     }
 
     @Get("/admin/heroes/create")

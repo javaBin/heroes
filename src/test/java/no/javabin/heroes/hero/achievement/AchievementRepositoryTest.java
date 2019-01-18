@@ -12,7 +12,14 @@ import no.javabin.heroes.TestDataSource;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
 import no.javabin.heroes.hero.HeroesRepositoryTest;
+import no.javabin.heroes.hero.achievement.types.BoardMemberAchievement;
+import no.javabin.heroes.hero.achievement.types.BoardMemberRole;
+import no.javabin.heroes.hero.achievement.types.ConferenceSpeakerAchievement;
+import no.javabin.heroes.hero.achievement.types.UsergroupSpeakerAchievement;
+import org.fluentjdbc.DbContext;
+import org.fluentjdbc.DbContextConnection;
 import org.jsonbuddy.JsonObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,15 +28,25 @@ public class AchievementRepositoryTest {
     private HeroesRepository heroesRepository;
     private AchievementRepository achievementRepository;
     private Hero hero;
+    private DbContext dbContext;
+    private DbContextConnection context;
 
     @Before
     public void setupDataSource() {
         DataSource dataSource = TestDataSource.createDataSource();
-        heroesRepository = new HeroesRepository(() -> dataSource);
-        achievementRepository = new AchievementRepository(() -> dataSource);
+        dbContext = new DbContext();
+        heroesRepository = new HeroesRepository(dbContext);
+        achievementRepository = new AchievementRepository(dbContext);
+
+        context = dbContext.startConnection(dataSource);
 
         hero = HeroesRepositoryTest.sampleHero();
         heroesRepository.save(hero);
+    }
+
+    @After
+    public void closeConnection() {
+        context.close();
     }
 
     @Test

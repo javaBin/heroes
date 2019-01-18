@@ -1,4 +1,4 @@
-package no.javabin.heroes.hero.achievement;
+package no.javabin.heroes.hero.achievement.types;
 
 public enum BoardMemberRole {
     BOARD_MEMBER("Board member"), VICE_CHAIR("Vice chair"), CHAIR("Chair");

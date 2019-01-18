@@ -1,29 +1,30 @@
-package no.javabin.heroes.hero.achievement;
+package no.javabin.heroes.hero.achievement.types;
 
 import java.sql.SQLException;
 import java.time.Year;
 import java.util.UUID;
 
-import org.fluentjdbc.DatabaseInsertWithPkBuilder;
+import no.javabin.heroes.hero.achievement.HeroAchievementDao;
 import org.fluentjdbc.DatabaseRow;
-import org.fluentjdbc.DatabaseTableImpl;
-import org.fluentjdbc.DatabaseUpdateBuilder;
+import org.fluentjdbc.DbContext;
+import org.fluentjdbc.DbContextUpdateBuilder;
+import org.fluentjdbc.DbInsertContext.DbInsertContextWithPk;
 
 public class BoardMemberAchievementDao extends HeroAchievementDao<BoardMemberAchievement> {
 
-    public BoardMemberAchievementDao() {
-        super(new DatabaseTableImpl("achievement_board_member"));
+    public BoardMemberAchievementDao(DbContext context) {
+        super(context.table("achievement_board_member"));
     }
 
     @Override
-    protected void insertFields(DatabaseInsertWithPkBuilder<UUID> insertBuilder, BoardMemberAchievement achievement) {
+    protected void insertFields(DbInsertContextWithPk<UUID> insertBuilder, BoardMemberAchievement achievement) {
         insertBuilder
             .setField("role", achievement.getRole().name())
             .setField("year", achievement.getYear().getValue());
     }
 
     @Override
-    protected void updateFields(DatabaseUpdateBuilder updateBuilder, BoardMemberAchievement achievement) {
+    protected void updateFields(DbContextUpdateBuilder updateBuilder, BoardMemberAchievement achievement) {
         updateBuilder
             .setFieldIfPresent("role", achievement.getRole().name())
             .setFieldIfPresent("year", achievement.getYear().getValue());

@@ -11,17 +11,28 @@ import javax.sql.DataSource;
 import no.javabin.heroes.TestDataSource;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
+import org.fluentjdbc.DbContext;
+import org.fluentjdbc.DbContextConnection;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class HeroesRepositoryTest {
     private HeroesRepository heroesRepository;
     private static Random random = new Random();
+    private DbContextConnection context;
 
     @Before
     public void setupDataSource() {
         DataSource dataSource = TestDataSource.createDataSource();
-        heroesRepository = new HeroesRepository(() -> dataSource);
+        DbContext dbContext = new DbContext();
+        heroesRepository = new HeroesRepository(dbContext);
+        context = dbContext.startConnection(dataSource);
+    }
+
+    @After
+    public void closeConnection() {
+        context.close();
     }
 
     @Test

@@ -2,7 +2,6 @@ package no.javabin.heroes.api;
 
 import java.time.Instant;
 
-import no.javabin.heroes.DataSourceContext;
 import no.javabin.heroes.Profile;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
@@ -11,14 +10,15 @@ import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.Post;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
+import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonNull;
 import org.jsonbuddy.JsonObject;
 
 public class ProfileController {
     private HeroesRepository heroesRepository;
 
-    public ProfileController(DataSourceContext dataSourceContext) {
-        heroesRepository = new HeroesRepository(dataSourceContext);
+    public ProfileController(DbContext dbContext) {
+        heroesRepository = new HeroesRepository(dbContext);
     }
 
     @Get("/profiles/mine")

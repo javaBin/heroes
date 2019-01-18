@@ -1,4 +1,4 @@
-package no.javabin.heroes.hero.achievement;
+package no.javabin.heroes.hero.achievement.types;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -6,6 +6,8 @@ import java.time.format.FormatStyle;
 import java.util.Locale;
 import java.util.Objects;
 
+import no.javabin.heroes.hero.achievement.Achievement;
+import no.javabin.heroes.hero.achievement.HeroAchievement;
 import org.jsonbuddy.JsonObject;
 
 public class UsergroupSpeakerAchievement extends HeroAchievement {

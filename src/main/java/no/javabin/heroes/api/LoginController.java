@@ -17,6 +17,7 @@ import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.HttpRequestException;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
+import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
 
@@ -25,9 +26,9 @@ public class LoginController {
     private final ProfileContext profileContext;
     private final HeroesRepository repository;
 
-    public LoginController(HeroesContext heroesContext) {
+    public LoginController(HeroesContext heroesContext, DbContext dbContext) {
         this.profileContext = heroesContext;
-        this.repository = new HeroesRepository(heroesContext);
+        this.repository = new HeroesRepository(dbContext);
     }
 
     @Get("/userinfo")

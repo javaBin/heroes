@@ -1,8 +1,10 @@
-package no.javabin.heroes.hero.achievement;
+package no.javabin.heroes.hero.achievement.types;
 
 import java.time.Year;
 import java.util.Objects;
 
+import no.javabin.heroes.hero.achievement.Achievement;
+import no.javabin.heroes.hero.achievement.HeroAchievement;
 import org.jsonbuddy.JsonObject;
 
 public class ConferenceSpeakerAchievement extends HeroAchievement {
