@@ -43,7 +43,7 @@ describe("hero service with a hero", () => {
 
     it("doesn't display unpublished heroes", async () => {
         heroService.currentUser = normalUser();
-        const heroes = await  heroService.fetchHeroes();
+        const heroes = await  heroService.fetchPublicHeroes();
         expect(heroes.map(h => h.name)).not.toContain(newHero.name);
     });
 

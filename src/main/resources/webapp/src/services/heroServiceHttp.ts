@@ -45,6 +45,11 @@ export class HeroServiceHttp implements HeroService {
         await this.sendJSON("/api/admin/heroes", hero);
     }
     async fetchHeroes(): Promise<Hero[]> {
+        const response = await fetch("/api/admin/heroes");
+        return await response.json();
+    }
+
+    async fetchPublicHeroes(): Promise<Hero[]> {
         const response = await fetch("/api/heroes");
         return await response.json();
     }

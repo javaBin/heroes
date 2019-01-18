@@ -34,7 +34,7 @@ describe("app", () => {
             {name: "Alice", email: "alice@example.com", achievements: [], achievement: "", published: true, id: "1"},
             {name: "Bob", email: "bob@example.com", achievements: [], achievement: "", published: true, id: "2"},
         ];
-        mockHeroService.fetchHeroes = async () => heroes;
+        mockHeroService.fetchPublicHeroes = async () => heroes;
         const app = renderer.create(<App heroService={mockHeroService} />);
         await promiseCompletion();
         expect(findComponent(app, HeroList).props).toHaveProperty("heroes", heroes);

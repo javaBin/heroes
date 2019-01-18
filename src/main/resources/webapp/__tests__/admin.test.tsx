@@ -1,6 +1,6 @@
 import React from "react";
 import renderer, { ReactTestRenderer } from "react-test-renderer";
-import { Hero, HeroAchievement, HeroService, Person } from "../src/services/api";
+import { Hero, HeroAchievementDetail, HeroService, Person } from "../src/services/api";
 import { MockHeroService } from "../src/services/mockHeroService";
 
 import {
@@ -45,15 +45,18 @@ describe("HeroControlPanel", () => {
         heroes = [
             {
                 achievements: [
-                    { id: "13", label: "ABC", type: "FOREDRAGSHOLDER_JAVABIN" },
-                    { id: "13", label: "XYZ", type: "FOREDRAGSHOLDER_JAVABIN" },
+                    // tslint:disable-next-line:max-line-length
+                    { id: "13", label: "ABC", type: "FOREDRAGSHOLDER_JAVABIN", date: new Date("2017-12-01"), title: "A" },
+                    // tslint:disable-next-line:max-line-length
+                    { id: "13", label: "XYZ", type: "FOREDRAGSHOLDER_JAVABIN", date: new Date("2017-12-01"), title: "A"  },
                 ],
                 email: "johannes@example.com", id: "1", name: "Johannes Test", published: false,
             },
             {
                 achievements: [
-                    {id: "11", label: "A great guy!", type: "FOREDRAGSHOLDER_JAVABIN" },
-                    {id: "12", label: "A super guy!", type: "STYRE" },
+                    // tslint:disable-next-line:max-line-length
+                    { id: "11", label: "A great girl", type: "FOREDRAGSHOLDER_JAVABIN", date: new Date("2017/9/13"), title: "ABC" },
+                    { id: "12", label: "A super guy!", type: "STYRE", role: "BOARD_MEMBER", year: 2019 },
                 ],
                 email: "test@example.com", id: "2", name: "Some test", published: true,
             },
@@ -68,7 +71,7 @@ describe("HeroControlPanel", () => {
             const index = heroes.findIndex(h => h.id === heroId)!;
             heroes[index] = {...heroes[index], ...update};
         };
-        fakeHeroService.addAchievement = (heroId: string, achievement: HeroAchievement) => {
+        fakeHeroService.addAchievement = (heroId: string, achievement: HeroAchievementDetail) => {
             heroes.find(h => h.id === heroId)!.achievements.push(achievement);
             return Promise.resolve();
         };

@@ -52,7 +52,7 @@ export class HeroListComponent extends React.Component<{heroService: HeroService
     };
 
     componentDidMount = async () => {
-        const heroes = await this.props.heroService.fetchHeroes();
+        const heroes = await this.props.heroService.fetchPublicHeroes();
         this.setState({heroes, loaded: true});
     }
 

@@ -599,7 +599,7 @@ export class HeroListView extends React.Component<{heroes: Hero[], prefix: strin
 
     render() {
         return <>
-            <h2>Here are all the heroes</h2>
+            <h2>All heroes</h2>
             <ul>
                 {this.props.heroes.map(this.renderHero)}
             </ul>

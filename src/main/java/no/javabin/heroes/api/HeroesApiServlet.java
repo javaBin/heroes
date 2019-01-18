@@ -31,7 +31,7 @@ public class HeroesApiServlet extends ApiServlet {
 
     @Override
     public void init() throws ServletException {
-        registerController(new LoginController(heroesContext, dbContext));
+        registerController(new PublicController(heroesContext, dbContext));
         registerController(new AdminController(dbContext));
         registerController(new ProfileController(dbContext));
     }

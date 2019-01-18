@@ -1,6 +1,7 @@
 package no.javabin.heroes.api;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import no.javabin.heroes.Profile;
@@ -28,6 +29,20 @@ public class AdminController {
     public AdminController(DbContext dbContext) {
         repository = new HeroesRepository(dbContext);
         achievementRepository = new AchievementRepository(dbContext);
+    }
+
+    @Get("/admin/heroes")
+    @RequireUserRole("admin")
+    public JsonArray getAllObjects() {
+        List<Hero> list = repository.list(true);
+        return JsonArray.map(list,
+                hero -> new JsonObject()
+                    .put("name", hero.getEmail())
+                    .put("id", hero.getId().toString())
+                    .put("achievement", hero.getAchievement())
+                    .put("achievements", new JsonArray())
+                    .put("published", hero.getConsentedAt() != null));
+
     }
 
     @Get("/admin/heroes/create")

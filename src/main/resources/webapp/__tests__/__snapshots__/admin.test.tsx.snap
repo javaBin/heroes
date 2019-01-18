@@ -423,7 +423,7 @@ Array [
   </h3>,
   <ul>
     <li>
-      A great guy!
+      A great girl
        [
       <a
         href="#test/heroes/2/achievement/11"
@@ -512,7 +512,7 @@ Array [
       Elected year
       <select
         onChange={[Function]}
-        value="2018"
+        value={2019}
       >
         <option
           value="2018"
@@ -667,7 +667,7 @@ Array [
   </h3>,
   <ul>
     <li>
-      A great guy!
+      A great girl
        [
       <a
         href="#test/heroes/2/achievement/11"

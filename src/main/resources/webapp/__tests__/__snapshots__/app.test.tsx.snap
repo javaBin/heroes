@@ -26,16 +26,9 @@ Array [
   <ul>
     <li>
       <a
-        href="#admin/heroes/1"
+        href="#admin/heroes/abc123"
       >
-        Alice
-      </a>
-    </li>
-    <li>
-      <a
-        href="#admin/heroes/2"
-      >
-        Bob
+        Johannes
       </a>
     </li>
   </ul>,

@@ -21,12 +21,12 @@ import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
 
-public class LoginController {
+public class PublicController {
 
     private final ProfileContext profileContext;
     private final HeroesRepository repository;
 
-    public LoginController(HeroesContext heroesContext, DbContext dbContext) {
+    public PublicController(HeroesContext heroesContext, DbContext dbContext) {
         this.profileContext = heroesContext;
         this.repository = new HeroesRepository(dbContext);
     }
@@ -43,9 +43,8 @@ public class LoginController {
     }
 
     @Get("/heroes")
-    public JsonArray listHeroes(@SessionParameter("profile") Optional<Profile> profile) {
-        boolean admin = profile.map(p -> p.isAdmin()).orElse(false);
-        List<Hero> list = repository.list(admin);
+    public JsonArray listHeroes() {
+        List<Hero> list = repository.list(false);
         return JsonArray.map(list,
                 hero -> new JsonObject()
                     .put("name", hero.getEmail())

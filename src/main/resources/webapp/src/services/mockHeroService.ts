@@ -57,8 +57,12 @@ export class MockHeroService implements HeroService {
     async addHero(hero: Hero) {
         this.heroes.push(hero);
     }
-    async fetchHeroes() {
+    async fetchPublicHeroes() {
         return this.heroes.filter(h => h.published);
+    }
+
+    async fetchHeroes() {
+        return this.heroes;
     }
 
     async fetchHeroDetails(id: string) {

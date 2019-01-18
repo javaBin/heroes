@@ -98,6 +98,7 @@ export interface HeroService {
     fetchUserinfo(): Promise<Userinfo>;
     fetchMe(): Promise<HeroProfile>;
     fetchHeroDetails(heroId: string): Promise<Hero>;
+    fetchPublicHeroes(): Promise<Hero[]>;
     fetchHeroes(): Promise<Hero[]>;
     addHero(hero: Hero): Promise<void>;
     consentToPublish(consentId: number): Promise<void>;

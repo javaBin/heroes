@@ -1,6 +1,7 @@
 package no.javabin.infrastructure.http.server;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -162,14 +163,29 @@ public class ApiServlet extends HttpServlet {
     private ApiRoute findRoute(HttpServletRequest req, Map<String, String> pathParameters, Function<Method, Optional<String>> pattern) {
         for (Object controller : controllers) {
             for (Method method : controller.getClass().getMethods()) {
-                pathParameters.clear();
-                Optional<String> pathPattern = pattern.apply(method);
-                if (pathPattern.isPresent() && pathMatches(pathPattern.get(), req.getPathInfo(), pathParameters)) {
-                    return new ApiRoute(controller,  method);
+                if (hasHttpVerbAnnotation(method, req.getMethod())) {
+                    pathParameters.clear();
+                    Optional<String> pathPattern = pattern.apply(method);
+                    if (pathPattern.isPresent() && pathMatches(pathPattern.get(), req.getPathInfo(), pathParameters)) {
+                        return new ApiRoute(controller,  method);
+                    }
                 }
             }
         }
         return null;
+    }
+
+    private static final Map<String, Class<? extends Annotation>> annotationMethods = new HashMap<>();
+    static {
+        annotationMethods.put("GET", Get.class);
+        annotationMethods.put("PUT", Put.class);
+        annotationMethods.put("POST", Post.class);
+        annotationMethods.put("DELETE", Delete.class);
+    }
+
+
+    private boolean hasHttpVerbAnnotation(Method method, String action) {
+        return method.getAnnotation(annotationMethods.get(action)) != null;
     }
 
     public Optional<String> getPathPattern(Method method) {
@@ -220,8 +236,10 @@ public class ApiServlet extends HttpServlet {
                     return result;
                 } else if (parameter.getType() == UUID.class) {
                     return UUID.fromString(result);
+                } else if (parameter.getType() == Long.TYPE) {
+                    return Long.parseLong(result);
                 } else {
-                    throw new HttpRequestException(500, "Illegal type for " + pathParam.value());
+                    throw new HttpRequestException(500, "Illegal type for " + pathParam.value() + " in " + method);
                 }
             } else if ((sessionParam = parameter.getAnnotation(SessionParameter.class)) != null) {
                 if (parameter.getType() == Consumer.class) {
