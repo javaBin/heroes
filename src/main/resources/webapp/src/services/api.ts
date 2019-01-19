@@ -45,13 +45,13 @@ export interface CreateHeroData {
   people: Person[];
 }
 
-interface ConferenceSpeakerAchievement extends HeroAchievement {
+export interface ConferenceSpeakerAchievement extends HeroAchievement {
   type: "FOREDRAGSHOLDER_JZ";
   year: number;
   title: string;
 }
 
-interface UsergroupSpeakerAchievement extends HeroAchievement {
+export interface UsergroupSpeakerAchievement extends HeroAchievement {
   type: "FOREDRAGSHOLDER_JAVABIN";
   date: Date;
   title: string;
@@ -70,7 +70,7 @@ export function boardMemberRoleName(role: BoardMemberRole): string {
   }
 }
 
-interface BoardMemberAchivement extends HeroAchievement {
+export interface BoardMemberAchivement extends HeroAchievement {
   type: "STYRE";
   year: number;
   role: BoardMemberRole;

@@ -1,207 +1,139 @@
-import React, { FormEvent } from "react";
-import { HeroService } from "../../services";
-import { achievementName, allAchievements, CreateHeroData, Hero } from "../../services/api";
+import React from "react";
+import { Hero, HeroAchievementDetail, HeroService } from "../../services/api";
+import { AddHeroView } from "./AddHeroView";
+import { HeroListView } from "./HeroListView";
+import { HeroView } from "./HeroView";
 
-import heroPng from "../../images/hero.png";
-import { HeroServiceHttp } from "../../services/heroServiceHttp";
-import { HeroControlPanel } from "./HeroControlPanel";
-
-interface AdminProps {
-  heroService: HeroService;
-}
-
-interface AdminState {
-  createHeroData?: CreateHeroData;
-  heroes?: Hero[];
-}
-
-export class AdminScreen extends React.Component<AdminProps, AdminState> {
-  state: AdminState;
-
-  constructor(props: AdminProps) {
+export class HeroControlPanel extends React.Component<
+  {
+    heroService: HeroService;
+    prefix: string;
+  },
+  {
+    loading: boolean;
+    addHero?: boolean;
+    action?: string;
+    idOrAction?: string;
+    heroes: Hero[];
+    actionTargetId?: string;
+  }
+> {
+  constructor(props: { heroService: HeroService; prefix: string }) {
     super(props);
-    this.state = {};
+    this.state = { heroes: [], loading: true };
   }
 
   async componentDidMount() {
-    const { heroService } = this.props;
-    const [createHeroData, heroes] = [await heroService.fetchCreateHeroData(), await heroService.fetchHeroes()];
-    this.setState({ createHeroData, heroes });
+    window.addEventListener("hashchange", this.handleHashChange);
+    this.setHash(window.location.hash);
+
+    const heroes = await this.props.heroService.fetchHeroes();
+    this.setState({ heroes, loading: false });
   }
 
-  handleNewHero = async (hero: Hero) => {
+  componentWillUnmount() {
+    window.removeEventListener("hashchange", this.handleHashChange);
+  }
+
+  handleHashChange = (event: HashChangeEvent) => {
+    this.setHash(window.location.hash);
+  };
+
+  setHash = async (hash: string) => {
+    const [prefix, controller, idOrAction, subAction, actionTargetId] = hash.split("/");
+    if (prefix && prefix !== this.props.prefix) {
+      // tslint:disable-next-line:no-console
+      console.warn("Unexpected URL", prefix, "should be", this.props.prefix);
+    }
+    if (idOrAction === "add") {
+      await this.setState({ addHero: true });
+    } else if (controller === "heroes" && idOrAction) {
+      await this.setState({ addHero: false, action: subAction, idOrAction, actionTargetId });
+    } else {
+      await this.setState({ addHero: false, action: undefined, idOrAction: undefined, actionTargetId: undefined });
+    }
+  };
+
+  handleLoadHero = async (id: string) => {
+    const hero = await this.props.heroService.fetchHeroDetails(id);
+    return hero;
+  };
+
+  handleAddHero = async (hero: Hero) => {
+    this.setState({ loading: true });
     await this.props.heroService.addHero(hero);
-    const { heroService } = this.props;
-    const [createHeroData, heroes] = [await heroService.fetchCreateHeroData(), await heroService.fetchHeroes()];
-    this.setState({ createHeroData, heroes });
+    const heroes = await this.props.heroService.fetchHeroes();
+    this.setState({ heroes, loading: false });
+    window.location.hash = this.props.prefix + "/heroes";
+  };
+
+  handleUpdateHero = async (heroId: string, update: Partial<Hero>) => {
+    this.setState({ loading: true });
+    await this.props.heroService.updateHero(heroId, update);
+    const heroes = await this.props.heroService.fetchHeroes();
+    this.setState({ heroes, loading: false });
+    window.location.hash = this.props.prefix + "/heroes/" + heroId;
+  };
+
+  handleAddAchievement = async (heroId: string, achievement: HeroAchievementDetail) => {
+    this.setState({ loading: true });
+    await this.props.heroService.addAchievement(heroId, achievement);
+    const heroes = await this.props.heroService.fetchHeroes();
+    this.setState({ heroes, loading: false });
+    window.location.hash = this.props.prefix + "/heroes/" + heroId;
+  };
+
+  handleUpdateAchievement = async (heroId: string, achievementId: string, achievement: HeroAchievementDetail) => {
+    await this.props.heroService.updateAchievement(heroId, achievementId, achievement);
+    const heroes = await this.props.heroService.fetchHeroes();
+    this.setState({ heroes, loading: false });
+    window.location.hash = this.props.prefix + "/heroes/" + heroId;
+  };
+
+  handleDeleteAchievement = async (heroId: string, achievementId: string) => {
+    this.setState({ loading: true });
+    await this.props.heroService.deleteAchievement(heroId, achievementId);
+    const heroes = await this.props.heroService.fetchHeroes();
+    this.setState({ heroes, loading: false });
+    window.location.hash = this.props.prefix + "/heroes/" + heroId;
+  };
+
+  handleCancelAddHero = () => {
+    window.location.hash = this.props.prefix + "/heroes";
   };
 
   render() {
-    const { createHeroData, heroes } = this.state;
-    if (!createHeroData || !heroes) {
-      return <div>Loading...</div>;
+    if (this.state.loading) {
+      return <div>Please wait...</div>;
     }
-    return (
-      <>
-        <div className="heroes-admin-container">
-          <h1>javaBin Heroes</h1>
-          <h2>Add Hero</h2>
-          <NewHeroForm onNewHero={this.handleNewHero} createHeroData={createHeroData} />
-          <h2>Current heroes</h2>
-          <AdminHeroList heroes={heroes} />
-        </div>
-        <fieldset>
-          <h2>UX Proof-of-concept heroes control panel:</h2>
-          <HeroControlPanel heroService={new HeroServiceHttp()} prefix="#admin" />
-        </fieldset>
-      </>
-    );
+    if (this.state.addHero) {
+      return (
+        <AddHeroView
+          adminService={this.props.heroService}
+          onSubmit={this.handleAddHero}
+          onCancel={this.handleCancelAddHero}
+        />
+      );
+    }
+    const { heroes, idOrAction } = this.state;
+    const selectedHero = heroes.find(p => p.id === idOrAction);
+
+    if (!selectedHero) {
+      return <HeroListView heroes={heroes} prefix={this.props.prefix} />;
+    } else {
+      return (
+        <HeroView
+          hero={selectedHero}
+          action={this.state.action}
+          actionTargetId={this.state.actionTargetId}
+          prefix={this.props.prefix}
+          onLoadHero={this.handleLoadHero}
+          onSubmit={this.handleUpdateHero}
+          onAddAchievement={this.handleAddAchievement}
+          onUpdateAchievement={this.handleUpdateAchievement}
+          onDeleteAchievement={this.handleDeleteAchievement}
+        />
+      );
+    }
   }
-}
-
-function AdminHeroList({ heroes }: { heroes: Hero[] }) {
-  const heroComponents = heroes.map(hero => {
-    return (
-      <tr key={hero.id}>
-        <td>
-          <img height="25" src={heroPng} />
-        </td>
-        <td>{hero.name}</td>
-        <td>{hero.achievement}</td>
-        <td>{hero.published ? "Published" : "Unpublished"}</td>
-      </tr>
-    );
-  });
-  return (
-    <div className="heroes-list">
-      <h2>Helter</h2>
-      <table>
-        <thead>
-          <tr>
-            <th />
-            <th>Navn</th>
-            <th>Heltetype</th>
-            <th>Published</th>
-          </tr>
-        </thead>
-        <tbody>{heroComponents}</tbody>
-      </table>
-    </div>
-  );
-}
-
-function FormControl({
-  label,
-  type,
-  value,
-  onChange
-}: {
-  label: string;
-  type?: string;
-  value: string;
-  onChange: (s: string) => void;
-}) {
-  return (
-    <label>
-      {label}
-      <input type={type} value={value} onChange={event => onChange(event.target.value)} />
-    </label>
-  );
-}
-
-function DateControl({ label }: { label: string }) {
-  return (
-    <label>
-      {label}
-      <input type="date" />
-    </label>
-  );
-}
-
-interface SelectOption {
-  value: string;
-  label: string;
-}
-
-function SelectControl({
-  label,
-  options,
-  value,
-  onChange,
-  includeBlank
-}: {
-  label: string;
-  options: SelectOption[];
-  value: string;
-  onChange: (s: string) => void;
-  includeBlank: boolean;
-}) {
-  return (
-    <label>
-      {label}
-      <select value={value} onChange={event => onChange(event.target.value)}>
-        {includeBlank && <option />}
-        {options.map(o => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
-class NewHeroForm extends React.Component<{ onNewHero: (h: Hero) => void; createHeroData: CreateHeroData }> {
-  state = {
-    achievement: "",
-    email: "",
-    name: ""
-  };
-
-  handleSubmit = async (e: FormEvent) => {
-    const { email, name, achievement } = this.state;
-    const newHero = {
-      achievement,
-      achievements: [],
-      avatar: "",
-      email,
-      name,
-      published: false
-    };
-    e.preventDefault();
-    await this.props.onNewHero(newHero);
-    this.setState({ achievement: "", email: "", name: "" });
-  };
-
-  render = () => {
-    const { name, email, achievement } = this.state;
-
-    const people = this.props.createHeroData.people.map(p => ({ label: p.name, value: p.email }));
-    const achievements = allAchievements();
-
-    return (
-      <div className="heroes-admin-add">
-        <form onSubmit={this.handleSubmit}>
-          <SelectControl
-            label="Person"
-            options={people}
-            value={email}
-            onChange={email => this.setState({ email })}
-            includeBlank={true}
-          />
-          <FormControl label="Hero name" value={name} onChange={name => this.setState({ name })} />
-          <FormControl label="Hero email" type="email" value={email} onChange={email => this.setState({ email })} />
-          <SelectControl
-            label="Hero type"
-            options={achievements.map(a => ({ value: a, label: achievementName(a) }))}
-            value={achievement}
-            onChange={achievement => this.setState({ achievement })}
-            includeBlank={true}
-          />
-          <DateControl label="Dato" />
-          <button>Legg til</button>
-        </form>
-      </div>
-    );
-  };
 }

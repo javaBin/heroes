@@ -35,43 +35,44 @@ State: Not feature complete
 
 ### Features to version 1.0
 
-[x] Add/update personal information must store correct info in database
-[x] Edit achievement must show current information
-[ ] Achievement types to be completed:
-    [ ] All must have an effective date for sorting
-    [ ] Regionsleder
-[ ] Material design frontend
-[ ] Highlight must important/recent achievement
-[ ] Display hero Gravatar (or Slack) picture
-[ ] Notify hero via email
-[ ] Establish session via email link
-[ ] Hero can see own information
+* [x] Add/update personal information must store correct info in database
+* [x] Edit achievement must show current information
+* [ ] Material design frontend
+* [ ] Achievement types to be completed:
+  * [ ] Fix date problem with User Group achievements
+  * [ ] All must have an effective date for sorting
+  * [ ] Regionsleder
+* [ ] Highlight must important/recent achievement
+* [ ] Display hero Gravatar (or Slack) picture
+* [ ] Notify hero via email
+* [ ] Establish session via email link
+* [ ] Hero can see own information
 
 ### Cleanup to version 1.0
 
-[x] One database table per achievement type
-[ ] Frontend error handling
-[ ] Remove version 0.0.0.1 database tables and code
-[ ] Redirect to https (on Azure!)
-[ ] Consent in separate table?
+* [x] One database table per achievement type
+* [ ] Frontend error handling
+* [ ] Remove version 0.0.0.1 database tables and code
+* [ ] Redirect to https (on Azure!)
+* [ ] Consent in separate table?
 
 ### Infrastructure & tooling improvements
 
-[x] logevents to link to github.com
-[x] fluent-jdbc to abstract away DataSource.getConnection
-[ ] DTOs as return values and arguments for controllers
-[ ] ApiServlet to have a register-like structure for annotations
-[ ] mvn to run `npm test && npm run build`
-[x] Use NPM Prettier
-[ ] Keep Slack `access_token` and `refresh_token` in encrypted cookie
+* [x] logevents to link to github.com
+* [x] fluent-jdbc to abstract away DataSource.getConnection
+* [ ] DTOs as return values and arguments for controllers
+* [ ] ApiServlet to have a register-like structure for annotations
+* [ ] mvn to run `npm test && npm run build`
+* [x] Use NPM Prettier
+* [ ] Keep Slack `access_token` and `refresh_token` in encrypted cookie
 
 ### Cleanup for later
 
-[ ] Split `HeroControlPanel.tsx` into more files
-[ ] Remove old admin screen in frontend
+* [x] Split `HeroControlPanel.tsx` into more files
+* [x] Remove old admin screen in frontend
 
 ### Features for version 1.1
 
-[ ] Import JavaZone speakers
-[ ] Customize picture
-[ ] Import meetup events to associate with JavaBin speakers
+* [ ] Import JavaZone speakers
+* [ ] Customize picture
+* [ ] Import meetup events to associate with JavaBin speakers

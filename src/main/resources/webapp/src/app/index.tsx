@@ -1,14 +1,13 @@
 import React from "react";
 import { HeroService } from "../services";
 import { Hero, Userinfo } from "../services/api";
-import { AdminScreen } from "./admin";
 
 import { Table } from "react-bootstrap";
 import { ProfileScreen } from "./profile";
 
 import heroPng from "../images/hero.png";
 import { HeroServiceHttp } from "../services/heroServiceHttp";
-import { HeroControlPanel } from "./admin/HeroControlPanel";
+import { HeroControlPanel } from "./admin";
 
 export function HeroList({ heroes }: { heroes: Hero[] }) {
   const heroComponents = heroes.map(hero => {

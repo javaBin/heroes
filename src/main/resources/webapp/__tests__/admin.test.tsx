@@ -3,17 +3,14 @@ import renderer, { ReactTestRenderer } from "react-test-renderer";
 import { Hero, HeroAchievementDetail, HeroService, Person } from "../src/services/api";
 import { MockHeroService } from "../src/services/mockHeroService";
 
-import {
-  AddHeroAchievement,
-  AddHeroView,
-  BoardMemberAchievementDetails,
-  HeroAchievementList,
-  HeroControlPanel,
-  HeroListView,
-  HeroView,
-  JavaBinSpeakerAchievementDetails,
-  JavaZoneSpeakerAchievementDetails
-} from "../src/app/admin/HeroControlPanel";
+import { HeroControlPanel } from "../src/app/admin";
+import { AddHeroAchievement } from "../src/app/admin/achievements/AddHeroAchievement";
+import { BoardMemberAchievementDetails } from "../src/app/admin/achievements/BoardMemberAchievementDetails";
+import { JavaBinSpeakerAchievementDetails } from "../src/app/admin/achievements/JavaBinSpeakerAchievementDetails";
+import { JavaZoneSpeakerAchievementDetails } from "../src/app/admin/achievements/JavaZoneSpeakerAchievementDetails";
+import { AddHeroView } from "../src/app/admin/AddHeroView";
+import { HeroListView } from "../src/app/admin/HeroListView";
+import { HeroAchievementList, HeroView } from "../src/app/admin/HeroView";
 
 const fakeHeroService: HeroService = new MockHeroService();
 
