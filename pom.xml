@@ -36,7 +36,7 @@
         <dependency>
             <groupId>io.github.jhannes</groupId>
             <artifactId>fluent-jdbc</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -120,6 +120,7 @@
                 <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>webapp/node_modules/**</exclude>
+                    <exclude>webapp/coverage/**</exclude>
                     <exclude>webapp/.cache/**</exclude>
                 </excludes>
             </resource>
@@ -160,21 +161,29 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <classifier>appmgr</classifier>
-                    <descriptor>src/assembly/dep.xml</descriptor>
-                </configuration>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.6</version>
                 <executions>
                     <execution>
-                        <id>create-archive</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
+                        <id>Install Node and NPM</id>
+                        <goals><goal>install-node-and-npm</goal></goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>npm run build</id>
+                        <goals><goal>npm</goal></goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <nodeVersion>v8.8.0</nodeVersion>
+                    <installDirectory>.</installDirectory>
+                    <workingDirectory>src/main/resources/webapp/</workingDirectory>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.microsoft.azure</groupId>

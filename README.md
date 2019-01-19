@@ -26,7 +26,7 @@ State: Not feature complete
 
 ## Deploying new versions
 
-* `mvn azure-webapp:deploy`
+* `mvn clean package azure-webapp:deploy`
   * You need to have an Azure account
   * You may need to have the Azure CLI and do `az login` first time
   * Azure WebApp name is located in `pom.xml`
@@ -62,7 +62,7 @@ State: Not feature complete
 * [x] fluent-jdbc to abstract away DataSource.getConnection
 * [ ] DTOs as return values and arguments for controllers
 * [ ] ApiServlet to have a register-like structure for annotations
-* [ ] mvn to run `npm test && npm run build`
+* [x] mvn to run `npm test && npm run build`
 * [x] Use NPM Prettier
 * [ ] Keep Slack `access_token` and `refresh_token` in encrypted cookie
 
