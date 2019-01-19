@@ -1,3 +1,4 @@
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import React from "react";
 import { Hero, HeroAchievementDetail, HeroService } from "../../services/api";
 import { AddHeroView } from "./AddHeroView";
@@ -102,7 +103,7 @@ export class HeroControlPanel extends React.Component<
     window.location.hash = this.props.prefix + "/heroes";
   };
 
-  render() {
+  renderContent() {
     if (this.state.loading) {
       return <div>Please wait...</div>;
     }
@@ -135,5 +136,18 @@ export class HeroControlPanel extends React.Component<
         />
       );
     }
+  }
+
+  render() {
+    return (
+      <div>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6">Heroes</Typography>
+          </Toolbar>
+        </AppBar>
+        {this.renderContent()}
+      </div>
+    );
   }
 }

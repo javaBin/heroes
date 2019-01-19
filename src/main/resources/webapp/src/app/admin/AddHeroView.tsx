@@ -1,3 +1,4 @@
+import { Button, FormControl, InputLabel, Select, TextField } from "@material-ui/core";
 import React, { ChangeEvent, FormEvent, MouseEvent } from "react";
 import { Hero, HeroService, Person } from "../../services/api";
 
@@ -15,7 +16,7 @@ export class AddHeroView extends React.Component<
 > {
   constructor(props: { adminService: HeroService; onSubmit: (hero: Hero) => void; onCancel: () => void }) {
     super(props);
-    this.state = { loading: true, people: [] };
+    this.state = { loading: true, people: [], name: "", email: "", twitter: "" };
   }
   async componentDidMount() {
     const { people } = await this.props.adminService.fetchCreateHeroData();
@@ -48,38 +49,41 @@ export class AddHeroView extends React.Component<
         <h2>Add a hero</h2>
 
         <div>
-          <label>
-            Select from slack:
-            <select onChange={this.handleSelectSlackPerson} value={this.state.email} autoFocus>
+          <FormControl>
+            <InputLabel htmlFor="add-hero-slack-member">Select from slack:</InputLabel>
+            <Select
+              onChange={this.handleSelectSlackPerson}
+              value={this.state.email}
+              autoFocus
+              inputProps={{ id: "add-hero-slack-member" }}
+              native
+            >
               <option />
               {this.state.people.map(p => (
                 <option key={p.email} value={p.email}>
                   {p.name} &lt;{p.email}&gt;
                 </option>
               ))}
-            </select>
-          </label>
+            </Select>
+          </FormControl>
         </div>
         <div>
-          <label>
-            Name:
-            <input value={this.state.name} onChange={e => this.setState({ name: e.target.value })} />
-          </label>
+          <TextField label="Name" value={this.state.name} onChange={e => this.setState({ name: e.target.value })} />
+          <TextField label="Email" value={this.state.email} onChange={e => this.setState({ email: e.target.value })} />
+          <TextField
+            label="Twitter"
+            value={this.state.twitter}
+            onChange={e => this.setState({ twitter: e.target.value })}
+          />
         </div>
         <div>
-          <label>
-            Email:
-            <input value={this.state.email} onChange={e => this.setState({ email: e.target.value })} />
-          </label>
+          <Button type="submit" variant="contained" color="primary">
+            Submit
+          </Button>
+          <Button onClick={this.handleCancel} variant="contained">
+            Cancel
+          </Button>
         </div>
-        <div>
-          <label>
-            Twitter:
-            <input value={this.state.twitter} onChange={e => this.setState({ twitter: e.target.value })} />
-          </label>
-        </div>
-        <button>Submit</button>
-        <button onClick={this.handleCancel}>Cancel</button>
       </form>
     );
   }
