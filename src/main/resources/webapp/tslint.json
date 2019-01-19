@@ -1,15 +1,20 @@
 {
     "defaultSeverity": "error",
     "extends": [
-        "tslint:recommended"
+        "tslint:recommended",
+        "tslint-react",
+        "tslint-config-prettier"
     ],
     "jsRules": {},
     "rules": {
-        "member-access": false,
-        "interface-name": false,
         "arrow-parens": false,
+        "interface-name": false,
+        "jsx-no-lambda": false,
+        "jsx-boolean-value": false,
+        "max-classes-per-file": false,
+        "member-access": false,
         "no-shadowed-variable": false,
-        "max-classes-per-file": false
+        "object-literal-sort-keys": false
     },
     "rulesDirectory": []
 }

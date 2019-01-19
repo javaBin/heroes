@@ -58,11 +58,11 @@ State: Not feature complete
 ### Infrastructure & tooling improvements
 
 [x] logevents to link to github.com
-[ ] fluent-jdbc to abstract away DataSource.getConnection
+[x] fluent-jdbc to abstract away DataSource.getConnection
 [ ] DTOs as return values and arguments for controllers
 [ ] ApiServlet to have a register-like structure for annotations
 [ ] mvn to run `npm test && npm run build`
-[ ] Use NPM Prettier
+[x] Use NPM Prettier
 [ ] Keep Slack `access_token` and `refresh_token` in encrypted cookie
 
 ### Cleanup for later
