@@ -1,8 +1,9 @@
+import { Button, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { Achievement, achievementName, allAchievements, Hero } from "../../../services/api";
 import { achievementDetail } from "./achievementDetail";
 
-export class AddHeroAchievement extends React.Component<
+export class AddHeroAchievementView extends React.Component<
   {
     hero: Hero;
     prefix: string;
@@ -21,6 +22,7 @@ export class AddHeroAchievement extends React.Component<
   }) {
     super(props);
     this.state = {};
+    document.title = "Add achivement | " + props.hero.name + " | javaBin heroes";
   }
   renderAchievementType = (achivementType: Achievement) => {
     return (
@@ -45,18 +47,24 @@ export class AddHeroAchievement extends React.Component<
     const DetailComponent = achievementDetail(this.state.achievementType);
     return (
       <>
-        <h3>Please Add achievement</h3>
+        <h3>Add achievement</h3>
         <form>
-          <label>
-            Achievement:
-            <select autoFocus={true} value={achievementTypeString} onChange={this.handleChangeAchievementType}>
-              <option />
-              {allAchievements().map(this.renderAchievementType)}
-            </select>
-          </label>
+          <TextField
+            label="Achievement"
+            autoFocus
+            select
+            value={achievementTypeString}
+            onChange={this.handleChangeAchievementType}
+            SelectProps={{
+              native: true
+            }}
+          >
+            <option />
+            {allAchievements().map(this.renderAchievementType)}
+          </TextField>
           <DetailComponent hero={hero} onSave={this.handleSave} />
-          <a href={this.props.prefix + "/heroes/" + hero.id}>Back</a>
         </form>
+        <Button href={this.props.prefix + "/heroes/" + hero.id}>Back</Button>
       </>
     );
   }

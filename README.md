@@ -37,7 +37,7 @@ State: Not feature complete
 
 * [x] Add/update personal information must store correct info in database
 * [x] Edit achievement must show current information
-* [ ] Material design frontend
+* [x] Material design frontend
 * [ ] Achievement types to be completed:
   * [ ] Fix date problem with User Group achievements
   * [ ] All must have an effective date for sorting

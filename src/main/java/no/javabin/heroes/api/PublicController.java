@@ -44,13 +44,13 @@ public class PublicController {
 
     @Get("/heroes")
     public JsonArray listHeroes() {
-        List<Hero> list = repository.list(false);
-        return JsonArray.map(list,
+        List<Hero> heroes = repository.list(false);
+        return JsonArray.map(heroes,
                 hero -> new JsonObject()
-                    .put("name", hero.getEmail())
+                    .put("name", hero.getName())
                     .put("id", hero.getId().toString())
-                    .put("achievement", hero.getAchievement())
-                    .put("achievements", new JsonArray())
+                    .put("achievements", JsonArray.map(hero.getAchievements(),
+                            a -> new JsonObject().put("label", a.getLabel())))
                     .put("published", hero.getConsentedAt() != null));
     }
 

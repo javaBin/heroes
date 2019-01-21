@@ -21,6 +21,8 @@ eval(`global["window"] = {
     addEventListener() {},
     removeEventListener() {}
 }`);
+// tslint:disable-next-line:no-eval
+eval(`global["document"] = {}`);
 
 function findComponent(ancestor: ReactTestRenderer, type: React.ReactType): ReactTestInstance {
   expect(ancestor.root.findAll(t => true).map(t => t.type)).toContain(type);

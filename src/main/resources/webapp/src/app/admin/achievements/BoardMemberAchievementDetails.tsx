@@ -1,3 +1,4 @@
+import { Button, TextField } from "@material-ui/core";
 import React, { FormEvent } from "react";
 import { BoardMemberAchivement, BoardMemberRole, boardMemberRoleName } from "../../../services/api";
 import { HeroAchievementProps } from "./HeroAchievementProps";
@@ -33,32 +34,44 @@ export class BoardMemberAchievementDetails extends React.Component<
     e.preventDefault();
   };
   render() {
+    const { role, year } = this.state;
     return (
       <>
-        <h3>JavaBin board member</h3>
-        <label>
-          Role
-          <select value={this.state.role} onChange={e => this.setState({ role: e.target.value as BoardMemberRole })}>
+        <div>
+          <TextField
+            required
+            select
+            SelectProps={{ native: true }}
+            label="Role"
+            value={role}
+            onChange={e => this.setState({ role: e.target.value as BoardMemberRole })}
+          >
             {this.roles.map(r => (
               <option value={r} key={r}>
                 {boardMemberRoleName(r)}
               </option>
             ))}
-          </select>
-        </label>
-        <label>
-          Elected year
-          <select value={this.state.year} onChange={e => this.setState({ year: e.target.value })}>
+          </TextField>
+        </div>
+        <div>
+          <TextField
+            required
+            select
+            SelectProps={{ native: true }}
+            label="Elected year"
+            value={year}
+            onChange={e => this.setState({ year: e.target.value })}
+          >
             {this.years.map(y => (
               <option value={y} key={y}>
                 {y}
               </option>
             ))}
-          </select>
-        </label>
-        <button onClick={this.handleSubmit} disabled={!this.state.year || !this.state.role.length}>
+          </TextField>
+        </div>
+        <Button onClick={this.handleSubmit} disabled={!this.state.year || !this.state.role.length} color="primary">
           Submit
-        </button>
+        </Button>
       </>
     );
   }

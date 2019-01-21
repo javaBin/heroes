@@ -3,741 +3,1597 @@
 exports[`HeroControlPanel adds achievement to hero of JavaZone achievement type shows achievement form 1`] = `
 Array [
   <h3>
-    <a
-      href="#test"
-    >
-      Back
-    </a>
-  </h3>,
-  <h2>
-    Some test
-  </h2>,
-  <h3>
-    Please Add achievement
+    Add achievement
   </h3>,
   <form>
-    <label>
-      Achievement:
-      <select
-        autoFocus={true}
-        onChange={[Function]}
+    <div
+      className="MuiFormControl-root-169"
+    >
+      <label
+        className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+        data-shrink={false}
       >
-        <option />
-        <option
-          value="FOREDRAGSHOLDER_JZ"
-        >
-          JavaZone foredragsholder
-        </option>
-        <option
-          value="FOREDRAGSHOLDER_JAVABIN"
-        >
-          Foredragsholder JavaBin
-        </option>
-        <option
-          value="STYRE"
-        >
-          Styre
-        </option>
-      </select>
-    </label>
-    <div>
-      <h4>
-        JavaZone foredragsholder
-      </h4>
-      <label>
-        JavaZone year
-        <select
-          autoFocus={true}
-          onChange={[Function]}
-          value="2018"
-        >
-          <option
-            value={2018}
-          >
-            2018
-          </option>
-          <option
-            value={2017}
-          >
-            2017
-          </option>
-          <option
-            value={2016}
-          >
-            2016
-          </option>
-          <option
-            value={2015}
-          >
-            2015
-          </option>
-          <option
-            value={2014}
-          >
-            2014
-          </option>
-          <option
-            value={2013}
-          >
-            2013
-          </option>
-          <option
-            value={2012}
-          >
-            2012
-          </option>
-          <option
-            value={2011}
-          >
-            2011
-          </option>
-          <option
-            value={2010}
-          >
-            2010
-          </option>
-          <option
-            value={2009}
-          >
-            2009
-          </option>
-          <option
-            value={2008}
-          >
-            2008
-          </option>
-        </select>
+        Achievement
       </label>
-      <label>
-        Title:
-        <input
-          onChange={[Function]}
-          value=""
-        />
-      </label>
-      <button
-        disabled={true}
+      <div
+        className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
         onClick={[Function]}
       >
-        Submit
-      </button>
+        <div
+          className="MuiSelect-root-191"
+        >
+          <select
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            multiple={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+          >
+            <option />
+            <option
+              value="FOREDRAGSHOLDER_JZ"
+            >
+              JavaZone foredragsholder
+            </option>
+            <option
+              value="FOREDRAGSHOLDER_JAVABIN"
+            >
+              Foredragsholder JavaBin
+            </option>
+            <option
+              value="STYRE"
+            >
+              Styre
+            </option>
+          </select>
+          <svg
+            aria-hidden="true"
+            className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+      </div>
     </div>
-    <a
-      href="#test/heroes/2"
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
+        >
+          JavaZone year
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <div
+            className="MuiSelect-root-191"
+          >
+            <select
+              aria-invalid={false}
+              className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+              disabled={false}
+              multiple={false}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={true}
+              value={2018}
+            >
+              <option
+                value={2018}
+              >
+                2018
+              </option>
+              <option
+                value={2017}
+              >
+                2017
+              </option>
+              <option
+                value={2016}
+              >
+                2016
+              </option>
+              <option
+                value={2015}
+              >
+                2015
+              </option>
+              <option
+                value={2014}
+              >
+                2014
+              </option>
+              <option
+                value={2013}
+              >
+                2013
+              </option>
+              <option
+                value={2012}
+              >
+                2012
+              </option>
+              <option
+                value={2011}
+              >
+                2011
+              </option>
+              <option
+                value={2010}
+              >
+                2010
+              </option>
+              <option
+                value={2009}
+              >
+                2009
+              </option>
+              <option
+                value={2008}
+              >
+                2008
+              </option>
+            </select>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+          data-shrink={false}
+        >
+          Talk title
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            className="MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+    <button
+      className="MuiButtonBase-root-17 MuiButtonBase-disabled-18 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78 MuiButton-disabled-92"
+      disabled={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="-1"
+      type="submit"
+    >
+      <span
+        className="MuiButton-label-73"
+      >
+        Submit
+      </span>
+    </button>
+  </form>,
+  <a
+    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    href="#test/heroes/2"
+    onBlur={[Function]}
+    onContextMenu={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <span
+      className="MuiButton-label-73"
     >
       Back
-    </a>
-  </form>,
+    </span>
+    <span
+      className="MuiTouchRipple-root-98"
+    />
+  </a>,
 ]
 `;
 
 exports[`HeroControlPanel adds achievement to hero shows JavaBin achievement type 1`] = `
 Array [
   <h3>
-    <a
-      href="#test"
-    >
-      Back
-    </a>
-  </h3>,
-  <h2>
-    Some test
-  </h2>,
-  <h3>
-    Please Add achievement
+    Add achievement
   </h3>,
   <form>
-    <label>
-      Achievement:
-      <select
-        autoFocus={true}
-        onChange={[Function]}
-      >
-        <option />
-        <option
-          value="FOREDRAGSHOLDER_JZ"
-        >
-          JavaZone foredragsholder
-        </option>
-        <option
-          value="FOREDRAGSHOLDER_JAVABIN"
-        >
-          Foredragsholder JavaBin
-        </option>
-        <option
-          value="STYRE"
-        >
-          Styre
-        </option>
-      </select>
-    </label>
-    <h3>
-      JavaBin usergroup speaker
-    </h3>
-    <label>
-      Title:
-      <input
-        onChange={[Function]}
-        value=""
-      />
-    </label>
-    <label>
-      Date:
-      <input
-        onChange={[Function]}
-        type="date"
-        value=""
-      />
-    </label>
-    <button
-      disabled={true}
-      onClick={[Function]}
+    <div
+      className="MuiFormControl-root-169"
     >
-      Submit
+      <label
+        className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+        data-shrink={false}
+      >
+        Achievement
+      </label>
+      <div
+        className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+        onClick={[Function]}
+      >
+        <div
+          className="MuiSelect-root-191"
+        >
+          <select
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            multiple={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+          >
+            <option />
+            <option
+              value="FOREDRAGSHOLDER_JZ"
+            >
+              JavaZone foredragsholder
+            </option>
+            <option
+              value="FOREDRAGSHOLDER_JAVABIN"
+            >
+              Foredragsholder JavaBin
+            </option>
+            <option
+              value="STYRE"
+            >
+              Styre
+            </option>
+          </select>
+          <svg
+            aria-hidden="true"
+            className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+          data-shrink={false}
+        >
+          Title
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            className="MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
+        >
+          Date
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            className="MuiInputBase-input-221 MuiInput-input-206 MuiInputBase-inputType-224 MuiInput-inputType-209"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="date"
+            value="Tue Jan 22 2019"
+          />
+        </div>
+      </div>
+    </div>
+    <button
+      className="MuiButtonBase-root-17 MuiButtonBase-disabled-18 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77 MuiButton-disabled-92"
+      disabled={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="-1"
+      type="button"
+    >
+      <span
+        className="MuiButton-label-73"
+      >
+        Submit
+      </span>
     </button>
-    <a
-      href="#test/heroes/2"
+  </form>,
+  <a
+    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    href="#test/heroes/2"
+    onBlur={[Function]}
+    onContextMenu={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <span
+      className="MuiButton-label-73"
     >
       Back
-    </a>
-  </form>,
+    </span>
+    <span
+      className="MuiTouchRipple-root-98"
+    />
+  </a>,
 ]
 `;
 
 exports[`HeroControlPanel adds achievement to hero shows board member achievement type 1`] = `
 Array [
   <h3>
-    <a
-      href="#test"
-    >
-      Back
-    </a>
-  </h3>,
-  <h2>
-    Some test
-  </h2>,
-  <h3>
-    Please Add achievement
+    Add achievement
   </h3>,
   <form>
-    <label>
-      Achievement:
-      <select
-        autoFocus={true}
-        onChange={[Function]}
+    <div
+      className="MuiFormControl-root-169"
+    >
+      <label
+        className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+        data-shrink={false}
       >
-        <option />
-        <option
-          value="FOREDRAGSHOLDER_JZ"
-        >
-          JavaZone foredragsholder
-        </option>
-        <option
-          value="FOREDRAGSHOLDER_JAVABIN"
-        >
-          Foredragsholder JavaBin
-        </option>
-        <option
-          value="STYRE"
-        >
-          Styre
-        </option>
-      </select>
-    </label>
-    <h3>
-      JavaBin board member
-    </h3>
-    <label>
-      Role
-      <select
-        onChange={[Function]}
-        value="BOARD_MEMBER"
+        Achievement
+      </label>
+      <div
+        className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+        onClick={[Function]}
       >
-        <option
-          value="BOARD_MEMBER"
+        <div
+          className="MuiSelect-root-191"
         >
-          Board member
-        </option>
-        <option
-          value="VICE_CHAIR"
-        >
-          Vice chair
-        </option>
-        <option
-          value="CHAIR"
-        >
-          Chair
-        </option>
-      </select>
-    </label>
-    <label>
-      Elected year
-      <select
-        onChange={[Function]}
-        value="2018"
+          <select
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            multiple={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+          >
+            <option />
+            <option
+              value="FOREDRAGSHOLDER_JZ"
+            >
+              JavaZone foredragsholder
+            </option>
+            <option
+              value="FOREDRAGSHOLDER_JAVABIN"
+            >
+              Foredragsholder JavaBin
+            </option>
+            <option
+              value="STYRE"
+            >
+              Styre
+            </option>
+          </select>
+          <svg
+            aria-hidden="true"
+            className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
       >
-        <option
-          value="2018"
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
         >
-          2018
-        </option>
-        <option
-          value="2017"
+          Role
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
         >
-          2017
-        </option>
-        <option
-          value="2016"
+          <div
+            className="MuiSelect-root-191"
+          >
+            <select
+              aria-invalid={false}
+              className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+              disabled={false}
+              multiple={false}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={true}
+              value="BOARD_MEMBER"
+            >
+              <option
+                value="BOARD_MEMBER"
+              >
+                Board member
+              </option>
+              <option
+                value="VICE_CHAIR"
+              >
+                Vice chair
+              </option>
+              <option
+                value="CHAIR"
+              >
+                Chair
+              </option>
+            </select>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
         >
-          2016
-        </option>
-        <option
-          value="2015"
+          Elected year
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
         >
-          2015
-        </option>
-        <option
-          value="2014"
-        >
-          2014
-        </option>
-        <option
-          value="2013"
-        >
-          2013
-        </option>
-        <option
-          value="2012"
-        >
-          2012
-        </option>
-        <option
-          value="2011"
-        >
-          2011
-        </option>
-        <option
-          value="2010"
-        >
-          2010
-        </option>
-        <option
-          value="2009"
-        >
-          2009
-        </option>
-        <option
-          value="2008"
-        >
-          2008
-        </option>
-      </select>
-    </label>
+          <div
+            className="MuiSelect-root-191"
+          >
+            <select
+              aria-invalid={false}
+              className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+              disabled={false}
+              multiple={false}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={true}
+              value="2018"
+            >
+              <option
+                value="2018"
+              >
+                2018
+              </option>
+              <option
+                value="2017"
+              >
+                2017
+              </option>
+              <option
+                value="2016"
+              >
+                2016
+              </option>
+              <option
+                value="2015"
+              >
+                2015
+              </option>
+              <option
+                value="2014"
+              >
+                2014
+              </option>
+              <option
+                value="2013"
+              >
+                2013
+              </option>
+              <option
+                value="2012"
+              >
+                2012
+              </option>
+              <option
+                value="2011"
+              >
+                2011
+              </option>
+              <option
+                value="2010"
+              >
+                2010
+              </option>
+              <option
+                value="2009"
+              >
+                2009
+              </option>
+              <option
+                value="2008"
+              >
+                2008
+              </option>
+            </select>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
     <button
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78"
       disabled={false}
+      onBlur={[Function]}
       onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
     >
-      Submit
+      <span
+        className="MuiButton-label-73"
+      >
+        Submit
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
     </button>
-    <a
-      href="#test/heroes/2"
-    >
-      Back
-    </a>
   </form>,
-]
-`;
-
-exports[`HeroControlPanel deletes achievement 1`] = `
-Array [
-  <h3>
-    <a
-      href="#test"
+  <a
+    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    href="#test/heroes/2"
+    onBlur={[Function]}
+    onContextMenu={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <span
+      className="MuiButton-label-73"
     >
       Back
-    </a>
-  </h3>,
-  <h2>
-    Johannes Test
-  </h2>,
-  <ul>
-    <li>
-      Email: 
-      johannes@example.com
-    </li>
-    <li>
-      Twitter: 
-    </li>
-    <li>
-      <a
-        href="#test/heroes/1/edit"
-      >
-        Update
-      </a>
-    </li>
-  </ul>,
-  <h3>
-    Achievements
-  </h3>,
-  <ul />,
-  <p>
-    <a
-      href="#test/heroes/1/addAchievement"
-    >
-      Add achievement
-    </a>
-  </p>,
-]
-`;
-
-exports[`HeroControlPanel lists achievements 1`] = `
-Array [
-  <h3>
-    <a
-      href="#test"
-    >
-      Back
-    </a>
-  </h3>,
-  <h2>
-    Some test
-  </h2>,
-  <ul>
-    <li>
-      Email: 
-      test@example.com
-    </li>
-    <li>
-      Twitter: 
-    </li>
-    <li>
-      <a
-        href="#test/heroes/2/edit"
-      >
-        Update
-      </a>
-    </li>
-  </ul>,
-  <h3>
-    Achievements
-  </h3>,
-  <ul>
-    <li>
-      A great girl
-       [
-      <a
-        href="#test/heroes/2/achievement/11"
-      >
-        Edit
-      </a>
-      ] [
-      <a
-        className="deleteAchievementLink"
-        href="#"
-        onClick={[Function]}
-      >
-        Delete
-      </a>
-      ]
-    </li>
-    <li>
-      A super guy!
-       [
-      <a
-        href="#test/heroes/2/achievement/12"
-      >
-        Edit
-      </a>
-      ] [
-      <a
-        className="deleteAchievementLink"
-        href="#"
-        onClick={[Function]}
-      >
-        Delete
-      </a>
-      ]
-    </li>
-  </ul>,
-  <p>
-    <a
-      href="#test/heroes/2/addAchievement"
-    >
-      Add achievement
-    </a>
-  </p>,
+    </span>
+    <span
+      className="MuiTouchRipple-root-98"
+    />
+  </a>,
 ]
 `;
 
 exports[`HeroControlPanel shows achievement update 1`] = `
 Array [
   <h3>
-    <a
-      href="#test"
-    >
-      Back
-    </a>
+    Update achievement
   </h3>,
-  <h2>
-    Some test
-  </h2>,
   <form>
-    <h3>
-      JavaBin board member
-    </h3>
-    <label>
-      Role
-      <select
-        onChange={[Function]}
-        value="BOARD_MEMBER"
+    <div>
+      <div
+        className="MuiFormControl-root-169"
       >
-        <option
-          value="BOARD_MEMBER"
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
         >
-          Board member
-        </option>
-        <option
-          value="VICE_CHAIR"
+          Role
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
         >
-          Vice chair
-        </option>
-        <option
-          value="CHAIR"
-        >
-          Chair
-        </option>
-      </select>
-    </label>
-    <label>
-      Elected year
-      <select
-        onChange={[Function]}
-        value={2019}
+          <div
+            className="MuiSelect-root-191"
+          >
+            <select
+              aria-invalid={false}
+              className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+              disabled={false}
+              multiple={false}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={true}
+              value="BOARD_MEMBER"
+            >
+              <option
+                value="BOARD_MEMBER"
+              >
+                Board member
+              </option>
+              <option
+                value="VICE_CHAIR"
+              >
+                Vice chair
+              </option>
+              <option
+                value="CHAIR"
+              >
+                Chair
+              </option>
+            </select>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
       >
-        <option
-          value="2018"
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
         >
-          2018
-        </option>
-        <option
-          value="2017"
+          Elected year
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
         >
-          2017
-        </option>
-        <option
-          value="2016"
-        >
-          2016
-        </option>
-        <option
-          value="2015"
-        >
-          2015
-        </option>
-        <option
-          value="2014"
-        >
-          2014
-        </option>
-        <option
-          value="2013"
-        >
-          2013
-        </option>
-        <option
-          value="2012"
-        >
-          2012
-        </option>
-        <option
-          value="2011"
-        >
-          2011
-        </option>
-        <option
-          value="2010"
-        >
-          2010
-        </option>
-        <option
-          value="2009"
-        >
-          2009
-        </option>
-        <option
-          value="2008"
-        >
-          2008
-        </option>
-      </select>
-    </label>
+          <div
+            className="MuiSelect-root-191"
+          >
+            <select
+              aria-invalid={false}
+              className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+              disabled={false}
+              multiple={false}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={true}
+              value={2019}
+            >
+              <option
+                value="2018"
+              >
+                2018
+              </option>
+              <option
+                value="2017"
+              >
+                2017
+              </option>
+              <option
+                value="2016"
+              >
+                2016
+              </option>
+              <option
+                value="2015"
+              >
+                2015
+              </option>
+              <option
+                value="2014"
+              >
+                2014
+              </option>
+              <option
+                value="2013"
+              >
+                2013
+              </option>
+              <option
+                value="2012"
+              >
+                2012
+              </option>
+              <option
+                value="2011"
+              >
+                2011
+              </option>
+              <option
+                value="2010"
+              >
+                2010
+              </option>
+              <option
+                value="2009"
+              >
+                2009
+              </option>
+              <option
+                value="2008"
+              >
+                2008
+              </option>
+            </select>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
     <button
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78"
       disabled={false}
+      onBlur={[Function]}
       onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
     >
-      Submit
+      <span
+        className="MuiButton-label-73"
+      >
+        Submit
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
     </button>
+    <a
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+      href="#test/heroes/2"
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      <span
+        className="MuiButton-label-73"
+      >
+        Back
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
+    </a>
   </form>,
 ]
 `;
 
 exports[`HeroControlPanel shows hero edit view 1`] = `
 Array [
-  <h3>
-    <a
-      href="#test"
-    >
-      Back
-    </a>
-  </h3>,
   <h2>
     Some test
+     (edit)
   </h2>,
   <form
     onSubmit={[Function]}
   >
-    <h3>
-      Information
-    </h3>
-    <ul>
-      <li>
-        Display name:
-        <input
-          autoFocus={true}
-          onChange={[Function]}
-          value="Some test"
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
+        >
+          Display name
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={true}
+            type="text"
+            value="Some test"
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
+        >
+          Email address
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiInputBase-input-221 MuiInput-input-206 MuiInputBase-inputType-224 MuiInput-inputType-209"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={true}
+            type="email"
+            value="test@example.com"
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+          data-shrink={false}
+        >
+          Twitter handle
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiInputBase-input-221 MuiInput-input-206 MuiInputBase-inputType-224 MuiInput-inputType-209"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type=""
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78"
+        disabled={false}
+        onBlur={[Function]}
+        onContextMenu={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex="0"
+        type="submit"
+      >
+        <span
+          className="MuiButton-label-73"
+        >
+          Lagre
+        </span>
+        <span
+          className="MuiTouchRipple-root-98"
         />
-      </li>
-      <li>
-        Email address:
-        <input
-          onChange={[Function]}
-          value="test@example.com"
-        />
-      </li>
-      <li>
-        Twitter handle:
-        <input
-          onChange={[Function]}
-        />
-      </li>
-    </ul>
-    <button>
-      Lagre
-    </button>
-    <a
-      href="#test/heroes/2"
+      </button>
+    </div>
+  </form>,
+  <a
+    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    href="#test/heroes/2"
+    onBlur={[Function]}
+    onContextMenu={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <span
+      className="MuiButton-label-73"
     >
       Back
-    </a>
-  </form>,
+    </span>
+    <span
+      className="MuiTouchRipple-root-98"
+    />
+  </a>,
 ]
 `;
 
 exports[`HeroControlPanel shows hero status 1`] = `
-Array [
-  <h3>
-    <a
-      href="#test"
+<div
+  className="MuiPaper-root-106 MuiPaper-elevation1-109 MuiPaper-rounded-107 MuiCard-root-105"
+>
+  <div
+    className="MuiCardHeader-root-133"
+  >
+    <div
+      className="MuiCardHeader-avatar-134"
     >
-      Back
-    </a>
-  </h3>,
-  <h2>
-    Some test
-  </h2>,
-  <ul>
-    <li>
-      Email: 
-      test@example.com
-    </li>
-    <li>
-      Twitter: 
-    </li>
-    <li>
-      <a
-        href="#test/heroes/2/edit"
+      <div
+        className="MuiAvatar-root-139 MuiAvatar-colorDefault-140"
       >
-        Update
-      </a>
-    </li>
-  </ul>,
-  <h3>
-    Achievements
-  </h3>,
-  <ul>
-    <li>
-      A great girl
-       [
-      <a
-        href="#test/heroes/2/achievement/11"
+        S
+      </div>
+    </div>
+    <div
+      className="MuiCardHeader-content-136"
+    >
+      <span
+        className="MuiTypography-root-36 MuiTypography-body2-44 MuiCardHeader-title-137"
       >
-        Edit
-      </a>
-      ] [
-      <a
-        className="deleteAchievementLink"
-        href="#"
-        onClick={[Function]}
+        Some test
+      </span>
+      <span
+        className="MuiTypography-root-36 MuiTypography-body2-44 MuiTypography-colorTextSecondary-69 MuiCardHeader-subheader-138"
       >
-        Delete
-      </a>
-      ]
-    </li>
-    <li>
-      A super guy!
-       [
+        test@example.com undefined
+      </span>
+    </div>
+    <div
+      className="MuiCardHeader-action-135"
+    >
       <a
-        href="#test/heroes/2/achievement/12"
+        className="MuiButtonBase-root-17 MuiIconButton-root-142"
+        href="#test"
+        onBlur={[Function]}
+        onContextMenu={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+        tabIndex="0"
       >
-        Edit
+        <span
+          className="MuiIconButton-label-147"
+        >
+          <svg
+            aria-hidden="true"
+            className="MuiSvgIcon-root-21"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+        </span>
+        <span
+          className="MuiTouchRipple-root-98"
+        />
       </a>
-      ] [
-      <a
-        className="deleteAchievementLink"
-        href="#"
-        onClick={[Function]}
+    </div>
+  </div>
+  <div
+    className="MuiCardContent-root-148"
+  >
+    <h2
+      className="MuiTypography-root-36 MuiTypography-h5-52 MuiTypography-gutterBottom-63"
+    >
+      Achievements
+    </h2>
+    <ul
+      className="MuiList-root-1 MuiList-padding-2"
+    >
+      <li
+        className="MuiListItem-container-6"
       >
-        Delete
-      </a>
-      ]
-    </li>
-  </ul>,
-  <p>
+        <div
+          className="MuiButtonBase-root-17 MuiListItem-root-5 MuiListItem-default-8 MuiListItem-gutters-13 MuiListItem-button-14 MuiListItem-secondaryAction-15"
+          href="#test/heroes/2/achievement/11"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          <div
+            className="MuiAvatar-root-139 MuiAvatar-colorDefault-140"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-21"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div
+            className="MuiListItemText-root-30"
+          >
+            <span
+              className="MuiTypography-root-36 MuiTypography-subheading-43 MuiListItemText-primary-33"
+            >
+              A great girl
+            </span>
+          </div>
+          <span
+            className="MuiTouchRipple-root-98"
+          />
+        </div>
+        <div
+          className="MuiListItemSecondaryAction-root-149"
+        >
+          <button
+            className="MuiButtonBase-root-17 MuiIconButton-root-142"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex="0"
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label-147"
+            >
+              <svg
+                aria-hidden="true"
+                className="MuiSvgIcon-root-21"
+                focusable="false"
+                role="presentation"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root-98"
+            />
+          </button>
+        </div>
+      </li>
+      <li
+        className="MuiListItem-container-6"
+      >
+        <div
+          className="MuiButtonBase-root-17 MuiListItem-root-5 MuiListItem-default-8 MuiListItem-gutters-13 MuiListItem-button-14 MuiListItem-secondaryAction-15"
+          href="#test/heroes/2/achievement/12"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          <div
+            className="MuiAvatar-root-139 MuiAvatar-colorDefault-140"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-21"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div
+            className="MuiListItemText-root-30"
+          >
+            <span
+              className="MuiTypography-root-36 MuiTypography-subheading-43 MuiListItemText-primary-33"
+            >
+              A super guy!
+            </span>
+          </div>
+          <span
+            className="MuiTouchRipple-root-98"
+          />
+        </div>
+        <div
+          className="MuiListItemSecondaryAction-root-149"
+        >
+          <button
+            className="MuiButtonBase-root-17 MuiIconButton-root-142"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex="0"
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label-147"
+            >
+              <svg
+                aria-hidden="true"
+                className="MuiSvgIcon-root-21"
+                focusable="false"
+                role="presentation"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root-98"
+            />
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div
+    className="MuiCardActions-root-166"
+  >
     <a
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78 MuiButton-sizeSmall-95 MuiCardActions-action-168"
+      href="#test/heroes/2/edit"
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      <span
+        className="MuiButton-label-73"
+      >
+        Edit
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
+    </a>
+    <a
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78 MuiButton-sizeSmall-95 MuiCardActions-action-168"
       href="#test/heroes/2/addAchievement"
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex="0"
     >
-      Add achievement
+      <span
+        className="MuiButton-label-73"
+      >
+        Add achievement
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
     </a>
-  </p>,
-]
+  </div>
+</div>
 `;
 
 exports[`HeroControlPanel shows list of current heroes 1`] = `
 Array [
   <h2>
-    Here are all the heroes
+    Heroes
   </h2>,
-  <ul>
-    <li>
-      <a
-        href="#test/heroes/1"
+  <ul
+    className="MuiList-root-1 MuiList-padding-2"
+  >
+    <div
+      className="MuiButtonBase-root-17 MuiListItem-root-5 MuiListItem-default-8 MuiListItem-gutters-13 MuiListItem-button-14"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      <div
+        className="MuiListItemIcon-root-20"
       >
-        Johannes Test
-      </a>
-    </li>
-    <li>
-      <a
-        href="#test/heroes/2"
+        <svg
+          aria-hidden="true"
+          className="MuiSvgIcon-root-21"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </div>
+      <div
+        className="MuiListItemText-root-30"
       >
-        Some test
-      </a>
-    </li>
+        <span
+          className="MuiTypography-root-36 MuiTypography-subheading-43 MuiListItemText-primary-33"
+        >
+          Johannes Test
+        </span>
+        <p
+          className="MuiTypography-root-36 MuiTypography-body1-45 MuiTypography-colorTextSecondary-69 MuiListItemText-secondary-34"
+        >
+          johannes@example.com
+        </p>
+      </div>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
+    </div>
+    <div
+      className="MuiButtonBase-root-17 MuiListItem-root-5 MuiListItem-default-8 MuiListItem-gutters-13 MuiListItem-button-14"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      <div
+        className="MuiListItemIcon-root-20"
+      >
+        <svg
+          aria-hidden="true"
+          className="MuiSvgIcon-root-21"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </div>
+      <div
+        className="MuiListItemText-root-30"
+      >
+        <span
+          className="MuiTypography-root-36 MuiTypography-subheading-43 MuiListItemText-primary-33"
+        >
+          Some test
+        </span>
+        <p
+          className="MuiTypography-root-36 MuiTypography-body1-45 MuiTypography-colorTextSecondary-69 MuiListItemText-secondary-34"
+        >
+          test@example.com
+        </p>
+      </div>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
+    </div>
   </ul>,
   <a
+    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-contained-83 MuiButton-containedPrimary-84 MuiButton-raised-86 MuiButton-raisedPrimary-87"
     href="#test/heroes/add"
+    onBlur={[Function]}
+    onContextMenu={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    role="button"
+    tabIndex="0"
   >
-    Add a hero
+    <span
+      className="MuiButton-label-73"
+    >
+      Add hero
+    </span>
+    <span
+      className="MuiTouchRipple-root-98"
+    />
   </a>,
 ]
 `;
@@ -750,165 +1606,493 @@ exports[`HeroControlPanel shows new hero screen 1`] = `
     Add a hero
   </h2>
   <div>
-    <label>
-      Select from slack:
-      <select
-        autoFocus={true}
-        onChange={[Function]}
+    <div
+      className="MuiFormControl-root-169"
+    >
+      <label
+        className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+        data-shrink={false}
+        htmlFor="add-hero-slack-member"
       >
-        <option />
-        <option
-          value="johannes@example.com"
+        Select from slack:
+      </label>
+      <div
+        className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+        onClick={[Function]}
+      >
+        <div
+          className="MuiSelect-root-191"
         >
-          Johannes Brodwall
-           &lt;
-          johannes@example.com
-          &gt;
-        </option>
-        <option
-          value="alice@example.com"
-        >
-          Alice
-           &lt;
-          alice@example.com
-          &gt;
-        </option>
-        <option
-          value="bob@example.net"
-        >
-          Bob
-           &lt;
-          bob@example.net
-          &gt;
-        </option>
-      </select>
-    </label>
+          <select
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiSelect-select-192 MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            id="add-hero-slack-member"
+            multiple={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            value=""
+          >
+            <option />
+            <option
+              value="johannes@example.com"
+            >
+              Johannes Brodwall
+               &lt;
+              johannes@example.com
+              &gt;
+            </option>
+            <option
+              value="alice@example.com"
+            >
+              Alice
+               &lt;
+              alice@example.com
+              &gt;
+            </option>
+            <option
+              value="bob@example.net"
+            >
+              Bob
+               &lt;
+              bob@example.net
+              &gt;
+            </option>
+          </select>
+          <svg
+            aria-hidden="true"
+            className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
   </div>
   <div>
-    <label>
-      Name:
-      <input
-        onChange={[Function]}
-      />
-    </label>
+    <div
+      className="MuiFormControl-root-169"
+    >
+      <label
+        className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+        data-shrink={false}
+      >
+        Name
+      </label>
+      <div
+        className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+        onClick={[Function]}
+      >
+        <input
+          aria-invalid={false}
+          className="MuiInputBase-input-221 MuiInput-input-206"
+          disabled={false}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="MuiFormControl-root-169"
+    >
+      <label
+        className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+        data-shrink={false}
+      >
+        Email
+      </label>
+      <div
+        className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+        onClick={[Function]}
+      >
+        <input
+          aria-invalid={false}
+          className="MuiInputBase-input-221 MuiInput-input-206"
+          disabled={false}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="MuiFormControl-root-169"
+    >
+      <label
+        className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+        data-shrink={false}
+      >
+        Twitter
+      </label>
+      <div
+        className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+        onClick={[Function]}
+      >
+        <input
+          aria-invalid={false}
+          className="MuiInputBase-input-221 MuiInput-input-206"
+          disabled={false}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
   </div>
   <div>
-    <label>
-      Email:
-      <input
-        onChange={[Function]}
+    <button
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-contained-83 MuiButton-containedPrimary-84 MuiButton-raised-86 MuiButton-raisedPrimary-87"
+      disabled={false}
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="submit"
+    >
+      <span
+        className="MuiButton-label-73"
+      >
+        Submit
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
       />
-    </label>
-  </div>
-  <div>
-    <label>
-      Twitter:
-      <input
-        onChange={[Function]}
+    </button>
+    <button
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-contained-83 MuiButton-raised-86"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
+    >
+      <span
+        className="MuiButton-label-73"
+      >
+        Cancel
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
       />
-    </label>
+    </button>
   </div>
-  <button>
-    Submit
-  </button>
-  <button
-    onClick={[Function]}
-  >
-    Cancel
-  </button>
 </form>
 `;
 
 exports[`HeroControlPanel udpates hero name 1`] = `
 Array [
-  <h3>
-    <a
-      href="#test"
-    >
-      Back
-    </a>
-  </h3>,
   <h2>
     Updated name
+     (edit)
   </h2>,
   <form
     onSubmit={[Function]}
   >
-    <h3>
-      Information
-    </h3>
-    <ul>
-      <li>
-        Display name:
-        <input
-          autoFocus={true}
-          onChange={[Function]}
-          value="Updated name"
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
+        >
+          Display name
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={true}
+            type="text"
+            value="Updated name"
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiFormLabel-required-189 MuiInputLabel-required-177 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
+        >
+          Email address
+          <span
+            className="MuiFormLabel-asterisk-190"
+          >
+             *
+          </span>
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiInputBase-input-221 MuiInput-input-206 MuiInputBase-inputType-224 MuiInput-inputType-209"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={true}
+            type="email"
+            value="johannes@example.com"
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181"
+          data-shrink={false}
+        >
+          Twitter handle
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiInputBase-input-221 MuiInput-input-206 MuiInputBase-inputType-224 MuiInput-inputType-209"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type=""
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78"
+        disabled={false}
+        onBlur={[Function]}
+        onContextMenu={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex="0"
+        type="submit"
+      >
+        <span
+          className="MuiButton-label-73"
+        >
+          Lagre
+        </span>
+        <span
+          className="MuiTouchRipple-root-98"
         />
-      </li>
-      <li>
-        Email address:
-        <input
-          onChange={[Function]}
-          value="johannes@example.com"
-        />
-      </li>
-      <li>
-        Twitter handle:
-        <input
-          onChange={[Function]}
-        />
-      </li>
-    </ul>
-    <button>
-      Lagre
-    </button>
-    <a
-      href="#test/heroes/1"
+      </button>
+    </div>
+  </form>,
+  <a
+    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    href="#test/heroes/1"
+    onBlur={[Function]}
+    onContextMenu={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <span
+      className="MuiButton-label-73"
     >
       Back
-    </a>
-  </form>,
+    </span>
+    <span
+      className="MuiTouchRipple-root-98"
+    />
+  </a>,
 ]
 `;
 
 exports[`HeroControlPanel updates speaker achievement 1`] = `
 Array [
   <h3>
-    <a
-      href="#test"
-    >
-      Back
-    </a>
+    Update achievement
   </h3>,
-  <h2>
-    Some test
-  </h2>,
   <form>
-    <h3>
-      JavaBin usergroup speaker
-    </h3>
-    <label>
-      Title:
-      <input
-        onChange={[Function]}
-        value="Updated title"
-      />
-    </label>
-    <label>
-      Date:
-      <input
-        onChange={[Function]}
-        type="date"
-        value="2018/10/15"
-      />
-    </label>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
+        >
+          Title
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            className="MuiInputBase-input-221 MuiInput-input-206"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="text"
+            value="Updated title"
+          />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiFormControl-root-169"
+      >
+        <label
+          className="MuiFormLabel-root-184 MuiFormLabel-filled-188 MuiInputLabel-root-173 MuiInputLabel-formControl-178 MuiInputLabel-animated-181 MuiInputLabel-shrink-180"
+          data-shrink={true}
+        >
+          Date
+        </label>
+        <div
+          className="MuiInputBase-root-211 MuiInput-root-198 MuiInput-underline-202 MuiInputBase-formControl-212 MuiInput-formControl-199"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            className="MuiInputBase-input-221 MuiInput-input-206 MuiInputBase-inputType-224 MuiInput-inputType-209"
+            disabled={false}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="date"
+            value="2018/10/15"
+          />
+        </div>
+      </div>
+    </div>
     <button
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
       disabled={false}
+      onBlur={[Function]}
       onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
     >
-      Submit
+      <span
+        className="MuiButton-label-73"
+      >
+        Submit
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
     </button>
+    <a
+      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+      href="#test/heroes/2"
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      <span
+        className="MuiButton-label-73"
+      >
+        Back
+      </span>
+      <span
+        className="MuiTouchRipple-root-98"
+      />
+    </a>
   </form>,
 ]
 `;

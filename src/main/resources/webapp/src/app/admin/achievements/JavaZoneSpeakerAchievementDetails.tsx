@@ -1,3 +1,4 @@
+import { Button, TextField } from "@material-ui/core";
 import React, { FormEvent } from "react";
 import { ConferenceSpeakerAchievement } from "../../../services/api";
 import { HeroAchievementProps } from "./HeroAchievementProps";
@@ -7,7 +8,7 @@ export class JavaZoneSpeakerAchievementDetails extends React.Component<
     achievement?: ConferenceSpeakerAchievement;
   },
   {
-    year: number;
+    year: string;
     title: string;
   }
 > {
@@ -15,7 +16,7 @@ export class JavaZoneSpeakerAchievementDetails extends React.Component<
   constructor(
     props: HeroAchievementProps & {
       achievement?: {
-        year: number;
+        year: string;
         title: string;
       };
     }
@@ -26,35 +27,40 @@ export class JavaZoneSpeakerAchievementDetails extends React.Component<
   }
   handleSubmit = (e: FormEvent) => {
     const { year, title } = this.state;
-    this.props.onSave({ type: "FOREDRAGSHOLDER_JZ", year, title });
+    this.props.onSave({ type: "FOREDRAGSHOLDER_JZ", year: parseInt(year, 10), title });
     e.preventDefault();
   };
   render() {
+    const { year } = this.state;
     return (
-      <div>
-        <h4>JavaZone foredragsholder</h4>
-        <label>
-          JavaZone year
-          <select
-            value={this.state.year.toString()}
-            onChange={e => this.setState({ year: parseInt(e.target.value.toString(), 10) })}
-            autoFocus
+      <>
+        <div>
+          <TextField
+            required
+            select
+            SelectProps={{ native: true }}
+            label="JavaZone year"
+            value={year}
+            onChange={e => this.setState({ year: e.target.value })}
           >
             {this.years.map(y => (
               <option value={y} key={y}>
                 {y}
               </option>
             ))}
-          </select>
-        </label>
-        <label>
-          Title:
-          <input value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
-        </label>
-        <button onClick={this.handleSubmit} disabled={!this.state.title.length}>
+          </TextField>
+        </div>
+        <div>
+          <TextField
+            label="Talk title"
+            value={this.state.title}
+            onChange={e => this.setState({ title: e.target.value })}
+          />
+        </div>
+        <Button type="submit" onClick={this.handleSubmit} disabled={!this.state.title.length} color="primary">
           Submit
-        </button>
-      </div>
+        </Button>
+      </>
     );
   }
 }

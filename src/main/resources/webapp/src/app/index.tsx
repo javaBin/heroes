@@ -1,39 +1,39 @@
+import {
+  AppBar,
+  Avatar,
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Toolbar,
+  Typography
+} from "@material-ui/core";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MenuIcon from "@material-ui/icons/Menu";
 import React from "react";
 import { HeroService } from "../services";
 import { Hero, Userinfo } from "../services/api";
 
-import { Table } from "react-bootstrap";
 import { ProfileScreen } from "./profile";
 
-import heroPng from "../images/hero.png";
 import { HeroServiceHttp } from "../services/heroServiceHttp";
 import { HeroControlPanel } from "./admin";
 
 export function HeroList({ heroes }: { heroes: Hero[] }) {
-  const heroComponents = heroes.map(hero => {
-    return (
-      <tr key={hero.email}>
-        <td>
-          <img height="25" src={heroPng} />
-        </td>
-        <td>{hero.name}</td>
-        <td>{hero.achievement}</td>
-      </tr>
-    );
-  });
   return (
     <div className="heroes-list">
-      <h2>Helter</h2>
-      <Table striped bordered condensed hover>
-        <thead>
-          <tr>
-            <th />
-            <th>Navn</th>
-            <th>Heltetype</th>
-          </tr>
-        </thead>
-        <tbody>{heroComponents}</tbody>
-      </Table>
+      <List>
+        {heroes.map(h => (
+          <ListItem key={h.id}>
+            <ListItemAvatar>
+              <Avatar src="/images/hero.png" />
+            </ListItemAvatar>
+            <ListItemText primary={h.name} secondary={h.achievements.map(a => a.label).join(", ")} />
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
 }
@@ -91,10 +91,6 @@ export class App extends React.Component<{ heroService: HeroService }, { hash: s
       return <ProfileScreen heroService={this.props.heroService} />;
     }
 
-    if (hash.indexOf("#poc") === 0) {
-      return <HeroControlPanel heroService={new HeroServiceHttp()} prefix="#poc" />;
-    }
-
     return (
       <div>
         <h1>{hash}</h1>
@@ -104,31 +100,41 @@ export class App extends React.Component<{ heroService: HeroService }, { hash: s
   }
 
   render() {
-    const { userinfo } = this.state;
+    const { userinfo, hash } = this.state;
+    const adminPage = hash.indexOf("#admin") === 0;
     return (
       <>
-        <nav>
-          <ul>
-            <li>
-              <a href="#">View heroes</a>
-            </li>
-            {userinfo.authenticated || (
-              <li>
-                <a href="/api/login">Log in</a>
-              </li>
+        <AppBar position="static" color={adminPage ? "secondary" : "primary"}>
+          <Toolbar>
+            <IconButton href="#" color="inherit">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
+              Heroes
+            </Typography>
+            {userinfo.admin ? (
+              <Button href="#admin" color="inherit">
+                Admin
+              </Button>
+            ) : (
+              <></>
             )}
-            {userinfo.admin && (
-              <li>
-                <a href="#admin">Admin</a>
-              </li>
+            {userinfo.authenticated ? (
+              <IconButton href="#profile" color="inherit">
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              <></>
             )}
-            {userinfo.authenticated && (
-              <li>
-                <a href="#profile">{userinfo.username}</a>
-              </li>
+            {!userinfo.authenticated ? (
+              <IconButton href="/api/login" color="inherit">
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              <></>
             )}
-          </ul>
-        </nav>
+          </Toolbar>
+        </AppBar>
         {this.renderContent()}
       </>
     );

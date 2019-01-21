@@ -1,3 +1,4 @@
+import { Button, TextField } from "@material-ui/core";
 import React, { FormEvent } from "react";
 import { UsergroupSpeakerAchievement } from "../../../services/api";
 import { HeroAchievementProps } from "./HeroAchievementProps";
@@ -20,7 +21,12 @@ export class JavaBinSpeakerAchievementDetails extends React.Component<
     }
   ) {
     super(props);
-    this.state = { title: "", date: "", ...props.achievement };
+    this.state = {
+      title: (props.achievement && props.achievement.title) || "",
+      date:
+        (props.achievement && props.achievement.date && props.achievement.date.toDateString()) ||
+        new Date().toDateString()
+    };
   }
   handleSubmit = (e: FormEvent) => {
     const { date, title } = this.state;
@@ -30,18 +36,20 @@ export class JavaBinSpeakerAchievementDetails extends React.Component<
   render() {
     return (
       <>
-        <h3>JavaBin usergroup speaker</h3>
-        <label>
-          Title:
-          <input value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
-        </label>
-        <label>
-          Date:
-          <input type="date" value={this.state.date} onChange={e => this.setState({ date: e.target.value })} />
-        </label>
-        <button onClick={this.handleSubmit} disabled={!this.state.title.length || !this.state.date}>
+        <div>
+          <TextField label="Title" value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
+        </div>
+        <div>
+          <TextField
+            label="Date"
+            type="date"
+            value={this.state.date}
+            onChange={e => this.setState({ date: e.target.value })}
+          />
+        </div>
+        <Button onClick={this.handleSubmit} disabled={!this.state.title.length || !this.state.date}>
           Submit
-        </button>
+        </Button>
       </>
     );
   }

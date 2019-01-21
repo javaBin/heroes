@@ -58,10 +58,14 @@ public class HeroesRepository {
         if (includeUnpublished) {
             return table.listObjects(this::mapRow);
         }
-        return table
+        List<Hero> result = table
                 .whereExpression("consented_at is not null")
                 .unordered()
                 .list(this::mapRow);
+        for (Hero hero : result) {
+            retrieveAchievements(hero);
+        }
+        return result;
     }
 
     public Hero retrieveByEmail(String email) {

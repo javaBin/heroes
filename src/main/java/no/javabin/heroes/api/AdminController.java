@@ -37,9 +37,9 @@ public class AdminController {
         List<Hero> list = repository.list(true);
         return JsonArray.map(list,
                 hero -> new JsonObject()
-                    .put("name", hero.getEmail())
+                    .put("name", hero.getName())
+                    .put("email", hero.getEmail())
                     .put("id", hero.getId().toString())
-                    .put("achievement", hero.getAchievement())
                     .put("achievements", new JsonArray())
                     .put("published", hero.getConsentedAt() != null));
 
