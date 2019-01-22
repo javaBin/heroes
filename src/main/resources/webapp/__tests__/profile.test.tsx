@@ -3,6 +3,9 @@ import renderer from "react-test-renderer";
 import { ProfileScreen } from "../src/app/profile";
 import { MockHeroService } from "../src/services/mockHeroService";
 
+// tslint:disable-next-line:no-eval
+eval(`global["document"] = {}`);
+
 function promiseCompletion() {
   return new Promise(resolve => setImmediate(resolve));
 }

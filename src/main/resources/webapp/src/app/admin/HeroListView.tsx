@@ -8,6 +8,10 @@ export class HeroListView extends React.Component<{
   heroes: Hero[];
   prefix: string;
 }> {
+  componentDidMount() {
+    document.title = "Admin | javaBin heroes";
+  }
+
   render() {
     return (
       <>

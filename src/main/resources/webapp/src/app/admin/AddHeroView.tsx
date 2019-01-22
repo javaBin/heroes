@@ -17,6 +17,7 @@ export class AddHeroView extends React.Component<
   constructor(props: { adminService: HeroService; onSubmit: (hero: Hero) => void; onCancel: () => void }) {
     super(props);
     this.state = { loading: true, people: [], name: "", email: "", twitter: "" };
+    document.title = "Add hero | javaBin heroes";
   }
   async componentDidMount() {
     const { people } = await this.props.adminService.fetchCreateHeroData();

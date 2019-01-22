@@ -17,8 +17,10 @@ export class ProfileScreen extends React.Component<{ heroService: HeroService },
   };
 
   componentDidMount = async () => {
+    document.title = "javaBin heroes";
     const profile = await this.props.heroService.fetchMe();
     this.setState({ profile, loaded: true });
+    document.title = profile.profile.name + " | javaBin heroes";
   };
 
   handlePublishSubmit = async () => {

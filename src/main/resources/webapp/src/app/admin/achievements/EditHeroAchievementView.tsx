@@ -11,6 +11,11 @@ interface HeroAchievementEditProps {
 }
 
 export class EditHeroAchievementView extends React.Component<HeroAchievementEditProps> {
+  constructor(props: HeroAchievementEditProps) {
+    super(props);
+    document.title = "Update achievement | " + props.hero.name + " | javaBin heroes";
+  }
+
   handleSave = (update: HeroAchievementDetail) => {
     this.props.onSubmit(this.props.hero.id!, this.props.achievementId, update);
   };

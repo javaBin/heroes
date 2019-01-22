@@ -47,6 +47,7 @@ export class HeroView extends React.Component<HeroEditProps, { hero?: Hero }> {
   async refresh() {
     const hero = await this.props.onLoadHero(this.props.heroId);
     this.setState({ hero });
+    document.title = "Admin | " + hero.name + " | javaBin heroes";
   }
   render() {
     const { action, prefix, onDeleteAchievement } = this.props;
@@ -207,6 +208,7 @@ class HeroEditView extends React.Component<
     super(props);
     const { name, email, twitter } = props.hero;
     this.state = { name, email, twitter };
+    document.title = "Edit | " + name + " | javaBin heroes";
   }
 
   handleSubmit = async (e: FormEvent) => {

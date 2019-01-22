@@ -72,6 +72,7 @@ export class App extends React.Component<{ heroService: HeroService }, { hash: s
   };
 
   async componentDidMount() {
+    document.title = "javaBin heroes";
     window.addEventListener("hashchange", this.handleHashchange);
     const userinfo = await this.props.heroService.fetchUserinfo();
     this.setState({ userinfo });

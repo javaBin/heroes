@@ -24,6 +24,7 @@ export class HeroControlPanel extends React.Component<
   }
 
   async componentDidMount() {
+    document.title = "Admin | javaBin heroes";
     window.addEventListener("hashchange", this.handleHashChange);
     this.setHash(window.location.hash);
 
