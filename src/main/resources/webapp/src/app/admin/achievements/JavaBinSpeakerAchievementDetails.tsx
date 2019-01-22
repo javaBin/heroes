@@ -23,14 +23,12 @@ export class JavaBinSpeakerAchievementDetails extends React.Component<
     super(props);
     this.state = {
       title: (props.achievement && props.achievement.title) || "",
-      date:
-        (props.achievement && props.achievement.date && props.achievement.date.toDateString()) ||
-        new Date().toDateString()
+      date: (props.achievement && props.achievement.date) || new Date().toDateString()
     };
   }
   handleSubmit = (e: FormEvent) => {
     const { date, title } = this.state;
-    this.props.onSave({ type: "FOREDRAGSHOLDER_JAVABIN", date: new Date(date), title });
+    this.props.onSave({ type: "FOREDRAGSHOLDER_JAVABIN", date, title });
     e.preventDefault();
   };
   render() {
