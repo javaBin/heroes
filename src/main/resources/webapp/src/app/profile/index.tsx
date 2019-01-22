@@ -11,7 +11,7 @@ export class ProfileScreen extends React.Component<{ heroService: HeroService },
     loaded: false,
     profile: {
       consent: { id: 0, text: "" },
-      heroism: { achievement: "" },
+      achievements: [],
       profile: { name: "", email: "" }
     }
   };
@@ -34,13 +34,12 @@ export class ProfileScreen extends React.Component<{ heroService: HeroService },
       return <div>Loading...</div>;
     }
     const { profile } = this.state;
-    if (!profile.heroism) {
+    if (!profile.achievements.length) {
       return <div>You are not a hero, {profile.profile.name}</div>;
     }
     return (
       <>
         <h1>{profile.profile.name}</h1>
-        <div>{profile.heroism.achievement}</div>
         {profile.consent && (
           <>
             <h2>We need your consent to publish the information about you</h2>

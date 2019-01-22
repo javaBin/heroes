@@ -106,8 +106,12 @@ public class HeroesRepositoryTest {
         Hero hero = new Hero();
         hero.setEmail(sampleEmail());
         hero.setName(sampleName());
-        hero.setAchievement(sampleAchievement());
+        hero.setAvatarImage(sampleImage());
         return hero;
+    }
+
+    private static String sampleImage() {
+        return "https://image.example.com/" + UUID.randomUUID() + ".png";
     }
 
     private static String sampleName() {
@@ -123,16 +127,6 @@ public class HeroesRepositoryTest {
 
     public static String randomIpAddress() {
         return random.nextInt(255) + "." + random.nextInt(255) + "." + random.nextInt(255) + "." + random.nextInt(255);
-    }
-
-    private static String sampleAchievement() {
-        return pickOne(new String[] {
-                "styremedlem",
-                "foredragsholder-jz",
-                "foredragsholder",
-                "regionsleder",
-                "aktiv",
-        });
     }
 
     protected static String pickOne(String[] examples) {

@@ -11,7 +11,7 @@ import { JavaBinSpeakerAchievementDetails } from "../src/app/admin/achievements/
 import { JavaZoneSpeakerAchievementDetails } from "../src/app/admin/achievements/JavaZoneSpeakerAchievementDetails";
 import { AddHeroView } from "../src/app/admin/AddHeroView";
 import { HeroListView } from "../src/app/admin/HeroListView";
-import { HeroAchievementList } from "../src/app/admin/HeroView";
+import { HeroAchievementList, HeroCard } from "../src/app/admin/HeroView";
 
 const fakeHeroService: HeroService = new MockHeroService();
 
@@ -48,9 +48,9 @@ describe("HeroControlPanel", () => {
       {
         achievements: [
           // tslint:disable-next-line:max-line-length
-          { id: "13", label: "ABC", type: "FOREDRAGSHOLDER_JAVABIN", date: new Date("2017-12-01"), title: "A" },
+          { id: "13", label: "ABC", type: "FOREDRAGSHOLDER_JAVABIN", date: "2017-12-01", title: "A" },
           // tslint:disable-next-line:max-line-length
-          { id: "14", label: "XYZ", type: "FOREDRAGSHOLDER_JAVABIN", date: new Date("2017-12-01"), title: "A" }
+          { id: "14", label: "XYZ", type: "FOREDRAGSHOLDER_JAVABIN", date: "2017-12-01", title: "A" }
         ],
         email: "johannes@example.com",
         id: "1",
@@ -64,7 +64,7 @@ describe("HeroControlPanel", () => {
             id: "11",
             label: "A great girl",
             type: "FOREDRAGSHOLDER_JAVABIN",
-            date: new Date("2017/9/13"),
+            date: "2017/9/13",
             title: "ABC"
           },
           { id: "12", label: "A super guy!", type: "STYRE", role: "BOARD_MEMBER", year: 2019 }
@@ -229,19 +229,14 @@ describe("HeroControlPanel", () => {
     expect(app.toJSON()).toMatchSnapshot();
   });
 
-  xit("lists achievements", async () => {
-    window.location.hash = "#test/heroes/" + heroes[1].id;
+  it("lists achievements for hero", async () => {
+    const view = renderer.create(<HeroCard hero={heroes[1]} prefix="#test/" onDeleteAchievement={jest.fn()} />);
 
-    const app = renderer.create(<HeroControlPanel heroService={fakeHeroService} prefix="#test" />);
+    expect(view.root.findAllByType(ListItemText).map(t => t.props.primary)).toEqual(
+      heroes[1].achievements.map(a => a.label)
+    );
 
-    await promiseCompletion();
-    expect(
-      app.root
-        .findByType(HeroAchievementList)
-        .findAllByType("li")
-        .map(li => li.children[0])
-    ).toEqual(heroes[1].achievements.map(a => a.label));
-    expect(app.toJSON()).toMatchSnapshot();
+    expect(view.toJSON()).toMatchSnapshot();
   });
 
   xit("deletes achievement", async () => {

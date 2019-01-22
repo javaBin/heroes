@@ -52,7 +52,7 @@ Array [
           </select>
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+            className="MuiSvgIcon-root-139 MuiSelect-icon-197"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -155,7 +155,7 @@ Array [
             </select>
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              className="MuiSvgIcon-root-139 MuiSelect-icon-197"
               focusable="false"
               role="presentation"
               viewBox="0 0 24 24"
@@ -197,7 +197,7 @@ Array [
       </div>
     </div>
     <button
-      className="MuiButtonBase-root-17 MuiButtonBase-disabled-18 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78 MuiButton-disabled-92"
+      className="MuiButtonBase-root-17 MuiButtonBase-disabled-18 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72 MuiButton-disabled-86"
       disabled={true}
       onBlur={[Function]}
       onClick={[Function]}
@@ -215,14 +215,14 @@ Array [
       type="submit"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Submit
       </span>
     </button>
   </form>,
   <a
-    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71"
     href="#test/heroes/2"
     onBlur={[Function]}
     onContextMenu={[Function]}
@@ -239,12 +239,12 @@ Array [
     tabIndex="0"
   >
     <span
-      className="MuiButton-label-73"
+      className="MuiButton-label-67"
     >
       Back
     </span>
     <span
-      className="MuiTouchRipple-root-98"
+      className="MuiTouchRipple-root-92"
     />
   </a>,
 ]
@@ -302,7 +302,7 @@ Array [
           </select>
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+            className="MuiSvgIcon-root-139 MuiSelect-icon-197"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -371,7 +371,7 @@ Array [
       </div>
     </div>
     <button
-      className="MuiButtonBase-root-17 MuiButtonBase-disabled-18 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77 MuiButton-disabled-92"
+      className="MuiButtonBase-root-17 MuiButtonBase-disabled-18 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71 MuiButton-disabled-86"
       disabled={true}
       onBlur={[Function]}
       onClick={[Function]}
@@ -389,14 +389,14 @@ Array [
       type="button"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Submit
       </span>
     </button>
   </form>,
   <a
-    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71"
     href="#test/heroes/2"
     onBlur={[Function]}
     onContextMenu={[Function]}
@@ -413,12 +413,12 @@ Array [
     tabIndex="0"
   >
     <span
-      className="MuiButton-label-73"
+      className="MuiButton-label-67"
     >
       Back
     </span>
     <span
-      className="MuiTouchRipple-root-98"
+      className="MuiTouchRipple-root-92"
     />
   </a>,
 ]
@@ -476,7 +476,7 @@ Array [
           </select>
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+            className="MuiSvgIcon-root-139 MuiSelect-icon-197"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -539,7 +539,7 @@ Array [
             </select>
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              className="MuiSvgIcon-root-139 MuiSelect-icon-197"
               focusable="false"
               role="presentation"
               viewBox="0 0 24 24"
@@ -643,7 +643,7 @@ Array [
             </select>
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              className="MuiSvgIcon-root-139 MuiSelect-icon-197"
               focusable="false"
               role="presentation"
               viewBox="0 0 24 24"
@@ -657,7 +657,7 @@ Array [
       </div>
     </div>
     <button
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -675,17 +675,17 @@ Array [
       type="button"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Submit
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </button>
   </form>,
   <a
-    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71"
     href="#test/heroes/2"
     onBlur={[Function]}
     onContextMenu={[Function]}
@@ -702,15 +702,360 @@ Array [
     tabIndex="0"
   >
     <span
-      className="MuiButton-label-73"
+      className="MuiButton-label-67"
     >
       Back
     </span>
     <span
-      className="MuiTouchRipple-root-98"
+      className="MuiTouchRipple-root-92"
     />
   </a>,
 ]
+`;
+
+exports[`HeroControlPanel lists achievements for hero 1`] = `
+<div
+  className="MuiPaper-root-100 MuiPaper-elevation1-103 MuiPaper-rounded-101 MuiCard-root-99"
+>
+  <div
+    className="MuiCardHeader-root-127"
+  >
+    <div
+      className="MuiCardHeader-avatar-128"
+    >
+      <div
+        className="MuiAvatar-root-21 MuiAvatar-colorDefault-22"
+      >
+        S
+      </div>
+    </div>
+    <div
+      className="MuiCardHeader-content-130"
+    >
+      <span
+        className="MuiTypography-root-30 MuiTypography-body2-38 MuiCardHeader-title-131"
+      >
+        Some test
+      </span>
+      <span
+        className="MuiTypography-root-30 MuiTypography-body2-38 MuiTypography-colorTextSecondary-63 MuiCardHeader-subheader-132"
+      >
+        test@example.com undefined
+      </span>
+    </div>
+    <div
+      className="MuiCardHeader-action-129"
+    >
+      <a
+        className="MuiButtonBase-root-17 MuiIconButton-root-133"
+        href="#test/"
+        onBlur={[Function]}
+        onContextMenu={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <span
+          className="MuiIconButton-label-138"
+        >
+          <svg
+            aria-hidden="true"
+            className="MuiSvgIcon-root-139"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+        </span>
+        <span
+          className="MuiTouchRipple-root-92"
+        />
+      </a>
+    </div>
+  </div>
+  <div
+    className="MuiCardContent-root-148"
+  >
+    <h2
+      className="MuiTypography-root-30 MuiTypography-h5-46 MuiTypography-gutterBottom-57"
+    >
+      Achievements
+    </h2>
+    <ul
+      className="MuiList-root-1 MuiList-padding-2"
+    >
+      <li
+        className="MuiListItem-container-6"
+      >
+        <div
+          className="MuiButtonBase-root-17 MuiListItem-root-5 MuiListItem-default-8 MuiListItem-gutters-13 MuiListItem-button-14 MuiListItem-secondaryAction-15"
+          href="#test//heroes/2/achievement/11"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          <div
+            className="MuiAvatar-root-21 MuiAvatar-colorDefault-22"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-139"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div
+            className="MuiListItemText-root-24"
+          >
+            <span
+              className="MuiTypography-root-30 MuiTypography-subheading-37 MuiListItemText-primary-27"
+            >
+              A great girl
+            </span>
+          </div>
+          <span
+            className="MuiTouchRipple-root-92"
+          />
+        </div>
+        <div
+          className="MuiListItemSecondaryAction-root-149"
+        >
+          <button
+            className="MuiButtonBase-root-17 MuiIconButton-root-133"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex="0"
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label-138"
+            >
+              <svg
+                aria-hidden="true"
+                className="MuiSvgIcon-root-139"
+                focusable="false"
+                role="presentation"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root-92"
+            />
+          </button>
+        </div>
+      </li>
+      <li
+        className="MuiListItem-container-6"
+      >
+        <div
+          className="MuiButtonBase-root-17 MuiListItem-root-5 MuiListItem-default-8 MuiListItem-gutters-13 MuiListItem-button-14 MuiListItem-secondaryAction-15"
+          href="#test//heroes/2/achievement/12"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          <div
+            className="MuiAvatar-root-21 MuiAvatar-colorDefault-22"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-139"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div
+            className="MuiListItemText-root-24"
+          >
+            <span
+              className="MuiTypography-root-30 MuiTypography-subheading-37 MuiListItemText-primary-27"
+            >
+              A super guy!
+            </span>
+          </div>
+          <span
+            className="MuiTouchRipple-root-92"
+          />
+        </div>
+        <div
+          className="MuiListItemSecondaryAction-root-149"
+        >
+          <button
+            className="MuiButtonBase-root-17 MuiIconButton-root-133"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex="0"
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label-138"
+            >
+              <svg
+                aria-hidden="true"
+                className="MuiSvgIcon-root-139"
+                focusable="false"
+                role="presentation"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root-92"
+            />
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div
+    className="MuiCardActions-root-166"
+  >
+    <a
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72 MuiButton-sizeSmall-89 MuiCardActions-action-168"
+      href="#test//heroes/2/edit"
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      <span
+        className="MuiButton-label-67"
+      >
+        Edit
+      </span>
+      <span
+        className="MuiTouchRipple-root-92"
+      />
+    </a>
+    <a
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72 MuiButton-sizeSmall-89 MuiCardActions-action-168"
+      href="#test//heroes/2/addAchievement"
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      <span
+        className="MuiButton-label-67"
+      >
+        Add achievement
+      </span>
+      <span
+        className="MuiTouchRipple-root-92"
+      />
+    </a>
+  </div>
+</div>
 `;
 
 exports[`HeroControlPanel shows achievement update 1`] = `
@@ -770,7 +1115,7 @@ Array [
             </select>
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              className="MuiSvgIcon-root-139 MuiSelect-icon-197"
               focusable="false"
               role="presentation"
               viewBox="0 0 24 24"
@@ -874,7 +1219,7 @@ Array [
             </select>
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+              className="MuiSvgIcon-root-139 MuiSelect-icon-197"
               focusable="false"
               role="presentation"
               viewBox="0 0 24 24"
@@ -888,7 +1233,7 @@ Array [
       </div>
     </div>
     <button
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -906,16 +1251,16 @@ Array [
       type="button"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Submit
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </button>
     <a
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71"
       href="#test/heroes/2"
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -932,12 +1277,12 @@ Array [
       tabIndex="0"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Back
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </a>
   </form>,
@@ -1051,7 +1396,7 @@ Array [
     </div>
     <div>
       <button
-        className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78"
+        className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72"
         disabled={false}
         onBlur={[Function]}
         onContextMenu={[Function]}
@@ -1068,18 +1413,18 @@ Array [
         type="submit"
       >
         <span
-          className="MuiButton-label-73"
+          className="MuiButton-label-67"
         >
           Lagre
         </span>
         <span
-          className="MuiTouchRipple-root-98"
+          className="MuiTouchRipple-root-92"
         />
       </button>
     </div>
   </form>,
   <a
-    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71"
     href="#test/heroes/2"
     onBlur={[Function]}
     onContextMenu={[Function]}
@@ -1096,12 +1441,12 @@ Array [
     tabIndex="0"
   >
     <span
-      className="MuiButton-label-73"
+      className="MuiButton-label-67"
     >
       Back
     </span>
     <span
-      className="MuiTouchRipple-root-98"
+      className="MuiTouchRipple-root-92"
     />
   </a>,
 ]
@@ -1109,39 +1454,39 @@ Array [
 
 exports[`HeroControlPanel shows hero status 1`] = `
 <div
-  className="MuiPaper-root-106 MuiPaper-elevation1-109 MuiPaper-rounded-107 MuiCard-root-105"
+  className="MuiPaper-root-100 MuiPaper-elevation1-103 MuiPaper-rounded-101 MuiCard-root-99"
 >
   <div
-    className="MuiCardHeader-root-133"
+    className="MuiCardHeader-root-127"
   >
     <div
-      className="MuiCardHeader-avatar-134"
+      className="MuiCardHeader-avatar-128"
     >
       <div
-        className="MuiAvatar-root-139 MuiAvatar-colorDefault-140"
+        className="MuiAvatar-root-21 MuiAvatar-colorDefault-22"
       >
         S
       </div>
     </div>
     <div
-      className="MuiCardHeader-content-136"
+      className="MuiCardHeader-content-130"
     >
       <span
-        className="MuiTypography-root-36 MuiTypography-body2-44 MuiCardHeader-title-137"
+        className="MuiTypography-root-30 MuiTypography-body2-38 MuiCardHeader-title-131"
       >
         Some test
       </span>
       <span
-        className="MuiTypography-root-36 MuiTypography-body2-44 MuiTypography-colorTextSecondary-69 MuiCardHeader-subheader-138"
+        className="MuiTypography-root-30 MuiTypography-body2-38 MuiTypography-colorTextSecondary-63 MuiCardHeader-subheader-132"
       >
         test@example.com undefined
       </span>
     </div>
     <div
-      className="MuiCardHeader-action-135"
+      className="MuiCardHeader-action-129"
     >
       <a
-        className="MuiButtonBase-root-17 MuiIconButton-root-142"
+        className="MuiButtonBase-root-17 MuiIconButton-root-133"
         href="#test"
         onBlur={[Function]}
         onContextMenu={[Function]}
@@ -1158,11 +1503,11 @@ exports[`HeroControlPanel shows hero status 1`] = `
         tabIndex="0"
       >
         <span
-          className="MuiIconButton-label-147"
+          className="MuiIconButton-label-138"
         >
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root-21"
+            className="MuiSvgIcon-root-139"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -1177,7 +1522,7 @@ exports[`HeroControlPanel shows hero status 1`] = `
           </svg>
         </span>
         <span
-          className="MuiTouchRipple-root-98"
+          className="MuiTouchRipple-root-92"
         />
       </a>
     </div>
@@ -1186,7 +1531,7 @@ exports[`HeroControlPanel shows hero status 1`] = `
     className="MuiCardContent-root-148"
   >
     <h2
-      className="MuiTypography-root-36 MuiTypography-h5-52 MuiTypography-gutterBottom-63"
+      className="MuiTypography-root-30 MuiTypography-h5-46 MuiTypography-gutterBottom-57"
     >
       Achievements
     </h2>
@@ -1215,11 +1560,11 @@ exports[`HeroControlPanel shows hero status 1`] = `
           tabIndex="0"
         >
           <div
-            className="MuiAvatar-root-139 MuiAvatar-colorDefault-140"
+            className="MuiAvatar-root-21 MuiAvatar-colorDefault-22"
           >
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-21"
+              className="MuiSvgIcon-root-139"
               focusable="false"
               role="presentation"
               viewBox="0 0 24 24"
@@ -1234,23 +1579,23 @@ exports[`HeroControlPanel shows hero status 1`] = `
             </svg>
           </div>
           <div
-            className="MuiListItemText-root-30"
+            className="MuiListItemText-root-24"
           >
             <span
-              className="MuiTypography-root-36 MuiTypography-subheading-43 MuiListItemText-primary-33"
+              className="MuiTypography-root-30 MuiTypography-subheading-37 MuiListItemText-primary-27"
             >
               A great girl
             </span>
           </div>
           <span
-            className="MuiTouchRipple-root-98"
+            className="MuiTouchRipple-root-92"
           />
         </div>
         <div
           className="MuiListItemSecondaryAction-root-149"
         >
           <button
-            className="MuiButtonBase-root-17 MuiIconButton-root-142"
+            className="MuiButtonBase-root-17 MuiIconButton-root-133"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -1268,11 +1613,11 @@ exports[`HeroControlPanel shows hero status 1`] = `
             type="button"
           >
             <span
-              className="MuiIconButton-label-147"
+              className="MuiIconButton-label-138"
             >
               <svg
                 aria-hidden="true"
-                className="MuiSvgIcon-root-21"
+                className="MuiSvgIcon-root-139"
                 focusable="false"
                 role="presentation"
                 viewBox="0 0 24 24"
@@ -1287,7 +1632,7 @@ exports[`HeroControlPanel shows hero status 1`] = `
               </svg>
             </span>
             <span
-              className="MuiTouchRipple-root-98"
+              className="MuiTouchRipple-root-92"
             />
           </button>
         </div>
@@ -1314,11 +1659,11 @@ exports[`HeroControlPanel shows hero status 1`] = `
           tabIndex="0"
         >
           <div
-            className="MuiAvatar-root-139 MuiAvatar-colorDefault-140"
+            className="MuiAvatar-root-21 MuiAvatar-colorDefault-22"
           >
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-21"
+              className="MuiSvgIcon-root-139"
               focusable="false"
               role="presentation"
               viewBox="0 0 24 24"
@@ -1333,23 +1678,23 @@ exports[`HeroControlPanel shows hero status 1`] = `
             </svg>
           </div>
           <div
-            className="MuiListItemText-root-30"
+            className="MuiListItemText-root-24"
           >
             <span
-              className="MuiTypography-root-36 MuiTypography-subheading-43 MuiListItemText-primary-33"
+              className="MuiTypography-root-30 MuiTypography-subheading-37 MuiListItemText-primary-27"
             >
               A super guy!
             </span>
           </div>
           <span
-            className="MuiTouchRipple-root-98"
+            className="MuiTouchRipple-root-92"
           />
         </div>
         <div
           className="MuiListItemSecondaryAction-root-149"
         >
           <button
-            className="MuiButtonBase-root-17 MuiIconButton-root-142"
+            className="MuiButtonBase-root-17 MuiIconButton-root-133"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -1367,11 +1712,11 @@ exports[`HeroControlPanel shows hero status 1`] = `
             type="button"
           >
             <span
-              className="MuiIconButton-label-147"
+              className="MuiIconButton-label-138"
             >
               <svg
                 aria-hidden="true"
-                className="MuiSvgIcon-root-21"
+                className="MuiSvgIcon-root-139"
                 focusable="false"
                 role="presentation"
                 viewBox="0 0 24 24"
@@ -1386,7 +1731,7 @@ exports[`HeroControlPanel shows hero status 1`] = `
               </svg>
             </span>
             <span
-              className="MuiTouchRipple-root-98"
+              className="MuiTouchRipple-root-92"
             />
           </button>
         </div>
@@ -1397,7 +1742,7 @@ exports[`HeroControlPanel shows hero status 1`] = `
     className="MuiCardActions-root-166"
   >
     <a
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78 MuiButton-sizeSmall-95 MuiCardActions-action-168"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72 MuiButton-sizeSmall-89 MuiCardActions-action-168"
       href="#test/heroes/2/edit"
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -1414,16 +1759,16 @@ exports[`HeroControlPanel shows hero status 1`] = `
       tabIndex="0"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Edit
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </a>
     <a
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78 MuiButton-sizeSmall-95 MuiCardActions-action-168"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72 MuiButton-sizeSmall-89 MuiCardActions-action-168"
       href="#test/heroes/2/addAchievement"
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -1440,12 +1785,12 @@ exports[`HeroControlPanel shows hero status 1`] = `
       tabIndex="0"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Add achievement
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </a>
   </div>
@@ -1480,38 +1825,26 @@ Array [
       <div
         className="MuiListItemIcon-root-20"
       >
-        <svg
-          aria-hidden="true"
-          className="MuiSvgIcon-root-21"
-          focusable="false"
-          role="presentation"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
+        <div
+          className="MuiAvatar-root-21 MuiAvatar-colorDefault-22"
+        />
       </div>
       <div
-        className="MuiListItemText-root-30"
+        className="MuiListItemText-root-24"
       >
         <span
-          className="MuiTypography-root-36 MuiTypography-subheading-43 MuiListItemText-primary-33"
+          className="MuiTypography-root-30 MuiTypography-subheading-37 MuiListItemText-primary-27"
         >
           Johannes Test
         </span>
         <p
-          className="MuiTypography-root-36 MuiTypography-body1-45 MuiTypography-colorTextSecondary-69 MuiListItemText-secondary-34"
+          className="MuiTypography-root-30 MuiTypography-body1-39 MuiTypography-colorTextSecondary-63 MuiListItemText-secondary-28"
         >
           johannes@example.com
         </p>
       </div>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </div>
     <div
@@ -1534,43 +1867,31 @@ Array [
       <div
         className="MuiListItemIcon-root-20"
       >
-        <svg
-          aria-hidden="true"
-          className="MuiSvgIcon-root-21"
-          focusable="false"
-          role="presentation"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
+        <div
+          className="MuiAvatar-root-21 MuiAvatar-colorDefault-22"
+        />
       </div>
       <div
-        className="MuiListItemText-root-30"
+        className="MuiListItemText-root-24"
       >
         <span
-          className="MuiTypography-root-36 MuiTypography-subheading-43 MuiListItemText-primary-33"
+          className="MuiTypography-root-30 MuiTypography-subheading-37 MuiListItemText-primary-27"
         >
           Some test
         </span>
         <p
-          className="MuiTypography-root-36 MuiTypography-body1-45 MuiTypography-colorTextSecondary-69 MuiListItemText-secondary-34"
+          className="MuiTypography-root-30 MuiTypography-body1-39 MuiTypography-colorTextSecondary-63 MuiListItemText-secondary-28"
         >
           test@example.com
         </p>
       </div>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </div>
   </ul>,
   <a
-    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-contained-83 MuiButton-containedPrimary-84 MuiButton-raised-86 MuiButton-raisedPrimary-87"
+    className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-contained-77 MuiButton-containedPrimary-78 MuiButton-raised-80 MuiButton-raisedPrimary-81"
     href="#test/heroes/add"
     onBlur={[Function]}
     onContextMenu={[Function]}
@@ -1587,12 +1908,12 @@ Array [
     tabIndex="0"
   >
     <span
-      className="MuiButton-label-73"
+      className="MuiButton-label-67"
     >
       Add hero
     </span>
     <span
-      className="MuiTouchRipple-root-98"
+      className="MuiTouchRipple-root-92"
     />
   </a>,
 ]
@@ -1664,7 +1985,7 @@ exports[`HeroControlPanel shows new hero screen 1`] = `
           </select>
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root-21 MuiSelect-icon-197"
+            className="MuiSvgIcon-root-139 MuiSelect-icon-197"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -1759,7 +2080,7 @@ exports[`HeroControlPanel shows new hero screen 1`] = `
   </div>
   <div>
     <button
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-contained-83 MuiButton-containedPrimary-84 MuiButton-raised-86 MuiButton-raisedPrimary-87"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-contained-77 MuiButton-containedPrimary-78 MuiButton-raised-80 MuiButton-raisedPrimary-81"
       disabled={false}
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -1776,16 +2097,16 @@ exports[`HeroControlPanel shows new hero screen 1`] = `
       type="submit"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Submit
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </button>
     <button
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-contained-83 MuiButton-raised-86"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-contained-77 MuiButton-raised-80"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -1803,12 +2124,12 @@ exports[`HeroControlPanel shows new hero screen 1`] = `
       type="button"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Cancel
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </button>
   </div>
@@ -1922,7 +2243,7 @@ Array [
     </div>
     <div>
       <button
-        className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-textPrimary-75 MuiButton-flat-77 MuiButton-flatPrimary-78"
+        className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-textPrimary-69 MuiButton-flat-71 MuiButton-flatPrimary-72"
         disabled={false}
         onBlur={[Function]}
         onContextMenu={[Function]}
@@ -1939,18 +2260,18 @@ Array [
         type="submit"
       >
         <span
-          className="MuiButton-label-73"
+          className="MuiButton-label-67"
         >
           Lagre
         </span>
         <span
-          className="MuiTouchRipple-root-98"
+          className="MuiTouchRipple-root-92"
         />
       </button>
     </div>
   </form>,
   <a
-    className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+    className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71"
     href="#test/heroes/1"
     onBlur={[Function]}
     onContextMenu={[Function]}
@@ -1967,12 +2288,12 @@ Array [
     tabIndex="0"
   >
     <span
-      className="MuiButton-label-73"
+      className="MuiButton-label-67"
     >
       Back
     </span>
     <span
-      className="MuiTouchRipple-root-98"
+      className="MuiTouchRipple-root-92"
     />
   </a>,
 ]
@@ -2041,7 +2362,7 @@ Array [
       </div>
     </div>
     <button
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -2059,16 +2380,16 @@ Array [
       type="button"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Submit
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </button>
     <a
-      className="MuiButtonBase-root-17 MuiButton-root-72 MuiButton-text-74 MuiButton-flat-77"
+      className="MuiButtonBase-root-17 MuiButton-root-66 MuiButton-text-68 MuiButton-flat-71"
       href="#test/heroes/2"
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -2085,12 +2406,12 @@ Array [
       tabIndex="0"
     >
       <span
-        className="MuiButton-label-73"
+        className="MuiButton-label-67"
       >
         Back
       </span>
       <span
-        className="MuiTouchRipple-root-98"
+        className="MuiTouchRipple-root-92"
       />
     </a>
   </form>,

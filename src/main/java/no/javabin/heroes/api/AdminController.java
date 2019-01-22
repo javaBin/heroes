@@ -41,6 +41,7 @@ public class AdminController {
                     .put("email", hero.getEmail())
                     .put("id", hero.getId().toString())
                     .put("achievements", new JsonArray())
+                    .put("avatar_image", hero.getAvatarImage())
                     .put("published", hero.getConsentedAt() != null));
 
     }
@@ -61,8 +62,9 @@ public class AdminController {
                 .put("name", hero.getName())
                 .put("twitter", hero.getTwitter())
                 .put("id", hero.getId().toString())
+                .put("avatar_image", hero.getAvatarImage())
                 .put("achievements", JsonArray.map(hero.getAchievements(),
-                        a -> a.toJSON()))
+                        a -> new JsonObject().put("label", a.getLabel())))
                 .put("published", hero.getConsentedAt() != null);
     }
 
@@ -73,7 +75,7 @@ public class AdminController {
         hero.setEmail(o.requiredString("email"));
         hero.setName(o.requiredString("name"));
         hero.setTwitter(o.stringValue("twitter").orElse(null));
-        hero.setAchievement(o.stringValue("achievement").orElse(null));
+        hero.setAvatarImage(o.stringValue("avatar_image").orElse(null));
         repository.save(hero);
     }
 
@@ -85,7 +87,7 @@ public class AdminController {
         hero.setEmail(o.requiredString("email"));
         hero.setName(o.requiredString("name"));
         hero.setTwitter(o.stringValue("twitter").orElse(null));
-        hero.setAchievement(o.stringValue("achievement").orElse(null));
+        hero.setAvatarImage(o.stringValue("avatar_image").orElse(null));
         repository.update(hero);
     }
 

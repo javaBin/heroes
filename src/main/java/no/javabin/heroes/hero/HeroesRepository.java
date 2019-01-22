@@ -25,7 +25,7 @@ public class HeroesRepository {
             .uniqueKey("email", hero.getEmail())
             .setField("name", hero.getName())
             .setField("twitter", hero.getTwitter())
-            .setField("achievement", hero.getAchievement())
+            .setField("avatar_image", hero.getAvatarImage())
             .setField("consent_id", hero.getConsentId())
             .setField("consented_at", hero.getConsentedAt())
             .setField("consent_client_ip", hero.getConsentClientIp())
@@ -39,8 +39,8 @@ public class HeroesRepository {
             .update()
             .setField("email", hero.getEmail())
             .setField("name", hero.getName())
-            .setField("twitter", hero.getTwitter())
-            .setField("achievement", hero.getAchievement())
+            .setFieldIfPresent("twitter", hero.getTwitter())
+            .setFieldIfPresent("avatar_image", hero.getAvatarImage())
             .execute();
     }
 
@@ -90,7 +90,7 @@ public class HeroesRepository {
         hero.setEmail(o.getString("email"));
         hero.setName(o.getString("name"));
         hero.setTwitter(o.getString("twitter"));
-        hero.setAchievement(o.getString("achievement"));
+        hero.setAvatarImage(o.getString("avatar_image"));
         hero.setConsentId(o.getLong("consent_id"));
         hero.setConsentClientIp(o.getString("consent_client_ip"));
         hero.setConsentedAt(o.getDateTime("consented_at"));

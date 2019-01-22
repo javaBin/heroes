@@ -65,7 +65,7 @@ public class UsergroupSpeakerAchievement extends HeroAchievement {
 
     @Override
     protected void setFields(JsonObject json) {
-        json.put("title", getTitle()).put("date", getDate());
+        json.put("title", getTitle()).put("date", getDate().toString());
     }
 
     @Override

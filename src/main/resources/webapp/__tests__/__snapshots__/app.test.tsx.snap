@@ -3,13 +3,13 @@
 exports[`app renders admin page 1`] = `
 Array [
   <header
-    className="MuiPaper-root-10 MuiPaper-elevation4-16 MuiAppBar-root-1 MuiAppBar-positionStatic-5 MuiAppBar-colorSecondary-9"
+    className="MuiPaper-root-139 MuiPaper-elevation4-145 MuiAppBar-root-130 MuiAppBar-positionStatic-134 MuiAppBar-colorPrimary-137"
   >
     <div
-      className="MuiToolbar-root-37 MuiToolbar-regular-39 MuiToolbar-gutters-38"
+      className="MuiToolbar-root-166 MuiToolbar-regular-168 MuiToolbar-gutters-167"
     >
       <a
-        className="MuiButtonBase-root-47 MuiIconButton-root-41 MuiIconButton-colorInherit-42"
+        className="MuiButtonBase-root-176 MuiIconButton-root-170 MuiIconButton-colorInherit-171"
         href="#"
         onBlur={[Function]}
         onContextMenu={[Function]}
@@ -26,11 +26,11 @@ Array [
         tabIndex="0"
       >
         <span
-          className="MuiIconButton-label-46"
+          className="MuiIconButton-label-175"
         >
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root-50"
+            className="MuiSvgIcon-root-179"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -45,11 +45,11 @@ Array [
           </svg>
         </span>
         <span
-          className="MuiTouchRipple-root-95"
+          className="MuiTouchRipple-root-224"
         />
       </a>
       <h6
-        className="MuiTypography-root-59 MuiTypography-h6-76 MuiTypography-colorInherit-88"
+        className="MuiTypography-root-188 MuiTypography-h6-205 MuiTypography-colorInherit-217"
         style={
           Object {
             "flexGrow": 1,
@@ -59,7 +59,7 @@ Array [
         Heroes
       </h6>
       <a
-        className="MuiButtonBase-root-47 MuiIconButton-root-41 MuiIconButton-colorInherit-42"
+        className="MuiButtonBase-root-176 MuiIconButton-root-170 MuiIconButton-colorInherit-171"
         href="#profile"
         onBlur={[Function]}
         onContextMenu={[Function]}
@@ -76,11 +76,11 @@ Array [
         tabIndex="0"
       >
         <span
-          className="MuiIconButton-label-46"
+          className="MuiIconButton-label-175"
         >
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root-50"
+            className="MuiSvgIcon-root-179"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -95,7 +95,7 @@ Array [
           </svg>
         </span>
         <span
-          className="MuiTouchRipple-root-95"
+          className="MuiTouchRipple-root-224"
         />
       </a>
     </div>
@@ -104,10 +104,10 @@ Array [
     Heroes
   </h2>,
   <ul
-    className="MuiList-root-102 MuiList-padding-103"
+    className="MuiList-root-231 MuiList-padding-232"
   >
     <div
-      className="MuiButtonBase-root-47 MuiListItem-root-106 MuiListItem-default-109 MuiListItem-gutters-114 MuiListItem-button-115"
+      className="MuiButtonBase-root-176 MuiListItem-root-235 MuiListItem-default-238 MuiListItem-gutters-243 MuiListItem-button-244"
       onBlur={[Function]}
       onClick={[Function]}
       onContextMenu={[Function]}
@@ -124,45 +124,33 @@ Array [
       tabIndex="0"
     >
       <div
-        className="MuiListItemIcon-root-130"
+        className="MuiListItemIcon-root-247"
       >
-        <svg
-          aria-hidden="true"
-          className="MuiSvgIcon-root-50"
-          focusable="false"
-          role="presentation"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
+        <div
+          className="MuiAvatar-root-248 MuiAvatar-colorDefault-249"
+        />
       </div>
       <div
-        className="MuiListItemText-root-124"
+        className="MuiListItemText-root-251"
       >
         <span
-          className="MuiTypography-root-59 MuiTypography-subheading-66 MuiListItemText-primary-127"
+          className="MuiTypography-root-188 MuiTypography-subheading-195 MuiListItemText-primary-254"
         >
           Johannes
         </span>
         <p
-          className="MuiTypography-root-59 MuiTypography-body1-68 MuiTypography-colorTextSecondary-92 MuiListItemText-secondary-128"
+          className="MuiTypography-root-188 MuiTypography-body1-197 MuiTypography-colorTextSecondary-221 MuiListItemText-secondary-255"
         >
           johannes@brodwall.com
         </p>
       </div>
       <span
-        className="MuiTouchRipple-root-95"
+        className="MuiTouchRipple-root-224"
       />
     </div>
   </ul>,
   <a
-    className="MuiButtonBase-root-47 MuiButton-root-131 MuiButton-contained-142 MuiButton-containedPrimary-143 MuiButton-raised-145 MuiButton-raisedPrimary-146"
+    className="MuiButtonBase-root-176 MuiButton-root-257 MuiButton-contained-268 MuiButton-containedPrimary-269 MuiButton-raised-271 MuiButton-raisedPrimary-272"
     href="#admin/heroes/add"
     onBlur={[Function]}
     onContextMenu={[Function]}
@@ -179,12 +167,12 @@ Array [
     tabIndex="0"
   >
     <span
-      className="MuiButton-label-132"
+      className="MuiButton-label-258"
     >
       Add hero
     </span>
     <span
-      className="MuiTouchRipple-root-95"
+      className="MuiTouchRipple-root-224"
     />
   </a>,
 ]
@@ -305,13 +293,8 @@ Array [
           disabled={false}
         >
           <div
-            className="MuiAvatar-root-121"
-          >
-            <img
-              className="MuiAvatar-img-123"
-              src="/images/hero.png"
-            />
-          </div>
+            className="MuiAvatar-root-121 MuiAvatar-colorDefault-122"
+          />
           <div
             className="MuiListItemText-root-124"
           >
@@ -332,13 +315,8 @@ Array [
           disabled={false}
         >
           <div
-            className="MuiAvatar-root-121"
-          >
-            <img
-              className="MuiAvatar-img-123"
-              src="/images/hero.png"
-            />
-          </div>
+            className="MuiAvatar-root-121 MuiAvatar-colorDefault-122"
+          />
           <div
             className="MuiListItemText-root-124"
           >

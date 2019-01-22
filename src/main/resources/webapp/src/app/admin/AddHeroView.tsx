@@ -1,4 +1,4 @@
-import { Button, FormControl, InputLabel, Select, TextField } from "@material-ui/core";
+import { Avatar, Button, FormControl, InputLabel, Select, TextField } from "@material-ui/core";
 import React, { ChangeEvent, FormEvent, MouseEvent } from "react";
 import { Hero, HeroService, Person } from "../../services/api";
 
@@ -36,9 +36,9 @@ export class AddHeroView extends React.Component<
   };
   handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const { name, email, twitter } = this.state;
+    const { name, email, twitter, avatar_image } = this.state;
     if (email && name) {
-      this.props.onSubmit({ name, email, twitter, achievements: [], published: false });
+      this.props.onSubmit({ name, email, twitter, avatar_image, achievements: [], published: false });
     }
   };
   render() {
@@ -68,6 +68,11 @@ export class AddHeroView extends React.Component<
             </Select>
           </FormControl>
         </div>
+        {this.state.avatar_image && (
+          <div>
+            <Avatar src={this.state.avatar_image} />
+          </div>
+        )}
         <div>
           <TextField label="Name" value={this.state.name} onChange={e => this.setState({ name: e.target.value })} />
           <TextField label="Email" value={this.state.email} onChange={e => this.setState({ email: e.target.value })} />

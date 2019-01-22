@@ -17,7 +17,7 @@ public class Hero {
 
     private String twitter;
 
-    private String achievement;
+    private String avatarImage;
 
     private Long consentId;
 
@@ -59,14 +59,6 @@ public class Hero {
         this.twitter = twitter;
     }
 
-    public String getAchievement() {
-        return achievement;
-    }
-
-    public void setAchievement(String achievement) {
-        this.achievement = achievement;
-    }
-
     public Long getConsentId() {
         return consentId;
     }
@@ -99,23 +91,31 @@ public class Hero {
         this.achievements = achievements;
     }
 
+    public String getAvatarImage() {
+        return avatarImage;
+    }
+
+    public void setAvatarImage(String avatarImage) {
+        this.avatarImage = avatarImage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Hero)) {
             return false;
         }
         Hero other = (Hero) o;
-        return Objects.equals(email, other.email) && Objects.equals(achievement, other.achievement);
+        return Objects.equals(email, other.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, achievement);
+        return Objects.hash(email);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "{email=" + email + ",achievement=" + achievement + "}";
+        return getClass().getSimpleName() + "{email=" + email + "}";
     }
 
 

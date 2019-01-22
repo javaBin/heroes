@@ -2,6 +2,7 @@ export interface Person {
   name: string;
   email: string;
   twitter?: string;
+  avatar_image?: string;
 }
 
 export interface HeroAchievement {
@@ -11,10 +12,8 @@ export interface HeroAchievement {
 }
 
 export interface Hero extends Person {
-  avatar?: string;
   achievements: HeroAchievementDetail[];
   id?: string;
-  achievement?: string;
   published?: boolean;
 }
 
@@ -53,7 +52,7 @@ export interface ConferenceSpeakerAchievement extends HeroAchievement {
 
 export interface UsergroupSpeakerAchievement extends HeroAchievement {
   type: "FOREDRAGSHOLDER_JAVABIN";
-  date: Date;
+  date: string;
   title: string;
 }
 
@@ -78,10 +77,6 @@ export interface BoardMemberAchivement extends HeroAchievement {
 
 export type HeroAchievementDetail = ConferenceSpeakerAchievement | UsergroupSpeakerAchievement | BoardMemberAchivement;
 
-interface Heroism {
-  achievement: string;
-}
-
 interface Consent {
   id: number;
   text: string;
@@ -89,9 +84,9 @@ interface Consent {
 
 export interface HeroProfile {
   profile: Person;
-  heroism?: Heroism;
   published?: boolean;
   consent?: Consent;
+  achievements: HeroAchievement[];
 }
 
 export interface HeroService {

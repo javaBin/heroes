@@ -11,6 +11,7 @@ import no.javabin.infrastructure.http.server.Post;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
 import org.fluentjdbc.DbContext;
+import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonNull;
 import org.jsonbuddy.JsonObject;
 
@@ -26,7 +27,8 @@ public class ProfileController {
         JsonObject jsonProfile = new JsonObject()
                 .put("name", profile.getUsername())
                 .put("twitter", profile.getTwitterHandle())
-                .put("email", profile.getEmail());
+                .put("email", profile.getEmail())
+                ;
         Hero hero = heroesRepository.retrieveByEmail(profile.getEmail());
         if (hero == null) {
             return new JsonObject()
@@ -34,9 +36,9 @@ public class ProfileController {
         }
         return new JsonObject()
                 .put("profile", jsonProfile)
-                .put("heroism", new JsonObject()
-                        .put("achievement", hero.getAchievement()))
                 .put("published", hero.getConsentedAt() != null)
+                .put("achievements", JsonArray.map(hero.getAchievements(),
+                        a -> new JsonObject().put("label", a.getLabel())))
                 .put("consent", hero.getConsentedAt() == null
                         ? new JsonObject()
                             .put("id", 123)

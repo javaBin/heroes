@@ -49,6 +49,7 @@ public class PublicController {
                 hero -> new JsonObject()
                     .put("name", hero.getName())
                     .put("id", hero.getId().toString())
+                    .put("avatar_image", hero.getAvatarImage())
                     .put("achievements", JsonArray.map(hero.getAchievements(),
                             a -> new JsonObject().put("label", a.getLabel())))
                     .put("published", hero.getConsentedAt() != null));

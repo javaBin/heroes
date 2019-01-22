@@ -2,11 +2,13 @@ import {
   AppBar,
   Avatar,
   Button,
+  createMuiTheme,
   IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
+  MuiThemeProvider,
   Toolbar,
   Typography
 } from "@material-ui/core";
@@ -18,6 +20,7 @@ import { Hero, Userinfo } from "../services/api";
 
 import { ProfileScreen } from "./profile";
 
+import { red } from "@material-ui/core/colors";
 import { HeroServiceHttp } from "../services/heroServiceHttp";
 import { HeroControlPanel } from "./admin";
 
@@ -28,7 +31,7 @@ export function HeroList({ heroes }: { heroes: Hero[] }) {
         {heroes.map(h => (
           <ListItem key={h.id}>
             <ListItemAvatar>
-              <Avatar src="/images/hero.png" />
+              <Avatar src={h.avatar_image} />
             </ListItemAvatar>
             <ListItemText primary={h.name} secondary={h.achievements.map(a => a.label).join(", ")} />
           </ListItem>
@@ -59,6 +62,13 @@ export class HeroListComponent extends React.Component<
     return <HeroList heroes={this.state.heroes!} />;
   }
 }
+
+const normalTheme = createMuiTheme();
+const adminTheme = createMuiTheme({
+  palette: {
+    primary: red
+  }
+});
 
 export class App extends React.Component<{ heroService: HeroService }, { hash: string; userinfo: Userinfo }> {
   state = {
@@ -104,8 +114,8 @@ export class App extends React.Component<{ heroService: HeroService }, { hash: s
     const { userinfo, hash } = this.state;
     const adminPage = hash.indexOf("#admin") === 0;
     return (
-      <>
-        <AppBar position="static" color={adminPage ? "secondary" : "primary"}>
+      <MuiThemeProvider theme={adminPage ? adminTheme : normalTheme}>
+        <AppBar position="static">
           <Toolbar>
             <IconButton href="#" color="inherit">
               <MenuIcon />
@@ -137,7 +147,7 @@ export class App extends React.Component<{ heroService: HeroService }, { hash: s
           </Toolbar>
         </AppBar>
         {this.renderContent()}
-      </>
+      </MuiThemeProvider>
     );
   }
 }

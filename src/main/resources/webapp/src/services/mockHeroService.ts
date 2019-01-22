@@ -52,7 +52,8 @@ export class MockHeroService implements HeroService {
   }
 
   async fetchMe() {
-    return { profile: this.heroes.find(h => h.email === this.currentUser!.email)! };
+    const profile = this.heroes.find(h => h.email === this.currentUser!.email)!;
+    return { profile, achievements: profile.achievements };
   }
   async addHero(hero: Hero) {
     this.heroes.push(hero);

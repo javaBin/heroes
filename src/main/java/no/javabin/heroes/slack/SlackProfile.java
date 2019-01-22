@@ -63,6 +63,8 @@ public class SlackProfile implements Profile {
                 .filter(o -> o.containsKey("email"))
                 .map(o -> new JsonObject()
                         .put("name", o.requiredString("real_name"))
+                        .put("avatar_image", o.stringValue("image_72").orElse(null))
+                        .put("image_192", o.stringValue("image_192").orElse(null))
                         .put("email", o.requiredString("email"))
                 )
                 .collect(Collectors.toList());

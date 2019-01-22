@@ -3,7 +3,7 @@ create table HEROES (
     email varchar(100) not null,
     name varchar(100) not null,
     twitter varchar(100),
-    achievement varchar(100),
+    avatar_image text,
     consent_id bigint,
     consented_at datetime,
     consent_client_ip varchar(100)

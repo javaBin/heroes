@@ -156,7 +156,7 @@ export class HeroAchievementList extends React.Component<
   }
 }
 
-function HeroCard({
+export function HeroCard({
   hero,
   prefix,
   onDeleteAchievement
@@ -172,7 +172,7 @@ function HeroCard({
       <CardHeader
         title={hero.name}
         subheader={hero.email + " " + hero.twitter}
-        avatar={<Avatar>{hero.name[0]}</Avatar>}
+        avatar={<Avatar src={hero.avatar_image}>{hero.name[0]}</Avatar>}
         action={
           <IconButton href={prefix}>
             <CloseIcon />
@@ -225,7 +225,7 @@ class HeroEditView extends React.Component<
       <>
         <h2>{hero.name} (edit)</h2>
         <form onSubmit={this.handleSubmit}>
-          {hero.avatar && <img src={hero.avatar} alt={"Picture of " + hero.name} />}
+          {hero.avatar_image && <Avatar src={hero.avatar_image} alt={"Picture of " + hero.name} />}
           <div>
             <TextField
               autoFocus
