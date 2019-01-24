@@ -8,8 +8,8 @@ import no.javabin.heroes.Profile;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
 import no.javabin.heroes.hero.achievement.AchievementRepository;
+import no.javabin.heroes.hero.achievement.HeroAchievement;
 import no.javabin.infrastructure.http.Delete;
-import no.javabin.infrastructure.http.server.Body;
 import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.HttpRequestException;
 import no.javabin.infrastructure.http.server.PathParam;
@@ -17,6 +17,7 @@ import no.javabin.infrastructure.http.server.Post;
 import no.javabin.infrastructure.http.server.Put;
 import no.javabin.infrastructure.http.server.RequireUserRole;
 import no.javabin.infrastructure.http.server.SessionParameter;
+import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
@@ -33,6 +34,7 @@ public class AdminController {
 
     @Get("/admin/heroes")
     @RequireUserRole("admin")
+    @JsonBody
     public JsonArray getAllObjects() {
         List<Hero> list = repository.list(true);
         return JsonArray.map(list,
@@ -40,7 +42,7 @@ public class AdminController {
                     .put("name", hero.getName())
                     .put("email", hero.getEmail())
                     .put("id", hero.getId().toString())
-                    .put("achievements", new JsonArray())
+                    .put("achievements", JsonArray.map(hero.getAchievements(), HeroAchievement::toJSON))
                     .put("avatar_image", hero.getAvatarImage())
                     .put("published", hero.getConsentedAt() != null));
 
@@ -48,6 +50,7 @@ public class AdminController {
 
     @Get("/admin/heroes/create")
     @RequireUserRole("admin")
+    @JsonBody
     public JsonObject getCreateData(@SessionParameter("profile") Profile profile) throws IOException {
         return new JsonObject()
                 .put("people", JsonArray.fromNodeList(profile.listUsers()));
@@ -55,6 +58,7 @@ public class AdminController {
 
     @Get("/heroes/:heroId")
     @RequireUserRole("admin")
+    @JsonBody
     public JsonObject getHeroDetails(@PathParam("heroId") UUID heroId) {
         Hero hero = repository.retrieveById(heroId);
         return new JsonObject()
@@ -63,14 +67,13 @@ public class AdminController {
                 .put("twitter", hero.getTwitter())
                 .put("id", hero.getId().toString())
                 .put("avatar_image", hero.getAvatarImage())
-                .put("achievements", JsonArray.map(hero.getAchievements(),
-                        a -> new JsonObject().put("label", a.getLabel())))
+                .put("achievements", JsonArray.map(hero.getAchievements(), HeroAchievement::toJSON))
                 .put("published", hero.getConsentedAt() != null);
     }
 
     @Post("/admin/heroes")
     @RequireUserRole("admin")
-    public void createHero(@Body JsonObject o) {
+    public void createHero(@JsonBody JsonObject o) {
         Hero hero = new Hero();
         hero.setEmail(o.requiredString("email"));
         hero.setName(o.requiredString("name"));
@@ -81,7 +84,7 @@ public class AdminController {
 
     @Put("/admin/heroes/:heroId")
     @RequireUserRole("admin")
-    public void updateHero(@PathParam("heroId") UUID heroId, @Body JsonObject o) {
+    public void updateHero(@PathParam("heroId") UUID heroId, @JsonBody JsonObject o) {
         Hero hero = new Hero();
         hero.setId(heroId);
         hero.setEmail(o.requiredString("email"));
@@ -95,7 +98,7 @@ public class AdminController {
     @RequireUserRole("admin")
     public void addAchievement(
             @PathParam("heroId") UUID heroId,
-            @Body JsonObject o
+            @JsonBody JsonObject o
     ) {
         if (!o.containsKey("type")) {
             throw new HttpRequestException(400, "Missing JSON field `type`");
@@ -108,7 +111,7 @@ public class AdminController {
     public void updateAchievement(
             @PathParam("heroId") UUID heroId,
             @PathParam("achievementId") UUID achievementId,
-            @Body JsonObject o
+            @JsonBody JsonObject o
     ) {
         achievementRepository.update(heroId, achievementId, o);
     }

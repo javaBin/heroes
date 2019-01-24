@@ -10,6 +10,7 @@ import no.javabin.infrastructure.http.server.PathParam;
 import no.javabin.infrastructure.http.server.Post;
 import no.javabin.infrastructure.http.server.RequestParam;
 import no.javabin.infrastructure.http.server.SessionParameter;
+import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonNull;
@@ -23,6 +24,7 @@ public class ProfileController {
     }
 
     @Get("/profiles/mine")
+    @JsonBody
     public JsonObject getMyProfile(@SessionParameter("profile") Profile profile) {
         JsonObject jsonProfile = new JsonObject()
                 .put("name", profile.getUsername())

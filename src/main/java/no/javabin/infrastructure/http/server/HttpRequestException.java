@@ -1,5 +1,9 @@
 package no.javabin.infrastructure.http.server;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 public class HttpRequestException extends RuntimeException {
 
     private int statusCode;
@@ -21,6 +25,10 @@ public class HttpRequestException extends RuntimeException {
     @Override
     public String toString() {
         return getClass().getName() + ": " + getStatusCode() + " " + getMessage();
+    }
+
+    public void sendError(HttpServletResponse resp) throws IOException {
+        resp.sendError(getStatusCode(), getMessage());
     }
 
 }

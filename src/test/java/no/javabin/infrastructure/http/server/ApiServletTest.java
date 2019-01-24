@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
 import org.junit.After;
@@ -42,9 +43,8 @@ public class ApiServletTest {
     private class ExampleController {
 
         @Get("/one")
-        public JsonObject one(
-                @RequestParam("name") Optional<String> name
-        ) {
+        @JsonBody
+        public JsonObject one(@RequestParam("name") Optional<String> name) {
             return new JsonObject().put("name", name.orElse("Anonymous"));
         }
 
@@ -62,23 +62,28 @@ public class ApiServletTest {
         }
 
         @Get("/mismatch/:something")
+        @JsonBody
         public JsonObject mismatched(@PathParam("somethingElse") String param) {
             return new JsonObject();
         }
 
         @Get("/restricted")
         @RequireUserRole("admin")
+        @JsonBody
         public JsonObject restrictedOperation() {
             return new JsonObject().put("message", "you're in!");
         }
 
         @Post("/postMethod")
-        public void postAction(@Body JsonObject o) {
+        public void postAction(@JsonBody JsonObject o) {
             postedBody = o;
         }
 
         @Get("/hello")
-        public void methodWithOptionalBoolean(@RequestParam("admin") Optional<Boolean> adminParam) {
+        public void methodWithOptionalBoolean(
+                @RequestParam("admin") Optional<Boolean> adminParam,
+                @RequestParam.ClientIp String clientIp
+        ) {
             admin = adminParam;
         }
 
@@ -92,6 +97,16 @@ public class ApiServletTest {
             usernameSetter.accept("Alice Bobson");
         }
 
+        @Post("/mappingByType")
+        public void mappingByType(HttpServletRequest req, HttpSession session) {
+
+        }
+
+        @Get("/redirect")
+        @SendRedirect
+        public String redirector() {
+            return "/login";
+        }
     }
 
     @Test
@@ -133,6 +148,14 @@ public class ApiServletTest {
         when(requestMock.getPathInfo()).thenReturn("/user/" + userId + "/message/abc");
         servlet.service(requestMock, responseMock);
         verify(responseMock).sendRedirect("https://messages.example.com/?user=" + userId + "&message=abc");
+    }
+
+    @Test
+    public void shouldSendRedirect() throws ServletException, IOException {
+        when(requestMock.getMethod()).thenReturn("GET");
+        when(requestMock.getPathInfo()).thenReturn("/redirect");
+        servlet.service(requestMock, responseMock);
+        verify(responseMock).sendRedirect("/login");
     }
 
     @Test

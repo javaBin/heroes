@@ -16,7 +16,9 @@ import no.javabin.heroes.hero.HeroesRepository;
 import no.javabin.infrastructure.http.server.Get;
 import no.javabin.infrastructure.http.server.HttpRequestException;
 import no.javabin.infrastructure.http.server.RequestParam;
+import no.javabin.infrastructure.http.server.SendRedirect;
 import no.javabin.infrastructure.http.server.SessionParameter;
+import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
@@ -32,6 +34,7 @@ public class PublicController {
     }
 
     @Get("/userinfo")
+    @JsonBody
     public JsonObject getUserinfo(@SessionParameter("profile") Optional<Profile> profile) {
         if (!profile.isPresent()) {
             return new JsonObject().put("authenticated", false);
@@ -43,6 +46,7 @@ public class PublicController {
     }
 
     @Get("/heroes")
+    @JsonBody
     public JsonArray listHeroes() {
         List<Hero> heroes = repository.list(false);
         return JsonArray.map(heroes,
@@ -68,7 +72,7 @@ public class PublicController {
 
 
     @Get("/oauth2callback/:provider")
-    //@SendRedirect
+    @SendRedirect
     public String oauth2Callback(
             @RequestParam("code") String code,
             @RequestParam("state") String state,

@@ -62,7 +62,7 @@ State: Not feature complete
 * [x] logevents to link to github.com
 * [x] fluent-jdbc to abstract away DataSource.getConnection
 * [ ] DTOs as return values and arguments for controllers
-* [ ] ApiServlet to have a register-like structure for annotations
+* [.] ApiServlet to have a register-like structure for annotations
 * [x] mvn to run `npm test && npm run build`
 * [x] Use NPM Prettier
 * [ ] Keep Slack `access_token` and `refresh_token` in encrypted cookie
@@ -77,3 +77,8 @@ State: Not feature complete
 * [ ] Import JavaZone speakers
 * [ ] Customize picture
 * [ ] Import meetup events to associate with JavaBin speakers
+
+
+### Minor stuff
+
+* [ ] JSON buddy to accept UUID
