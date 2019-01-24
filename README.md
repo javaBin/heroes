@@ -53,7 +53,7 @@ State: Not feature complete
 
 * [x] One database table per achievement type
 * [ ] Frontend error handling
-* [ ] Remove version 0.0.0.1 database tables and code
+* [x] Remove version 0.0.0.1 database tables and code
 * [ ] Redirect to https (on Azure!)
 * [ ] Consent in separate table?
 
