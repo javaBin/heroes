@@ -189,7 +189,7 @@ describe("HeroControlPanel", () => {
     it("shows JavaBin achievement type", async () => {
       app.root.findByType(AddHeroAchievementView).instance.setState({ achievementType: "FOREDRAGSHOLDER_JAVABIN" });
       await promiseCompletion();
-      app.root.findByType(JavaBinSpeakerAchievementDetails);
+      app.root.findByType(JavaBinSpeakerAchievementDetails).instance.setState({ date: "2017-01-30" });
       expect(app.toJSON()).toMatchSnapshot();
     });
 

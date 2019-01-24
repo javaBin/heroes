@@ -365,7 +365,7 @@ Array [
             onFocus={[Function]}
             required={false}
             type="date"
-            value="Tue Jan 22 2019"
+            value="2017-01-30"
           />
         </div>
       </div>
