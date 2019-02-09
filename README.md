@@ -3,7 +3,29 @@
 Admin application for contributors to JavaBin and JavaZone events
 and organization.
 
-State: Not feature complete
+State: Close to feature complete
+
+## Deploying new versions
+
+* `mvn clean package azure-webapp:deploy`
+  * You need to have an Azure account
+  * You may need to have the Azure CLI and do `az login` first time
+  * Azure WebApp name is located in `pom.xml`
+
+## Running the application locally
+
+1. Start the frontend bundler
+   1. `cd src/main/resources/webapp`
+   2. `npm install` to install NPM dependencies
+   3. `npm start` to start Parcel bundler
+2. Run `no.javabin.heroes.WebServer`
+3. Go to `http://localhost:9093`
+
+## Development
+
+* Run the unit tests in Java
+* Run `npm test` in `src/main/resources/webapp` to run frontend tests
+
 
 ## Feature
 
@@ -23,13 +45,6 @@ State: Not feature complete
 * Frontend in React with TypeScript
 * Push complexity to infrastructure code and away from domain logic code
 * High test coverage on client and server sides
-
-## Deploying new versions
-
-* `mvn clean package azure-webapp:deploy`
-  * You need to have an Azure account
-  * You may need to have the Azure CLI and do `az login` first time
-  * Azure WebApp name is located in `pom.xml`
 
 ## TODO
 

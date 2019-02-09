@@ -180,7 +180,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <nodeVersion>v8.8.0</nodeVersion>
+                    <nodeVersion>v11.7.0</nodeVersion>
                     <installDirectory>.</installDirectory>
                     <workingDirectory>src/main/resources/webapp/</workingDirectory>
                 </configuration>

@@ -20,10 +20,16 @@ export class HeroServiceHttp implements HeroService {
 
   async fetchHeroDetails(id: string) {
     const response = await fetch("/api/heroes/" + id);
+    if (response.status === 403 || response.status === 401) {
+      window.location.href = "/api/login?admin=true";
+    }
     return await response.json();
   }
   async fetchUserinfo(): Promise<Userinfo> {
     const response = await fetch("/api/userinfo");
+    if (response.status === 403 || response.status === 401) {
+      window.location.href = "/api/login?admin=true";
+    }
     return await response.json();
   }
   async consentToPublish(consentId: number) {
@@ -46,6 +52,9 @@ export class HeroServiceHttp implements HeroService {
   }
   async fetchHeroes(): Promise<Hero[]> {
     const response = await fetch("/api/admin/heroes");
+    if (response.status === 403 || response.status === 401) {
+      window.location.href = "/api/login?admin=true";
+    }
     return await response.json();
   }
 
