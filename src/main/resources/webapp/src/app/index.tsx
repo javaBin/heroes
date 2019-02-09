@@ -3,14 +3,18 @@ import {
   Avatar,
   Button,
   createMuiTheme,
+  CssBaseline,
   IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
   MuiThemeProvider,
+  Paper,
   Toolbar,
-  Typography
+  Typography,
+  withStyles,
+  WithStyles
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -23,6 +27,7 @@ import { ProfileScreen } from "./profile";
 import { red } from "@material-ui/core/colors";
 import { HeroServiceHttp } from "../services/heroServiceHttp";
 import { HeroControlPanel } from "./admin";
+import { styles } from "./styles";
 
 export function HeroList({ heroes }: { heroes: Hero[] }) {
   return (
@@ -53,6 +58,7 @@ export class HeroListComponent extends React.Component<
   componentDidMount = async () => {
     const heroes = await this.props.heroService.fetchPublicHeroes();
     this.setState({ heroes, loaded: true });
+    document.title = "javaBin Heroes";
   };
 
   render() {
@@ -63,12 +69,27 @@ export class HeroListComponent extends React.Component<
   }
 }
 
-const normalTheme = createMuiTheme();
+const normalTheme = createMuiTheme({});
 const adminTheme = createMuiTheme({
   palette: {
     primary: red
   }
 });
+
+const FrontPage = withStyles(styles)(
+  class extends React.Component<{ heroService: HeroService } & WithStyles<typeof styles>> {
+    render() {
+      return (
+        <div>
+          <Paper className={this.props.classes.paper}>
+            <Typography variant="h4">Heroes</Typography>
+            <HeroListComponent heroService={this.props.heroService} />
+          </Paper>
+        </div>
+      );
+    }
+  }
+);
 
 export class App extends React.Component<{ heroService: HeroService }, { hash: string; userinfo: Userinfo }> {
   state = {
@@ -102,52 +123,50 @@ export class App extends React.Component<{ heroService: HeroService }, { hash: s
       return <ProfileScreen heroService={this.props.heroService} />;
     }
 
-    return (
-      <div>
-        <h1>{hash}</h1>
-        <HeroListComponent heroService={this.props.heroService} />
-      </div>
-    );
+    return <FrontPage heroService={this.props.heroService} />;
   }
 
   render() {
     const { userinfo, hash } = this.state;
     const adminPage = hash.indexOf("#admin") === 0;
     return (
-      <MuiThemeProvider theme={adminPage ? adminTheme : normalTheme}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton href="#" color="inherit">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
-              Heroes
-            </Typography>
-            {userinfo.admin ? (
-              <Button href="#admin" color="inherit">
-                Admin
-              </Button>
-            ) : (
-              <></>
-            )}
-            {userinfo.authenticated ? (
-              <IconButton href="#profile" color="inherit">
-                <AccountCircle />
+      <React.Fragment>
+        <CssBaseline />
+        <MuiThemeProvider theme={adminPage ? adminTheme : normalTheme}>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton href="#" color="inherit">
+                <MenuIcon />
               </IconButton>
-            ) : (
-              <></>
-            )}
-            {!userinfo.authenticated ? (
-              <IconButton href="/api/login" color="inherit">
-                <AccountCircle />
-              </IconButton>
-            ) : (
-              <></>
-            )}
-          </Toolbar>
-        </AppBar>
-        {this.renderContent()}
-      </MuiThemeProvider>
+              <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
+                Heroes
+              </Typography>
+              {userinfo.admin ? (
+                <Button href="#admin" color="inherit">
+                  Admin
+                </Button>
+              ) : (
+                <></>
+              )}
+              {userinfo.authenticated ? (
+                <IconButton href="#profile" color="inherit">
+                  <AccountCircle />
+                </IconButton>
+              ) : (
+                <></>
+              )}
+              {!userinfo.authenticated ? (
+                <IconButton href="/api/login" color="inherit">
+                  <AccountCircle />
+                </IconButton>
+              ) : (
+                <></>
+              )}
+            </Toolbar>
+          </AppBar>
+          {this.renderContent()}
+        </MuiThemeProvider>
+      </React.Fragment>
     );
   }
 }

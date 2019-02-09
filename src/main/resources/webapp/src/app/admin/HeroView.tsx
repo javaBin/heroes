@@ -13,18 +13,22 @@ import {
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
+  Paper,
   TextField,
-  Typography
+  Typography,
+  withStyles,
+  WithStyles
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FolderIcon from "@material-ui/icons/Folder";
 import React, { FormEvent, MouseEvent } from "react";
 import { Hero, HeroAchievement, HeroAchievementDetail } from "../../services/api";
+import { styles } from "../styles";
 import { AddHeroAchievementView } from "./achievements/AddHeroAchievementView";
 import { EditHeroAchievementView } from "./achievements/EditHeroAchievementView";
 
-export interface HeroEditProps {
+export interface HeroEditProps extends WithStyles<typeof styles> {
   heroId: string;
   action?: string;
   actionTargetId?: string;
@@ -36,46 +40,53 @@ export interface HeroEditProps {
   onDeleteAchievement: (heroId: string, achievementId: string) => void;
 }
 
-export class HeroView extends React.Component<HeroEditProps, { hero?: Hero }> {
-  constructor(props: HeroEditProps) {
-    super(props);
-    this.state = {};
-  }
-  async componentDidMount() {
-    this.refresh();
-  }
-  async refresh() {
-    const hero = await this.props.onLoadHero(this.props.heroId);
-    this.setState({ hero });
-    document.title = "Admin | " + hero.name + " | javaBin heroes";
-  }
-  render() {
-    const { action, prefix, onDeleteAchievement } = this.props;
-    const { hero } = this.state;
-    if (!hero) {
-      return null;
+export const HeroView = withStyles(styles)(
+  class extends React.Component<HeroEditProps, { hero?: Hero }> {
+    constructor(props: HeroEditProps) {
+      super(props);
+      this.state = {};
+    }
+    async componentDidMount() {
+      this.refresh();
+    }
+    async refresh() {
+      const hero = await this.props.onLoadHero(this.props.heroId);
+      this.setState({ hero });
+      document.title = "Admin | " + hero.name + " | javaBin heroes";
+    }
+    render() {
+      const { hero } = this.state;
+      if (!hero) {
+        return null;
+      }
+
+      return <Paper className={this.props.classes.paper}>{this.renderContent(hero)}</Paper>;
     }
 
-    if (!action) {
-      return <HeroCard hero={hero} prefix={prefix} onDeleteAchievement={onDeleteAchievement} />;
-    } else if (action === "edit") {
-      return <HeroEditView hero={hero} onSubmit={this.props.onSubmit} prefix={prefix} />;
-    } else if (action === "addAchievement") {
-      return <AddHeroAchievementView hero={hero} onSubmit={this.props.onAddAchievement} prefix={prefix} />;
-    } else if (action === "achievement" && this.props.actionTargetId) {
-      return (
-        <EditHeroAchievementView
-          hero={hero}
-          achievementId={this.props.actionTargetId}
-          onSubmit={this.props.onUpdateAchievement}
-          prefix={prefix}
-        />
-      );
-    } else {
-      throw new Error("Unknown action " + action);
+    renderContent(hero: Hero) {
+      const { action, prefix, onDeleteAchievement } = this.props;
+
+      if (!action) {
+        return <HeroCard hero={hero} prefix={prefix} onDeleteAchievement={onDeleteAchievement} />;
+      } else if (action === "edit") {
+        return <HeroEditView hero={hero} onSubmit={this.props.onSubmit} prefix={prefix} />;
+      } else if (action === "addAchievement") {
+        return <AddHeroAchievementView hero={hero} onSubmit={this.props.onAddAchievement} prefix={prefix} />;
+      } else if (action === "achievement" && this.props.actionTargetId) {
+        return (
+          <EditHeroAchievementView
+            hero={hero}
+            achievementId={this.props.actionTargetId}
+            onSubmit={this.props.onUpdateAchievement}
+            prefix={prefix}
+          />
+        );
+      } else {
+        throw new Error("Unknown action " + action);
+      }
     }
   }
-}
+);
 
 export class HeroAchievementList extends React.Component<
   {
@@ -156,49 +167,52 @@ export class HeroAchievementList extends React.Component<
   }
 }
 
-export function HeroCard({
-  hero,
-  prefix,
-  onDeleteAchievement
-}: {
-  hero: Hero;
-  prefix: string;
-  onDeleteAchievement(heroId: string, id: string): void;
-}) {
-  document.title = hero.name + " | javaBin heroes";
-  const { achievements } = hero;
-  return (
-    <Card>
-      <CardHeader
-        title={hero.name}
-        subheader={hero.email + " " + hero.twitter}
-        avatar={<Avatar src={hero.avatar_image}>{hero.name[0]}</Avatar>}
-        action={
-          <IconButton href={prefix}>
-            <CloseIcon />
-          </IconButton>
-        }
-      />
-      {achievements && (
-        <HeroAchievementList
-          achievements={achievements}
-          prefix={prefix}
-          hero={hero}
-          onDeleteAchievement={onDeleteAchievement}
+export const HeroCard = withStyles(styles)(
+  ({
+    hero,
+    prefix,
+    onDeleteAchievement,
+    classes
+  }: {
+    hero: Hero;
+    prefix: string;
+    onDeleteAchievement(heroId: string, id: string): void;
+  } & WithStyles<typeof styles>) => {
+    document.title = hero.name + " | javaBin heroes";
+    const { achievements } = hero;
+    return (
+      <Card className={classes.paper}>
+        <CardHeader
+          title={hero.name}
+          subheader={hero.email + " " + hero.twitter}
+          avatar={<Avatar src={hero.avatar_image}>{hero.name[0]}</Avatar>}
+          action={
+            <IconButton href={prefix}>
+              <CloseIcon />
+            </IconButton>
+          }
         />
-      )}
-      <CardActions>
-        <Button size="small" color="primary" href={prefix + "/heroes/" + hero.id + "/edit"}>
-          Edit
-        </Button>
-        >
-        <Button size="small" color="primary" href={prefix + "/heroes/" + hero.id + "/addAchievement"}>
-          Add achievement
-        </Button>
-      </CardActions>
-    </Card>
-  );
-}
+        {achievements && (
+          <HeroAchievementList
+            achievements={achievements}
+            prefix={prefix}
+            hero={hero}
+            onDeleteAchievement={onDeleteAchievement}
+          />
+        )}
+        <CardActions>
+          <Button size="small" color="primary" href={prefix + "/heroes/" + hero.id + "/edit"}>
+            Edit
+          </Button>
+          >
+          <Button size="small" color="primary" href={prefix + "/heroes/" + hero.id + "/addAchievement"}>
+            Add achievement
+          </Button>
+        </CardActions>
+      </Card>
+    );
+  }
+);
 
 class HeroEditView extends React.Component<
   { prefix: string; hero: Hero; onSubmit: (id: string, hero: Partial<Hero>) => void },

@@ -4,11 +4,13 @@ import { AddHeroView } from "./AddHeroView";
 import { HeroListView } from "./HeroListView";
 import { HeroView } from "./HeroView";
 
+interface HeroControlPanelProps {
+  heroService: HeroService;
+  prefix: string;
+}
+
 export class HeroControlPanel extends React.Component<
-  {
-    heroService: HeroService;
-    prefix: string;
-  },
+  HeroControlPanelProps,
   {
     loading: boolean;
     addHero?: boolean;
@@ -18,7 +20,7 @@ export class HeroControlPanel extends React.Component<
     actionTargetId?: string;
   }
 > {
-  constructor(props: { heroService: HeroService; prefix: string }) {
+  constructor(props: HeroControlPanelProps) {
     super(props);
     this.state = { heroes: [], loading: true };
   }

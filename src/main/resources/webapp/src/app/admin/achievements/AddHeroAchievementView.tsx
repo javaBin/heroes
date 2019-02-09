@@ -1,25 +1,22 @@
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Typography } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { Achievement, achievementName, allAchievements, Hero } from "../../../services/api";
 import { achievementDetail } from "./achievementDetail";
 
+interface AddHeroAchievementProps {
+  hero: Hero;
+  prefix: string;
+  onSubmit(heroId: string, o: any): void;
+}
+
 export class AddHeroAchievementView extends React.Component<
-  {
-    hero: Hero;
-    prefix: string;
-    onSubmit(heroId: string, o: any): void;
-  },
+  AddHeroAchievementProps,
   {
     achievementType?: Achievement;
     achievementTypeString?: string;
   }
 > {
-  constructor(props: {
-    hero: Hero;
-    prefix: string;
-    onSubmit: (heroId: string, o: any) => void;
-    achievementTypes: Achievement[];
-  }) {
+  constructor(props: AddHeroAchievementProps) {
     super(props);
     this.state = {};
     document.title = "Add achivement | " + props.hero.name + " | javaBin heroes";
@@ -42,29 +39,30 @@ export class AddHeroAchievementView extends React.Component<
     this.setState({ achievementType, achievementTypeString: value });
   };
   render() {
-    const { achievementTypeString } = this.state;
-    const { hero } = this.props;
-    const DetailComponent = achievementDetail(this.state.achievementType);
+    const { achievementTypeString, achievementType } = this.state;
+    const { handleChangeAchievementType, renderAchievementType, handleSave } = this;
+    const { hero, prefix } = this.props;
+    const DetailComponent = achievementDetail(achievementType);
     return (
       <>
-        <h3>Add achievement</h3>
+        <Typography variant="h4">Add achievement</Typography>
         <form>
           <TextField
             label="Achievement"
             autoFocus
             select
             value={achievementTypeString}
-            onChange={this.handleChangeAchievementType}
+            onChange={handleChangeAchievementType}
             SelectProps={{
               native: true
             }}
           >
             <option />
-            {allAchievements().map(this.renderAchievementType)}
+            {allAchievements().map(renderAchievementType)}
           </TextField>
-          <DetailComponent hero={hero} onSave={this.handleSave} />
+          <DetailComponent hero={hero} onSave={handleSave} />
         </form>
-        <Button href={this.props.prefix + "/heroes/" + hero.id}>Back</Button>
+        <Button href={prefix + "/heroes/" + hero.id}>Back</Button>
       </>
     );
   }

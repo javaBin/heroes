@@ -133,7 +133,7 @@ describe("HeroControlPanel", () => {
 
     const app = renderer.create(<HeroControlPanel heroService={fakeHeroService} prefix="#test" />);
     await promiseCompletion();
-    expect(app.root.findByType(AddHeroView).findByType("h2").children[0]).toBe("Add a hero");
+    app.root.findByType(AddHeroView);
     expect(app.toJSON()).toMatchSnapshot();
   });
 
@@ -164,7 +164,7 @@ describe("HeroControlPanel", () => {
 
     describe("of JavaZone achievement type", () => {
       beforeEach(async () => {
-        expect(app.root.findAll(c => true).map(c => c.type)).toContain(AddHeroAchievementView);
+        expect(app.root.findAll(() => true).map(c => c.type)).toContain(AddHeroAchievementView);
         app.root.findByType(AddHeroAchievementView).instance.setState({ achievementType: "FOREDRAGSHOLDER_JZ" });
         await promiseCompletion();
       });
@@ -196,6 +196,7 @@ describe("HeroControlPanel", () => {
     it("shows board member achievement type", async () => {
       app.root.findByType(AddHeroAchievementView).instance.setState({ achievementType: "STYRE" });
       await promiseCompletion();
+      expect(app.root.findAll(p => true).map(t => t.type)).toContain(BoardMemberAchievementDetails);
       app.root.findByType(BoardMemberAchievementDetails);
       expect(app.toJSON()).toMatchSnapshot();
     });

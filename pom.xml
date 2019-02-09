@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.logevents</groupId>
             <artifactId>logevents</artifactId>
-            <version>0.1.9-SNAPSHOT</version>
+            <version>0.1.9</version>
         </dependency>
 
         <dependency>

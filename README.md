@@ -38,16 +38,16 @@ State: Not feature complete
 * [x] Add/update personal information must store correct info in database
 * [x] Edit achievement must show current information
 * [x] Material design frontend
-* [ ] Material design styling
+* [x] Material design styling
 * [ ] Achievement types to be completed:
   * [x] Fix date problem with User Group achievements
   * [ ] All must have an effective date for sorting
   * [ ] Regionsleder
-* [ ] Highlight must important/recent achievement
+* [ ] Highlight most important/recent achievement
 * [x] Display hero Gravatar (or Slack) picture
 * [ ] Notify hero via email
 * [ ] Establish session via email link
-* [ ] Hero can see own information
+* [x] Hero can see own information
 
 ### Cleanup to version 1.0
 
