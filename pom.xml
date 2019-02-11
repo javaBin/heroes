@@ -188,7 +188,7 @@
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-webapp-maven-plugin</artifactId>
-                <version>1.5.1</version>
+                <version>1.5.3</version>
                 <configuration>
                     <resourceGroup>jz-heroes</resourceGroup>
                     <appName>jz-heroes-test</appName>
@@ -207,6 +207,13 @@
                         </resource>
                     </resources>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                        <version>2.3.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
