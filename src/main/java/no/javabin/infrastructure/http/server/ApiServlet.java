@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import no.javabin.infrastructure.http.Delete;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +25,6 @@ public class ApiServlet extends HttpServlet {
     protected boolean isUserInRole(HttpServletRequest req, String role) {
         return req.isUserInRole(role);
     }
-
-    private List<Object> controllers = new ArrayList<>();
 
     private Map<String, List<ApiServletAction>> routes = new HashMap<>();
     {
@@ -53,7 +50,6 @@ public class ApiServlet extends HttpServlet {
 
     // TODO: Collect all validation errors
     protected void registerController(Object controller) {
-        this.controllers.add(controller);
         registerActions(controller);
     }
 

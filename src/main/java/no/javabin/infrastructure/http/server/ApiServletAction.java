@@ -1,31 +1,25 @@
 package no.javabin.infrastructure.http.server;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import no.javabin.infrastructure.http.server.json.JsonHttpRequestException;
 import no.javabin.infrastructure.http.server.meta.HttpParameterMapping;
 import no.javabin.infrastructure.http.server.meta.HttpRequestParameterMapping;
 import no.javabin.infrastructure.http.server.meta.HttpResponseValueMapping;
 import no.javabin.infrastructure.http.server.meta.HttpReturnMapping;
-import org.fluentjdbc.util.ExceptionUtil;
+import no.javabin.infrastructure.ExceptionUtil;
 import org.jsonbuddy.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.net.URL;
+import java.util.*;
 
 // TODO Factory for mappings
 class ApiServletAction {
@@ -43,8 +37,13 @@ class ApiServletAction {
         this.action = action;
         this.pattern = pattern;
 
-        for (Parameter parameter : action.getParameters()) {
-            parameterMappers.add(createParameterMapper(parameter));
+        Parameter[] parameters = action.getParameters();
+        for (int i = 0; i < parameters.length; i++) {
+            try {
+                parameterMappers.add(createParameterMapper(parameters[i]));
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Failed to map parameter " + i  + " of " + action + " of type " + parameters[i].getType() + ": " + e);
+            }
         }
 
         responseMapper = createResponseMapper();
@@ -65,14 +64,18 @@ class ApiServletAction {
             if (mappingAnnotation != null) {
                 Class<?> value = mappingAnnotation.value();
                 try {
-                    Constructor<?> constructor = value.getDeclaredConstructor();
-                    constructor.setAccessible(true);
-                    return (HttpResponseValueMapping) constructor.newInstance();
+                    try {
+                        return (HttpResponseValueMapping) value
+                                .getDeclaredConstructor(annotation.annotationType(), Class.class)
+                                .newInstance(annotation, action.getReturnType());
+                    } catch (NoSuchMethodException e) {
+                        return (HttpResponseValueMapping) value.getDeclaredConstructor().newInstance();
+                    }
                 } catch (NoSuchMethodException e) {
-                    throw ExceptionUtil.softenCheckedException(e);
+                    throw new IllegalArgumentException(value + " must have (" + annotation.annotationType() + ", Class) constructor or no-argument constructor");
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                         | InvocationTargetException | SecurityException e) {
-                    throw ExceptionUtil.softenCheckedException(e);
+                    throw ExceptionUtil.softenException(e);
                 }
             }
         }
@@ -92,15 +95,14 @@ class ApiServletAction {
                                 .getDeclaredConstructor(annotation.annotationType(), Parameter.class)
                                 .newInstance(annotation, parameter);
                     } catch (NoSuchMethodException e) {
-                        Constructor<?> constructor = value.getDeclaredConstructor();
-                        constructor.setAccessible(true);
-                        return (HttpRequestParameterMapping) constructor.newInstance();
+                        return (HttpRequestParameterMapping) value.getDeclaredConstructor().newInstance();
                     }
                 } catch (NoSuchMethodException e) {
-                    throw ExceptionUtil.softenCheckedException(e);
-                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                        | InvocationTargetException | SecurityException e) {
-                    throw ExceptionUtil.softenCheckedException(e);
+                    throw ExceptionUtil.softenException(e);
+                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
+                    throw ExceptionUtil.softenException(e);
+                } catch (InvocationTargetException e) {
+                    throw ExceptionUtil.softenException((Exception) e.getTargetException());
                 }
             }
         }
