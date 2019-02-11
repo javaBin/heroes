@@ -4,7 +4,6 @@ import no.javabin.heroes.Profile;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
 import no.javabin.heroes.hero.achievement.AchievementRepository;
-import no.javabin.heroes.hero.achievement.HeroAchievement;
 import no.javabin.infrastructure.http.server.*;
 import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.fluentjdbc.DbContext;
@@ -28,17 +27,8 @@ public class AdminController {
     @Get("/admin/heroes")
     @RequireUserRole("admin")
     @JsonBody
-    public JsonArray getAllObjects() {
-        List<Hero> list = repository.list(true);
-        return JsonArray.map(list,
-                hero -> new JsonObject()
-                    .put("name", hero.getName())
-                    .put("email", hero.getEmail())
-                    .put("id", hero.getId().toString())
-                    .put("achievements", JsonArray.map(hero.getAchievements(), HeroAchievement::toJSON))
-                    .put("avatarImage", hero.getAvatarImage())
-                    .put("published", hero.isPublished()));
-
+    public List<Hero> getAllObjects() {
+        return repository.list(true);
     }
 
     @Get("/admin/heroes/create")
@@ -52,38 +42,25 @@ public class AdminController {
     @Get("/heroes/:heroId")
     @RequireUserRole("admin")
     @JsonBody
-    public JsonObject getHeroDetails(@PathParam("heroId") UUID heroId) {
-        Hero hero = repository.retrieveById(heroId);
-        return new JsonObject()
-                .put("email", hero.getEmail())
-                .put("name", hero.getName())
-                .put("twitter", hero.getTwitter())
-                .put("id", hero.getId().toString())
-                .put("avatarImage", hero.getAvatarImage())
-                .put("achievements", JsonArray.map(hero.getAchievements(), HeroAchievement::toJSON))
-                .put("published", hero.isPublished());
+    public Hero getHeroDetails(@PathParam("heroId") UUID heroId) {
+        return repository.retrieveById(heroId);
     }
 
     @Post("/admin/heroes")
     @RequireUserRole("admin")
-    public void createHero(@JsonBody JsonObject o) {
-        Hero hero = new Hero();
-        hero.setEmail(o.requiredString("email"));
-        hero.setName(o.requiredString("name"));
-        hero.setTwitter(o.stringValue("twitter").orElse(null));
-        hero.setAvatarImage(o.stringValue("avatarImage").orElse(null));
+    public void createHero(@JsonBody Hero hero) {
         repository.save(hero);
     }
 
     @Put("/admin/heroes/:heroId")
     @RequireUserRole("admin")
-    public void updateHero(@PathParam("heroId") UUID heroId, @JsonBody JsonObject o) {
+    public void updateHero(@PathParam("heroId") UUID heroId, @JsonBody Hero update) {
         Hero hero = new Hero();
         hero.setId(heroId);
-        hero.setEmail(o.requiredString("email"));
-        hero.setName(o.requiredString("name"));
-        hero.setTwitter(o.stringValue("twitter").orElse(null));
-        hero.setAvatarImage(o.stringValue("avatarImage").orElse(null));
+        hero.setEmail(update.getEmail());
+        hero.setName(update.getName());
+        hero.setTwitter(update.getTwitter());
+        hero.setAvatarImage(update.getAvatarImage());
         repository.update(hero);
     }
 

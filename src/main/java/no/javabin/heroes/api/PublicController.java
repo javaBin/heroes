@@ -8,7 +8,6 @@ import no.javabin.heroes.hero.HeroesRepository;
 import no.javabin.infrastructure.http.server.*;
 import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.fluentjdbc.DbContext;
-import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
 
 import java.io.IOException;
@@ -43,16 +42,7 @@ public class PublicController {
     @Get("/heroes")
     @JsonBody
     public List<Hero> listHeroes() {
-        List<Hero> heroes = repository.list(false);
-        JsonArray.map(heroes,
-                hero -> new JsonObject()
-                    .put("name", hero.getName())
-                    .put("id", hero.getId().toString())
-                    .put("avatarImage", hero.getAvatarImage())
-                    .put("achievements", JsonArray.map(hero.getAchievements(),
-                            a -> new JsonObject().put("label", a.getLabel())))
-                    .put("published", hero.isPublished()));
-        return heroes;
+        return repository.list(false);
     }
 
     @Get("/login")
