@@ -185,7 +185,7 @@ export const HeroCard = withStyles(styles)(
         <CardHeader
           title={hero.name}
           subheader={hero.email + " " + hero.twitter}
-          avatar={<Avatar src={hero.avatar_image}>{hero.name[0]}</Avatar>}
+          avatar={<Avatar src={hero.avatarImage}>{hero.name[0]}</Avatar>}
           action={
             <IconButton href={prefix}>
               <CloseIcon />
@@ -239,7 +239,7 @@ class HeroEditView extends React.Component<
       <>
         <h2>{hero.name} (edit)</h2>
         <form onSubmit={this.handleSubmit}>
-          {hero.avatar_image && <Avatar src={hero.avatar_image} alt={"Picture of " + hero.name} />}
+          {hero.avatarImage && <Avatar src={hero.avatarImage} alt={"Picture of " + hero.name} />}
           <div>
             <TextField
               autoFocus

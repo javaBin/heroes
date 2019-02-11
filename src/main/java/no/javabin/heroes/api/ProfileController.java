@@ -1,25 +1,21 @@
 package no.javabin.heroes.api;
 
-import java.time.Instant;
-
 import no.javabin.heroes.Profile;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
-import no.javabin.infrastructure.http.server.Get;
-import no.javabin.infrastructure.http.server.PathParam;
-import no.javabin.infrastructure.http.server.Post;
-import no.javabin.infrastructure.http.server.RequestParam;
-import no.javabin.infrastructure.http.server.SessionParameter;
+import no.javabin.infrastructure.http.server.*;
 import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonNull;
 import org.jsonbuddy.JsonObject;
 
+import java.time.Instant;
+
 public class ProfileController {
     private HeroesRepository heroesRepository;
 
-    public ProfileController(DbContext dbContext) {
+    ProfileController(DbContext dbContext) {
         heroesRepository = new HeroesRepository(dbContext);
     }
 
@@ -38,10 +34,10 @@ public class ProfileController {
         }
         return new JsonObject()
                 .put("profile", jsonProfile)
-                .put("published", hero.getConsentedAt() != null)
+                .put("published", hero.isPublished())
                 .put("achievements", JsonArray.map(hero.getAchievements(),
                         a -> new JsonObject().put("label", a.getLabel())))
-                .put("consent", hero.getConsentedAt() == null
+                .put("consent", !hero.isPublished()
                         ? new JsonObject()
                             .put("id", 123)
                             .put("text", "Please consent to our processing of your data")

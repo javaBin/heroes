@@ -1,27 +1,22 @@
 package no.javabin.heroes.api;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Consumer;
-
 import no.javabin.heroes.Profile;
 import no.javabin.heroes.ProfileContext;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesContext;
 import no.javabin.heroes.hero.HeroesRepository;
-import no.javabin.infrastructure.http.server.Get;
-import no.javabin.infrastructure.http.server.HttpRequestException;
-import no.javabin.infrastructure.http.server.RequestParam;
-import no.javabin.infrastructure.http.server.SendRedirect;
-import no.javabin.infrastructure.http.server.SessionParameter;
+import no.javabin.infrastructure.http.server.*;
 import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class PublicController {
 
@@ -47,23 +42,24 @@ public class PublicController {
 
     @Get("/heroes")
     @JsonBody
-    public JsonArray listHeroes() {
+    public List<Hero> listHeroes() {
         List<Hero> heroes = repository.list(false);
-        return JsonArray.map(heroes,
+        JsonArray.map(heroes,
                 hero -> new JsonObject()
                     .put("name", hero.getName())
                     .put("id", hero.getId().toString())
-                    .put("avatar_image", hero.getAvatarImage())
+                    .put("avatarImage", hero.getAvatarImage())
                     .put("achievements", JsonArray.map(hero.getAchievements(),
                             a -> new JsonObject().put("label", a.getLabel())))
-                    .put("published", hero.getConsentedAt() != null));
+                    .put("published", hero.isPublished()));
+        return heroes;
     }
 
     @Get("/login")
     public URL login(
             @RequestParam("admin") Optional<Boolean> admin,
             @SessionParameter("loginState") Consumer<String> setLoginState
-    ) throws MalformedURLException {
+    ) {
         boolean needsAdmin = admin.orElse(false);
         String state = UUID.randomUUID().toString();
         setLoginState.accept(state);

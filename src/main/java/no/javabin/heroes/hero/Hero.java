@@ -1,11 +1,12 @@
 package no.javabin.heroes.hero;
 
+import no.javabin.heroes.hero.achievement.HeroAchievement;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import no.javabin.heroes.hero.achievement.HeroAchievement;
 
 public class Hero {
 
@@ -59,27 +60,27 @@ public class Hero {
         this.twitter = twitter;
     }
 
-    public Long getConsentId() {
+    Long getConsentId() {
         return consentId;
     }
 
-    public void setConsentId(Long consentId) {
+    void setConsentId(Long consentId) {
         this.consentId = consentId;
     }
 
-    public String getConsentClientIp() {
+    String getConsentClientIp() {
         return consentClientIp;
     }
 
-    public void setConsentClientIp(String consentClientIp) {
+    void setConsentClientIp(String consentClientIp) {
         this.consentClientIp = consentClientIp;
     }
 
-    public Instant getConsentedAt() {
+    Instant getConsentedAt() {
         return consentedAt;
     }
 
-    public void setConsentedAt(Instant consentedAt) {
+    void setConsentedAt(Instant consentedAt) {
         this.consentedAt = consentedAt;
     }
 
@@ -119,4 +120,7 @@ public class Hero {
     }
 
 
+    public boolean isPublished() {
+        return getConsentedAt() != null;
+    }
 }

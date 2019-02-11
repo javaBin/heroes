@@ -1,21 +1,19 @@
 package no.javabin.heroes.hero;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.time.Instant;
-import java.util.Random;
-import java.util.UUID;
-
-import javax.sql.DataSource;
-
 import no.javabin.heroes.TestDataSource;
-import no.javabin.heroes.hero.Hero;
-import no.javabin.heroes.hero.HeroesRepository;
 import org.fluentjdbc.DbContext;
 import org.fluentjdbc.DbContextConnection;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.sql.DataSource;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Random;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HeroesRepositoryTest {
     private HeroesRepository heroesRepository;
@@ -70,7 +68,7 @@ public class HeroesRepositoryTest {
         heroesRepository.save(hero);
         hero.setConsentId(random.nextLong() % 1000L);
         hero.setConsentClientIp(randomIpAddress());
-        hero.setConsentedAt(Instant.now());
+        hero.setConsentedAt(randomInstant());
         heroesRepository.updateConsent(hero.getId(), hero.getConsentId(), hero.getConsentClientIp(), hero.getConsentedAt());
         assertThat(heroesRepository.list(false))
             .contains(hero);
@@ -96,13 +94,13 @@ public class HeroesRepositoryTest {
         return hero;
     }
 
-    public static void setConsent(Hero hero) {
+    private static void setConsent(Hero hero) {
         hero.setConsentId(random.nextLong() % 1000L);
         hero.setConsentedAt(randomInstant());
         hero.setConsentClientIp(randomIpAddress());
     }
 
-    public static Hero basicHero() {
+    private static Hero basicHero() {
         Hero hero = new Hero();
         hero.setEmail(sampleEmail());
         hero.setName(sampleName());
@@ -121,15 +119,15 @@ public class HeroesRepositoryTest {
         });
     }
 
-    public static Instant randomInstant() {
-        return Instant.now().minusSeconds(random.nextInt(7 * 24 * 60 * 60));
+    private static Instant randomInstant() {
+        return Instant.now().minusSeconds(random.nextInt(7 * 24 * 60 * 60)).truncatedTo(ChronoUnit.SECONDS);
     }
 
-    public static String randomIpAddress() {
+    private static String randomIpAddress() {
         return random.nextInt(255) + "." + random.nextInt(255) + "." + random.nextInt(255) + "." + random.nextInt(255);
     }
 
-    protected static String pickOne(String[] examples) {
+    private static String pickOne(String[] examples) {
         return examples[random.nextInt(examples.length)];
     }
 

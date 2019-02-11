@@ -1,33 +1,26 @@
 package no.javabin.heroes.api;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-
 import no.javabin.heroes.Profile;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesRepository;
 import no.javabin.heroes.hero.achievement.AchievementRepository;
 import no.javabin.heroes.hero.achievement.HeroAchievement;
-import no.javabin.infrastructure.http.Delete;
-import no.javabin.infrastructure.http.server.Get;
-import no.javabin.infrastructure.http.server.HttpRequestException;
-import no.javabin.infrastructure.http.server.PathParam;
-import no.javabin.infrastructure.http.server.Post;
-import no.javabin.infrastructure.http.server.Put;
-import no.javabin.infrastructure.http.server.RequireUserRole;
-import no.javabin.infrastructure.http.server.SessionParameter;
+import no.javabin.infrastructure.http.server.*;
 import no.javabin.infrastructure.http.server.json.JsonBody;
 import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonArray;
 import org.jsonbuddy.JsonObject;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 public class AdminController {
 
     private final HeroesRepository repository;
     private final AchievementRepository achievementRepository;
 
-    public AdminController(DbContext dbContext) {
+    AdminController(DbContext dbContext) {
         repository = new HeroesRepository(dbContext);
         achievementRepository = new AchievementRepository(dbContext);
     }
@@ -43,8 +36,8 @@ public class AdminController {
                     .put("email", hero.getEmail())
                     .put("id", hero.getId().toString())
                     .put("achievements", JsonArray.map(hero.getAchievements(), HeroAchievement::toJSON))
-                    .put("avatar_image", hero.getAvatarImage())
-                    .put("published", hero.getConsentedAt() != null));
+                    .put("avatarImage", hero.getAvatarImage())
+                    .put("published", hero.isPublished()));
 
     }
 
@@ -66,9 +59,9 @@ public class AdminController {
                 .put("name", hero.getName())
                 .put("twitter", hero.getTwitter())
                 .put("id", hero.getId().toString())
-                .put("avatar_image", hero.getAvatarImage())
+                .put("avatarImage", hero.getAvatarImage())
                 .put("achievements", JsonArray.map(hero.getAchievements(), HeroAchievement::toJSON))
-                .put("published", hero.getConsentedAt() != null);
+                .put("published", hero.isPublished());
     }
 
     @Post("/admin/heroes")
@@ -78,7 +71,7 @@ public class AdminController {
         hero.setEmail(o.requiredString("email"));
         hero.setName(o.requiredString("name"));
         hero.setTwitter(o.stringValue("twitter").orElse(null));
-        hero.setAvatarImage(o.stringValue("avatar_image").orElse(null));
+        hero.setAvatarImage(o.stringValue("avatarImage").orElse(null));
         repository.save(hero);
     }
 
@@ -90,7 +83,7 @@ public class AdminController {
         hero.setEmail(o.requiredString("email"));
         hero.setName(o.requiredString("name"));
         hero.setTwitter(o.stringValue("twitter").orElse(null));
-        hero.setAvatarImage(o.stringValue("avatar_image").orElse(null));
+        hero.setAvatarImage(o.stringValue("avatarImage").orElse(null));
         repository.update(hero);
     }
 

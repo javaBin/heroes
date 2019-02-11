@@ -51,9 +51,9 @@ export const AddHeroView = withStyles(styles)(
     };
     handleSubmit = (e: FormEvent) => {
       e.preventDefault();
-      const { name, email, twitter, avatar_image } = this.state;
+      const { name, email, twitter, avatarImage } = this.state;
       if (email && name) {
-        this.props.onSubmit({ name, email, twitter, avatar_image, achievements: [], published: false });
+        this.props.onSubmit({ name, email, twitter, avatarImage, achievements: [], published: false });
       }
     };
     render() {
@@ -84,9 +84,9 @@ export const AddHeroView = withStyles(styles)(
                 </Select>
               </FormControl>
             </div>
-            {this.state.avatar_image && (
+            {this.state.avatarImage && (
               <div>
-                <Avatar src={this.state.avatar_image} />
+                <Avatar src={this.state.avatarImage} />
               </div>
             )}
             <div>

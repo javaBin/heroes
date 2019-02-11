@@ -38,7 +38,7 @@ export const HeroListView = withStyles(styles)(
                 button
               >
                 <ListItemIcon>
-                  <Avatar src={h.avatar_image} />
+                  <Avatar src={h.avatarImage} />
                 </ListItemIcon>
                 <ListItemText primary={h.name} secondary={h.email} />
               </ListItem>

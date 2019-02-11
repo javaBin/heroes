@@ -1,17 +1,5 @@
 package no.javabin.heroes.slack;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.sql.DataSource;
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import no.javabin.heroes.Profile;
@@ -24,6 +12,12 @@ import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HeroesContextSlack implements HeroesContext {
 
@@ -65,7 +59,7 @@ public class HeroesContextSlack implements HeroesContext {
         return property.required("oauth2.slack_team");
     }
 
-    public String getRedirectUri() {
+    private String getRedirectUri() {
         return property.required("oauth2.redirect_uri");
     }
 
@@ -73,7 +67,7 @@ public class HeroesContextSlack implements HeroesContext {
         return property.required("oauth2.client_id");
     }
 
-    public String getClientSecret() {
+    private String getClientSecret() {
         return property.required("oauth2.client_secret");
     }
 
@@ -131,14 +125,13 @@ public class HeroesContextSlack implements HeroesContext {
         }
     }
 
-    public DataSource getConnection(String url, String username, String password, Optional<String> optDriverClassName) {
+    public synchronized DataSource getConnection(String url, String username, String password, Optional<String> optDriverClassName) {
         String cacheKey = url + "|" + username + "|" + password;
 
         return dataSourceCache.computeIfAbsent(cacheKey, key -> {
             HikariConfig config = new HikariConfig();
 
-            optDriverClassName
-                .ifPresent(driverClassName -> config.setDriverClassName(driverClassName));
+            optDriverClassName.ifPresent(config::setDriverClassName);
 
             config.setJdbcUrl(url);
             config.setUsername(username);
@@ -147,7 +140,7 @@ public class HeroesContextSlack implements HeroesContext {
             HikariDataSource dataSource = new HikariDataSource(config);
 
             Flyway flyway = Flyway.configure().dataSource(dataSource).load();
-            flyway.clean();
+            //flyway.clean();
             flyway.migrate();
 
             return dataSource;

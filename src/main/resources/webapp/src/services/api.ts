@@ -2,7 +2,7 @@ export interface Person {
   name: string;
   email: string;
   twitter?: string;
-  avatar_image?: string;
+  avatarImage?: string;
 }
 
 export interface HeroAchievement {

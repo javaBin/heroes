@@ -139,12 +139,12 @@ Array [
           className="MuiListItemText-root-255"
         >
           <span
-            className="MuiTypography-root-190 MuiTypography-subheading-197 MuiListItemText-primary-258"
+            className="MuiTypography-root-190 MuiTypography-body1-199 MuiListItemText-primary-258"
           >
             Johannes
           </span>
           <p
-            className="MuiTypography-root-190 MuiTypography-body1-199 MuiTypography-colorTextSecondary-223 MuiListItemText-secondary-259"
+            className="MuiTypography-root-190 MuiTypography-body2-198 MuiTypography-colorTextSecondary-223 MuiListItemText-secondary-259"
           >
             johannes@brodwall.com
           </p>
@@ -310,12 +310,12 @@ Array [
               className="MuiListItemText-root-126"
             >
               <span
-                className="MuiTypography-root-59 MuiTypography-subheading-66 MuiListItemText-primary-129"
+                className="MuiTypography-root-59 MuiTypography-body1-68 MuiListItemText-primary-129"
               >
                 Alice
               </span>
               <p
-                className="MuiTypography-root-59 MuiTypography-body1-68 MuiTypography-colorTextSecondary-92 MuiListItemText-secondary-130"
+                className="MuiTypography-root-59 MuiTypography-body2-67 MuiTypography-colorTextSecondary-92 MuiListItemText-secondary-130"
               >
                 
               </p>
@@ -332,12 +332,12 @@ Array [
               className="MuiListItemText-root-126"
             >
               <span
-                className="MuiTypography-root-59 MuiTypography-subheading-66 MuiListItemText-primary-129"
+                className="MuiTypography-root-59 MuiTypography-body1-68 MuiListItemText-primary-129"
               >
                 Bob
               </span>
               <p
-                className="MuiTypography-root-59 MuiTypography-body1-68 MuiTypography-colorTextSecondary-92 MuiListItemText-secondary-130"
+                className="MuiTypography-root-59 MuiTypography-body2-67 MuiTypography-colorTextSecondary-92 MuiListItemText-secondary-130"
               >
                 
               </p>

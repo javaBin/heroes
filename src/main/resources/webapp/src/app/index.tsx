@@ -36,7 +36,7 @@ export function HeroList({ heroes }: { heroes: Hero[] }) {
         {heroes.map(h => (
           <ListItem key={h.id}>
             <ListItemAvatar>
-              <Avatar src={h.avatar_image} />
+              <Avatar src={h.avatarImage} />
             </ListItemAvatar>
             <ListItemText primary={h.name} secondary={h.achievements.map(a => a.label).join(", ")} />
           </ListItem>
@@ -69,10 +69,17 @@ export class HeroListComponent extends React.Component<
   }
 }
 
-const normalTheme = createMuiTheme({});
+const normalTheme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  }
+});
 const adminTheme = createMuiTheme({
   palette: {
     primary: red
+  },
+  typography: {
+    useNextVariants: true
   }
 });
 

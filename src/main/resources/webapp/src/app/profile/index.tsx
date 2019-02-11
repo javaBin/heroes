@@ -83,7 +83,7 @@ export const ProfileScreen = withStyles(styles)(
           </Card>
           {profile.consent && (
             <>
-              <h2>We need your consent to publish the information about you</h2>
+              <Typography variant="h4">We need your consent to publish the information about you</Typography>
               {profile.consent.text}
               <button onClick={this.handlePublishSubmit}>I agree to be published</button>
             </>

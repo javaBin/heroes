@@ -1,14 +1,14 @@
 package no.javabin.heroes.hero.achievement.types;
 
+import no.javabin.heroes.hero.achievement.Achievement;
+import no.javabin.heroes.hero.achievement.HeroAchievement;
+import org.jsonbuddy.JsonObject;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 import java.util.Objects;
-
-import no.javabin.heroes.hero.achievement.Achievement;
-import no.javabin.heroes.hero.achievement.HeroAchievement;
-import org.jsonbuddy.JsonObject;
 
 public class UsergroupSpeakerAchievement extends HeroAchievement {
 
@@ -39,7 +39,7 @@ public class UsergroupSpeakerAchievement extends HeroAchievement {
     @Override
     public String getLabel() {
         return String.format("Foredragsholder JavaBin %s: %s",
-                getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(Locale.forLanguageTag("no"))),
+                getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.forLanguageTag("no"))),
                 getTitle());
     }
 
