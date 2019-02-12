@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +37,8 @@ public class ApiServlet extends HttpServlet {
         routes.put("DELETE", new ArrayList<>());
     }
 
+    private ApiServletCompositeException controllerException;
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> pathParameters = new HashMap<>();
@@ -48,29 +53,46 @@ public class ApiServlet extends HttpServlet {
         resp.sendError(404);
     }
 
-    // TODO: Collect all validation errors
+    @Override
+    public final void init(ServletConfig config) throws ServletException {
+        this.controllerException = new ApiServletCompositeException();
+        super.init(config);
+        if (!controllerException.isEmpty()) {
+            throw controllerException;
+        }
+    }
+
     protected void registerController(Object controller) {
-        registerActions(controller);
+        try {
+            registerActions(controller);
+        } catch (ApiControllerCompositeException e) {
+            controllerException.addControllerException(e);
+        }
     }
 
     private void registerActions(Object controller) {
+        ApiControllerCompositeException exceptions = new ApiControllerCompositeException(controller);
         for (Method method : controller.getClass().getMethods()) {
-            Get getAnnotation = method.getAnnotation(Get.class);
-            if (getAnnotation != null) {
-                routes.get("GET").add(new ApiServletAction(controller, method, getAnnotation.value()));
-            }
-            Post postAnnotation = method.getAnnotation(Post.class);
-            if (postAnnotation != null) {
-                routes.get("POST").add(new ApiServletAction(controller, method, postAnnotation.value()));
-            }
-            Put putAnnotation = method.getAnnotation(Put.class);
-            if (putAnnotation != null) {
-                routes.get("PUT").add(new ApiServletAction(controller, method, putAnnotation.value()));
-            }
-            Delete deleteAnnotation = method.getAnnotation(Delete.class);
-            if (deleteAnnotation != null) {
-                routes.get("DELETE").add(new ApiServletAction(controller, method, deleteAnnotation.value()));
+            try {
+                addRoute("GET", Optional.ofNullable(method.getAnnotation(Get.class)).map(a -> a.value()),
+                        controller, method);
+                addRoute("POST", Optional.ofNullable(method.getAnnotation(Post.class)).map(a -> a.value()),
+                        controller, method);
+                addRoute("PUT", Optional.ofNullable(method.getAnnotation(Put.class)).map(a -> a.value()),
+                        controller, method);
+                addRoute("DELETE", Optional.ofNullable(method.getAnnotation(Delete.class)).map(a -> a.value()),
+                        controller, method);
+            } catch (ApiServletException e) {
+                exceptions.addActionException(e);
             }
         }
+        if (!exceptions.isEmpty()) {
+            throw exceptions;
+        }
+    }
+
+    private void addRoute(String httpMethod, Optional<Object> path, Object controller, Method actionMethod) {
+        path.ifPresent(p -> routes.get(httpMethod).add(new ApiServletAction(controller, actionMethod, p.toString())));
+
     }
 }

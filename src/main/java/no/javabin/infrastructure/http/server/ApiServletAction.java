@@ -39,11 +39,7 @@ class ApiServletAction {
 
         Parameter[] parameters = action.getParameters();
         for (int i = 0; i < parameters.length; i++) {
-            try {
-                parameterMappers.add(createParameterMapper(parameters[i]));
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Failed to map parameter " + i  + " of " + action + " of type " + parameters[i].getType() + ": " + e);
-            }
+            parameterMappers.add(createParameterMapper(parameters[i], i));
         }
 
         responseMapper = createResponseMapper();
@@ -72,7 +68,9 @@ class ApiServletAction {
                         return (HttpResponseValueMapping) value.getDeclaredConstructor().newInstance();
                     }
                 } catch (NoSuchMethodException e) {
-                    throw new IllegalArgumentException(value + " must have (" + annotation.annotationType() + ", Class) constructor or no-argument constructor");
+                    throw new ApiActionResponseUnknownMappingException(
+                            "No mapping annotation for " + action.getName() + "() return type"
+                            + ": Illegal mapping function for " + annotation);
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                         | InvocationTargetException | SecurityException e) {
                     throw ExceptionUtil.softenException(e);
@@ -81,10 +79,10 @@ class ApiServletAction {
         }
 
         return Optional.ofNullable(typebasedResponseMapping.get(action.getReturnType()))
-                .orElseThrow(() -> new IllegalArgumentException("Don't know how to map response for " + action));
+                .orElseThrow(() -> new ApiActionResponseUnknownMappingException(action, action.getReturnType()));
     }
 
-    protected HttpRequestParameterMapping createParameterMapper(Parameter parameter) {
+    protected HttpRequestParameterMapping createParameterMapper(Parameter parameter, int index) {
         for (Annotation annotation : parameter.getAnnotations()) {
             HttpParameterMapping mappingAnnotation = annotation.annotationType().getAnnotation(HttpParameterMapping.class);
             if (mappingAnnotation != null) {
@@ -98,11 +96,13 @@ class ApiServletAction {
                         return (HttpRequestParameterMapping) value.getDeclaredConstructor().newInstance();
                     }
                 } catch (NoSuchMethodException e) {
-                    throw ExceptionUtil.softenException(e);
+                    throw new ApiActionParameterUnknownMappingException(
+                            "No mapping annotation for " + action.getName() + "() parameter " + index
+                            + ": Illegal mapping function for " + annotation);
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
                     throw ExceptionUtil.softenException(e);
                 } catch (InvocationTargetException e) {
-                    throw ExceptionUtil.softenException((Exception) e.getTargetException());
+                    throw ExceptionUtil.softenException(e.getTargetException());
                 }
             }
         }
@@ -111,7 +111,7 @@ class ApiServletAction {
         if (typeBasedMapping != null) {
             return typeBasedMapping;
         }
-        throw new IllegalArgumentException("Cannot find a way to map " + parameter + " of " + action);
+        throw new ApiActionParameterUnknownMappingException(action, index, parameter);
     }
 
     private static Map<Class<?>, HttpRequestParameterMapping> typebasedRequestMapping = new HashMap<>();
