@@ -181,6 +181,7 @@
                 </executions>
                 <configuration>
                     <nodeVersion>v11.7.0</nodeVersion>
+                    <npmVersion>6.5.0</npmVersion>
                     <installDirectory>.</installDirectory>
                     <workingDirectory>src/main/resources/webapp/</workingDirectory>
                 </configuration>
