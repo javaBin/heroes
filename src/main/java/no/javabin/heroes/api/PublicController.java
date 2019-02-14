@@ -5,8 +5,8 @@ import no.javabin.heroes.ProfileContext;
 import no.javabin.heroes.hero.Hero;
 import no.javabin.heroes.hero.HeroesContext;
 import no.javabin.heroes.hero.HeroesRepository;
-import no.javabin.infrastructure.http.server.*;
-import no.javabin.infrastructure.http.server.json.JsonBody;
+import org.actioncontroller.*;
+import org.actioncontroller.json.JsonBody;
 import org.fluentjdbc.DbContext;
 import org.jsonbuddy.JsonObject;
 

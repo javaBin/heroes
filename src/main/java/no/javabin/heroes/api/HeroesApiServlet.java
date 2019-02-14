@@ -1,16 +1,15 @@
 package no.javabin.heroes.api;
 
-import java.io.IOException;
+import no.javabin.heroes.Profile;
+import no.javabin.heroes.hero.HeroesContext;
+import org.actioncontroller.ApiServlet;
+import org.fluentjdbc.DbContext;
+import org.fluentjdbc.DbContextConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import no.javabin.heroes.Profile;
-import no.javabin.heroes.hero.HeroesContext;
-import no.javabin.infrastructure.http.server.ApiServlet;
-import org.fluentjdbc.DbContext;
-import org.fluentjdbc.DbContextConnection;
+import java.io.IOException;
 
 public class HeroesApiServlet extends ApiServlet {
 
@@ -24,13 +23,13 @@ public class HeroesApiServlet extends ApiServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try(DbContextConnection connection = dbContext.startConnection(heroesContext.getDataSource())) {
+        try(DbContextConnection ignored = dbContext.startConnection(heroesContext.getDataSource())) {
             super.service(req, resp);
         }
     }
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         registerController(new PublicController(heroesContext, dbContext));
         registerController(new AdminController(dbContext));
         registerController(new ProfileController(dbContext));

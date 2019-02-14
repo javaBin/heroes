@@ -6,7 +6,7 @@ import no.javabin.heroes.Profile;
 import no.javabin.heroes.hero.HeroesContext;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
 import no.javabin.infrastructure.http.HttpUrl;
-import no.javabin.infrastructure.http.server.HttpRequestException;
+import org.actioncontroller.HttpRequestException;
 import org.flywaydb.core.Flyway;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;

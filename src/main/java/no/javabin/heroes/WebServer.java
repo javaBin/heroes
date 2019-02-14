@@ -1,8 +1,5 @@
 package no.javabin.heroes;
 
-import java.io.File;
-import java.util.Optional;
-
 import no.javabin.heroes.api.HeroesApiServlet;
 import no.javabin.heroes.slack.HeroesContextSlack;
 import no.javabin.infrastructure.configuration.ApplicationProperties;
@@ -10,12 +7,18 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.Slf4jRequestLog;
 import org.eclipse.jetty.server.handler.RequestLogHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.DispatcherType;
+import java.io.File;
+import java.util.EnumSet;
+import java.util.Optional;
 
 public class WebServer {
 
@@ -29,7 +32,7 @@ public class WebServer {
         context = new HeroesContextSlack(applicationProperties);
     }
 
-    public static void main(String[] argv) throws Exception {
+    public static void main(String[] argv) {
         try {
             new WebServer(new ApplicationProperties(System.getenv("PROFILES"))).start();
         } catch (Exception e) {
@@ -53,7 +56,7 @@ public class WebServer {
         return requestLogHandler;
     }
 
-    protected WebAppContext createWebAppContext() {
+    private WebAppContext createWebAppContext() {
         WebAppContext webAppContext = new WebAppContext();
         webAppContext.getSessionHandler().setMaxInactiveInterval(30);
         webAppContext.setContextPath("/");
@@ -69,10 +72,15 @@ public class WebServer {
 
 
         webAppContext.addServlet(new ServletHolder(new HeroesApiServlet(this.context)), "/api/*");
+
+        if (System.getenv("HTTP_HOST") != null) {
+            webAppContext.addFilter(new FilterHolder(new EnforceHttpsFilter()), "/*", EnumSet.of(DispatcherType.REQUEST));
+        }
+
         return webAppContext;
     }
 
-    static boolean isDevEnviroment() {
+    private static boolean isDevEnviroment() {
         return new File("pom.xml").exists();
     }
 
