@@ -1,14 +1,14 @@
 package no.javabin.heroes.hero;
 
-import java.sql.SQLException;
-import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
-
 import no.javabin.heroes.hero.achievement.AchievementRepository;
 import org.fluentjdbc.DatabaseRow;
 import org.fluentjdbc.DbContext;
 import org.fluentjdbc.DbTableContext;
+
+import java.sql.SQLException;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
 
 public class HeroesRepository {
 
@@ -70,7 +70,9 @@ public class HeroesRepository {
 
     public Hero retrieveByEmail(String email) {
         Hero hero = table.where("email", email).singleObject(this::mapRow);
-        retrieveAchievements(hero);
+        if (hero != null) {
+            retrieveAchievements(hero);
+        }
         return hero;
     }
 

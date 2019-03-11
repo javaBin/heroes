@@ -30,7 +30,8 @@ public class ProfileController {
         Hero hero = heroesRepository.retrieveByEmail(profile.getEmail());
         if (hero == null) {
             return new JsonObject()
-                    .put("profile", jsonProfile);
+                    .put("profile", jsonProfile)
+                    .put("achievements", new JsonArray());
         }
         return new JsonObject()
                 .put("profile", jsonProfile)
