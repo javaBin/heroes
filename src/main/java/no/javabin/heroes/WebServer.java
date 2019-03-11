@@ -46,7 +46,7 @@ public class WebServer {
         server.setHandler(withLogging(createWebAppContext()));
         server.start();
 
-        logger.warn("Started on {}", Optional.ofNullable(System.getenv("WEBSITE_HOSTNAME")).orElseGet(() -> server.getURI().toString()));
+        logger.warn(HeroesMarkers.RESTART, "Started on {}", Optional.ofNullable(System.getenv("WEBSITE_HOSTNAME")).orElseGet(() -> server.getURI().toString()));
     }
 
     private Handler withLogging(WebAppContext webApp) {

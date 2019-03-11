@@ -1,15 +1,19 @@
 package no.javabin.heroes.api;
 
+import no.javabin.heroes.HeroesMarkers;
 import no.javabin.heroes.Profile;
 import no.javabin.heroes.hero.HeroesContext;
 import org.actioncontroller.ApiServlet;
 import org.fluentjdbc.DbContext;
 import org.fluentjdbc.DbContextConnection;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 public class HeroesApiServlet extends ApiServlet {
 
@@ -24,8 +28,22 @@ public class HeroesApiServlet extends ApiServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try(DbContextConnection ignored = dbContext.startConnection(heroesContext.getDataSource())) {
-            super.service(req, resp);
+            try (
+                    MDC.MDCCloseable ignored1 = MDC.putCloseable("path", req.getRequestURI());
+                    MDC.MDCCloseable ignored2 = MDC.putCloseable("user", getUserName(req));
+            ) {
+                try {
+                    super.service(req, resp);
+                } catch (RuntimeException e) {
+                    LoggerFactory.getLogger(getClass()).warn(HeroesMarkers.OPS, "Error while processing request", e);
+                    resp.sendError(500, e.getMessage());
+                }
+            }
         }
+    }
+
+    private String getUserName(HttpServletRequest req) {
+        return Optional.ofNullable(getProfile(req)).map(Profile::getUsername).orElse(null);
     }
 
     @Override
