@@ -2,11 +2,12 @@ package no.javabin.heroes.slack;
 
 import no.javabin.heroes.Profile;
 import no.javabin.infrastructure.ExceptionUtil;
-import no.javabin.infrastructure.http.HttpUrl;
 import org.jsonbuddy.JsonObject;
 import org.jsonbuddy.parse.JsonParser;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -34,13 +35,13 @@ public class SlackProfile implements Profile {
     @Override
     public boolean isAdmin() {
         try {
-            JsonObject conversations = slackJsonGet(accessToken, "conversations.list");
+            JsonObject conversations = slackJsonGet("accessToken", "conversations.list?types=private_channel,public_channel");
             // id: CEN9Z1E23
             admin = conversations.requiredArray("channels")
                     .objectStream()
-                    .filter(channel -> channel.requiredBoolean("is_member"))
-                    .map(channel -> channel.requiredString("name"))
-                    .anyMatch(s -> s.equals("admin"));
+                    .anyMatch(channel -> channel.requiredString("name").equals("admin")
+                            && channel.requiredBoolean("is_member")
+                            && channel.requiredBoolean("is_private"));
             return admin;
         } catch (IOException e) {
             throw ExceptionUtil.softenException(e);
@@ -91,7 +92,7 @@ public class SlackProfile implements Profile {
         this.email = userProfile.requiredObject("profile").requiredString("email");
         this.twitterHandle = userProfile.requiredObject("profile").stringValue("twitter");
 
-        JsonObject conversations = slackJsonGet(accessToken, "conversations.list");
+        JsonObject conversations = slackJsonGet(accessToken, "conversations.list?types=private_channel");
         // id: CEN9Z1E23
         admin = conversations.requiredArray("channels")
                 .objectStream()
@@ -100,20 +101,10 @@ public class SlackProfile implements Profile {
                 .anyMatch(s -> s.equals("admin"));
     }
 
-    public JsonObject slackJsonGet() throws IOException {
-        return slackJsonGet(accessToken, "conversations.list");
-    }
-
-    public JsonObject slackJsonGet(String accessToken) throws IOException {
-        return slackJsonGet(accessToken, "conversations.list");
-    }
-
-    private JsonObject slackJsonGet(String accessToken, String apiName) throws IOException {
-        return JsonParser.parseToObject(
-                new HttpUrl("https://slack.com/api/" + apiName)
-                .addParameter("token", accessToken)
-                .toURL()
-        );
+    private JsonObject slackJsonGet(String accessToken, String path) throws IOException {
+        URLConnection connection = new URL("https://slack.com/api/" + path).openConnection();
+        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        return JsonParser.parseToObject(connection);
     }
 
 }
